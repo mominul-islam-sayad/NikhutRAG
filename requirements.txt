@@ -1,0 +1,31 @@
+# FYDP-II — Bangla RAG Hallucination Detection
+#
+# PyTorch is NOT listed here. Install it first, CPU-only, from the PyTorch index:
+#   .venv\Scripts\python.exe -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Listing torch here as well would let pip pull the CUDA build from PyPI and undo that.
+
+# Core modelling stack
+transformers>=4.44,<5
+peft>=0.13
+accelerate>=0.34
+datasets>=2.20
+
+# Tokenizer backends: mdeberta-v3 / xlm-roberta / muril need sentencepiece,
+# and mdeberta-v3's conversion needs protobuf.
+sentencepiece>=0.2.0
+protobuf>=4.25
+
+# Data handling and the group split (GroupShuffleSplit / StratifiedGroupKFold)
+pandas>=2.2
+numpy>=1.26,<2.2
+scikit-learn>=1.5
+
+# Evaluation and plots
+seqeval>=1.2.2
+matplotlib>=3.9
+
+# UI demo
+streamlit>=1.38
+
+# Misc
+tqdm>=4.66
