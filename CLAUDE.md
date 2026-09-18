@@ -17,190 +17,236 @@ language model, run **token-level binary classification over the answer tokens o
 into highlighted spans shown to the user. This is deliberately *not* LLM-as-a-judge —
 the whole contribution is that it's small, local, fast and free.
 
-## Hard constraints (these are commitments made in FYDP-I, not preferences)
+## The paper says RAGTruth, not Bangla — resolved 2026-09-18
 
-- Model **under 500M parameters**
-- Inference **under 200ms** per example
+`docs/Fydp1_final_paper.pdf` commits to the **English RAGTruth corpus** and does not
+contain the words Bangla, Bengali, Bangladesh, Indic or multilingual anywhere in its 26
+pages. RAGTruth is named 14+ times, and task allocation marks "Dataset Acquisition
+(RAGTruth)" and "Preprocessing RAGTruth Data" as 100% complete.
+
+**Decision: Bangla is primary, plus a small English RAGTruth arm.**
+
+Reasons, in the order they matter:
+
+- The paper names **Luna as "the main baseline"** and **LettuceDetect (F1 79.22% on
+  RAGTruth)** as the system to beat. Neither exists in Bangla. Without a RAGTruth arm,
+  every comparison point in the literature review becomes incomparable.
+- The paper's own **gap analysis row 4** already states: *"Absence of bilingual illusion
+  identification abilities. The majority of current datasets and detectors are
+  exclusively in English."* Bangla delivers that stated gap. **Update that row to cite
+  Bangla rather than Chinese** — it converts the pivot from a deviation into the
+  contribution.
+- The paper text must be revised to say all of this. It currently does not.
+
+## Hard constraints (commitments from FYDP-I, not preferences)
+
+- Model **under 500M parameters** — BanglaBERT measured at 110,028,290. Satisfied.
+- Inference **under 200ms** per example. The paper's wording is stricter: "within
+  100-200 milliseconds for each inference" (p.15). Measured 34.8ms median on CPU.
 - **LoRA / PEFT** fine-tuning must be used and measured
 - Runs **locally** on consumer hardware — no API calls, no cloud inference
 - Token-level output, not just a sequence-level true/false
-- Target **F1 > 75%** (see the baseline warning below — this target is too low)
-- Final deliverable includes a **Streamlit UI** demo
+- **Streamlit UI** demo, **and a FastAPI + Uvicorn backend** — the paper's software
+  stack (p.17) commits to both. Streamlit alone does not satisfy the paper.
+
+## Headline metric: word-level and span-level F1 — decided 2026-09-18
+
+The paper sets F1 > 75%. **That target is 19 points below a five-line string
+comparison** (see below) and must be raised, and the unit must change.
+
+- **Primary metrics: word-level F1 and span-level exact match.** These are what the UI
+  highlights and what the paper's "Span Aggregation" requirement is about.
+- **Example-level F1 is reported only with the lexical baseline beside it.** Alone it is
+  misleading: on a 1-epoch smoke test the model beat the fair baseline by just +0.036 at
+  example level but +0.241 at word level and +0.236 at span level.
+- Set the new target against word/span F1 once a tuned run exists. Do not carry >75%
+  forward as an example-level claim.
 
 ## The dataset
 
-`data/bangla_rag_hallucination_8k.csv` — the filename says 8k, the reality is smaller.
+`data/bangla_rag_hallucination_8k.csv` is **a sample, not the final dataset.** The real
+one is being built outside this repo. Everything below describes the sample and will
+change — do not hardcode any of it. `src/data.py` validates and measures instead.
 
-| Property | Value |
+| Property | Value (sample) |
 |---|---|
 | Rows | 2,652 |
-| Unique context+question pairs | **1,326** |
+| Unique context+question pairs | 1,326 |
 | Structure | every pair has a faithful `_F` row and a hallucinated `_H` row |
-| Language | 2,648 Bangla, 4 English (in `Bangladesh Affairs`) |
 | Class balance | exactly 50/50 |
-| Context length | median 25 words, max 56 |
-| Answer length | median 3 words, mean 4.7, max 29 |
-| Human verified | **0%** — every row is `auto_generated` |
+| Rows lacking Bengali script | **10**, not the 4 previously recorded |
+| Human verified | 0% |
 
 Domains: Agriculture 1000, History 970, Government Services 638, Bangladesh Affairs 44.
 
 Hallucination types: `number_error` 480, `entity_replacement` 389, `date_error` 251,
 `fabricated_fact` 173, `contradiction` 33, `none` 1326.
 
-Columns: `id, domain, context, question, answer, label, hallucination_type,
-hallucinated_span, token_labels, is_human_verified, verification_status`.
+The 10 non-Bangla rows are 4 fully-English plus 6 with Bangla questions and Latin or
+numeric answers (`1764`, `Dell Inspiron 15।`, `Ministry of Foreign Affairs`).
+`config.DROP_NON_BANGLA` controls them and the count is printed on every load.
 
-`token_labels` is a JSON list of `[word, 0|1]` pairs, one per whitespace token of
-`answer`. It parses cleanly and the length matches the answer's whitespace token count
-in **all 2,652 rows**. `hallucinated_span` is a literal substring of `answer` in 1,325
-of 1,326 hallucinated rows.
-
-## Two things that must not be gotten wrong
+## Three things that must not be gotten wrong
 
 ### 1. Split leakage
 
-Each context appears exactly twice — once faithful, once hallucinated. A random row-level
-train/test split puts the same context on both sides, and the reported F1 becomes
-meaningless.
+Each context appears exactly twice. A random row-level split puts the same context on
+both sides and the reported F1 becomes meaningless.
 
-**Always group-split on the base ID.** Derive it by stripping the `_F` / `_H` suffix
-(`BD_HIS_01519_F` → `BD_HIS_01519`) and use `GroupShuffleSplit` or `StratifiedGroupKFold`
-on that. Both twins of a pair land on the same side, always. Suggested 70/15/15.
+**Always group-split on the base ID** (`BD_HIS_01519_F` → `BD_HIS_01519`). Implemented
+in `src/data.py:group_split`, which groups *and* stratifies by domain in one pass and
+asserts the splits are disjoint. Plain `GroupShuffleSplit` would not keep Bangladesh
+Affairs (44 rows) in every split; this does — 30/6/8.
 
-Also consider stratifying by `domain` — Bangladesh Affairs has only 44 rows and will
-otherwise vanish from a split.
+### 2. The lexical baseline is stronger than the target
 
-### 2. A trivial baseline already scores F1 = 0.900
+Flagging any answer word absent from the context — no model, no training — measured on
+the full sample:
 
-Flagging an answer as hallucinated whenever any of its words is absent from the context —
-no model, no training — gives:
+| mode | ex_P | ex_R | ex_F1 | ex_Acc | AUROC | word_F1 | span_exact |
+|---|---|---|---|---|---|---|---|
+| `exact` | 0.838 | 0.986 | **0.906** | 0.898 | 0.896 | 0.541 | 0.387 |
+| `morph` | 0.915 | 0.964 | **0.939** | 0.937 | 0.942 | 0.581 | 0.391 |
 
-```
-Accuracy 0.893   Precision 0.840   Recall 0.971   F1 0.900
-```
+`exact` is the variant previously recorded here as F1 0.900. It is **handicapped by
+Bangla morphology** — `গ্রিসে` does not string-match `গ্রিস`. `morph` absorbs case
+suffixes and the danda and is **the honest bar**. Report `morph`.
 
-This means the stated target of F1 > 75% sits *below* a five-line string comparison, and
-a fine-tuned SLM will score ~0.95 without proving anything. This is the single biggest
-threat to the project at defense.
+Both live in `src/baselines.py` and **must appear in every results table**;
+`src/train.py` prints them automatically beside the model row.
 
-Required response:
-- Implement this lexical baseline in `src/baselines.py` and **report it in every results
-  table**. Hiding it is worse than the weakness itself.
-- Report token-level and span-level metrics too, where the baseline is much weaker than
-  it is at example-level.
-- Fix the dataset (below).
+Note where the baseline is weak: word F1 0.581 and span exact 0.391. That gap is the
+contribution.
 
-## Known dataset weaknesses and the planned fix
+### 3. The generator mislabels inflected spans
 
-- **Answers are too short** (median 3 words) for "token-level" to be meaningful. RAGTruth
-  answers are paragraphs; that's what makes span localization a real task.
-- **Corruptions are lexically obvious** — swapped entities and numbers that don't appear
-  in the context, which is exactly what the naive baseline catches.
-- **Nothing is human verified.** The FYDP-I presentation explicitly promises expert
-  annotation as a contribution.
+**66 of 1,326 hallucinated rows (5.0%) carry `label=1` with every token label 0.** They
+are unlearnable under max-over-tokens scoring and cap achievable recall. A further
+**316 (23.8%)** have flagged words disagreeing with `hallucinated_span`.
 
-Planned regeneration, to be done alongside model development:
-1. Multi-sentence answers (3–5 sentences) where only **one clause** is corrupted, so the
-   rest of the answer is grounded and the model must localize.
+Cause: the generator matches `hallucinated_span` to answer words by exact whitespace
+equality, which Bangla agglutination and the attached danda defeat — span `বাংলাদেশ` vs
+word `বাংলাদেশের`, span `দিল্লি` vs word `দিল্লিতে।`. 56 of the 66 are
+`entity_replacement`, because entities take case endings.
+
+**Fix this in the generator, not here:** match by substring/prefix per token, strip `।`
+first, and assert every `label=1` row ends with ≥1 positive token. `src/data.py` reports
+both counts on every load. `src/evaluate.py` excludes unusable rows from span scoring so
+a data defect is not charged to the model.
+
+## Planned dataset regeneration
+
+1. Multi-sentence answers (3–5 sentences) where only **one clause** is corrupted.
 2. Corruptions that **reuse vocabulary present elsewhere in the context**, so lexical
    overlap cannot detect them.
 3. A **human-verified gold test set of ~200 examples**, annotated by the team.
-4. A second test set at a **realistic class ratio** (~15–20% hallucinated, matching
-   RAGTruth) alongside the balanced one. Report both.
+4. A second test set at a **realistic class ratio** (~15–20% hallucinated). Report both.
+5. Fix the span-matching bug above before regenerating.
+
+Note: longer answers will push sequence length past the sample's p99 of 86. `max_length`
+is measured automatically, but check `AUTO_LENGTH_CAP` and the backbone's position limit.
 
 ## Model choice
 
-**ModernBERT is English-only.** Its tokenizer fragments Bangla badly. The FYDP-I paper
-names ModernBERT and DeBERTa; that plan does not transfer to Bengali as written, and the
-paper text needs updating to say so.
+**English ModernBERT is not for Bangla** — its tokenizer fragments Bangla badly. Use it
+**only** for the English RAGTruth arm.
 
-Backbones, in priority order:
+Measured Bangla tokenizer fertility (subwords per word, lower is better), on 300 rows of
+the actual dataset:
 
-1. `csebuetnlp/banglabert` — ELECTRA-base, ~110M params. Bangla-specific, strongest on
-   Bangla benchmarks, comfortably inside the size and latency budget. **Primary.**
-2. `microsoft/mdeberta-v3-base` — ~278M. Multilingual, and keeps the DeBERTa thread from
-   the FYDP-I paper intact. **Main comparison.**
-3. `xlm-roberta-base` (278M) and `google/muril-base-cased` (~238M) — additional points for
-   the comparison table.
-4. `answerdotai/ModernBERT-base` — **only** for an optional English RAGTruth arm, never
-   for Bangla.
+| backbone | params | vocab | fertility | positions |
+|---|---|---|---|---|
+| `csebuetnlp/banglabert` | 110M | 32k | **1.40** | 512 |
+| `xlm-roberta-base` | 278M | 250k | 2.20 | 512 |
+| `microsoft/mdeberta-v3-base` | 278M | 250k | 2.82 | 512 |
+| `jhu-clsp/mmBERT-base` | 307M | 256k | 3.99 | **8192** |
 
-Write **one training script driven by a config**, so the backbone is a string in
-`src/config.py` and all four can be run without editing code.
+1. `csebuetnlp/banglabert` — **primary.** Best fertility by ~2.9×. Its 512-position
+   ceiling is the risk once contexts lengthen.
+2. `jhu-clsp/mmBERT-base` — **main comparison.** This is the *multilingual* ModernBERT,
+   not the English one, so it keeps the paper's ModernBERT thread intact honestly.
+   Higher fertility costs sequence length and latency, but it cannot run out of context.
+   Latency headroom exists: BanglaBERT measured 34.8ms against a 200ms budget.
+   `AUTO_LENGTH_CAP` currently caps it at 512 — raise it to use its long context.
+3. `microsoft/mdeberta-v3-base`, `xlm-roberta-base`, `google/muril-base-cased` —
+   additional comparison points.
+4. `answerdotai/ModernBERT-base` — English RAGTruth arm only, never for Bangla.
+
+One training script driven by config: the backbone is a string in `src/config.py`.
 
 ## Input encoding and labels
 
-- Sequence: `[CLS] question [SEP] context [SEP] answer [SEP]`, `max_length=256`
-  (median context is 25 words — 256 is generous, do not use 512 and pay for padding).
+- Sequence: `[CLS] question [SEP] context [SEP] answer [SEP]`
+- **`max_length` is measured, not pinned.** `config.MAX_LENGTH = "auto"` covers the 99th
+  percentile, rounded to a multiple of 32, capped by `AUTO_LENGTH_CAP` and the backbone's
+  position limit. On the sample this selects **96** (p99 = 86). The previously pinned 256
+  was ~2.7× over-padded and would have become wrong anyway once answers lengthen.
 - Tokenize the **answer with `is_split_into_words=True`** on its whitespace tokens, so
-  `word_ids()` maps subwords straight back to the `token_labels` list. This is the clean
-  way to align; do not try to reconstruct alignment from character offsets.
-- Label **only answer subword tokens**. Question, context, and all special tokens get
-  `-100` so they're ignored by the loss.
-- For a word split into several subwords, label the first subword and set the rest to
-  `-100` (report the choice; the alternative of labelling all subwords is also defensible
-  but changes the token-level metrics).
+  `word_ids()` maps subwords back to `token_labels`. Never reconstruct from char offsets.
+- Label **only answer subword tokens**; question, context and specials get `-100`.
+- Label the **first subword** of each word, rest `-100` (`LABEL_ALL_SUBWORDS=False`).
+- **Truncation is `only_first`** — sacrifice context before the answer. Truncating the
+  answer silently discards labels, which is unrecoverable.
 - Example-level score = **max** over answer token hallucination probabilities.
 - Span extraction = merge runs of consecutive tokens above threshold 0.5.
 
 ## Evaluation protocol
 
-Every results table must report:
+All implemented in `src/evaluate.py`, which scores every system through one code path.
 
-- **Token-level**: precision / recall / F1 on the hallucinated class, aggregated to
-  *word* level (that's what the UI highlights, so it's the honest unit)
-- **Example-level**: precision / recall / F1, accuracy, **AUROC**
-- **Span-level**: exact and partial match against `hallucinated_span`
-- **Per hallucination type**: breakdown across the five types — `contradiction` has only
-  33 examples and will likely be the weak spot, which is worth saying out loud
-- **Latency**: ms per example at batch size 1, CPU and GPU separately, after ~20 warmup
-  runs, measured on the actual local machine — not on Colab. The sub-200ms claim is about
-  consumer hardware, so it has to be measured on consumer hardware.
-- **Efficiency**: parameter count, trainable parameter count under LoRA, peak memory,
-  training wall-clock
+- **Word-level** P/R/F1 on the hallucinated class — *headline*
+- **Span-level** exact and partial match against `hallucinated_span` — *headline*
+- **Example-level** P/R/F1, accuracy, AUROC — only with the baseline beside it
+- **Per hallucination type** — `contradiction` (33 rows) is the expected weak spot and
+  that should be said out loud
+- **Latency**: ms per example at batch size 1, CPU and GPU separately, after ~20 warmups,
+  on the actual local machine. Never on Colab — the claim is about consumer hardware.
+- **Efficiency**: parameter count, trainable count under LoRA, peak memory, wall-clock
 
-Compare against: the lexical baseline, full fine-tuning vs LoRA, and at least one
-LLM-as-a-judge reference point for the cost argument.
+Compare against: the lexical baseline (both modes), full fine-tuning vs LoRA, and at
+least one LLM-as-a-judge reference point for the cost argument. For the RAGTruth arm,
+compare to Luna and LettuceDetect's published numbers.
 
-Note on LoRA: at 110M parameters full fine-tuning is cheap, so LoRA is not strictly
-necessary here — but it's a claim in the paper, so run both and report the delta in F1,
-trainable params and training time. If LoRA loses accuracy for no meaningful saving at
-this scale, say that; it's a legitimate finding.
+Note on LoRA: at 110M full fine-tuning is cheap, so LoRA is not strictly necessary — but
+it is a paper claim, so run both and report the delta in F1, trainable params and time.
+LoRA gives 886,274 trainable params (0.80%). If it loses accuracy for no meaningful
+saving at this scale, say so; that is a legitimate finding.
 
 ## Repo layout
 
 ```
 .
 ├── CLAUDE.md
-├── requirements.txt
+├── requirements.txt          # torch installed separately, CPU-only
+├── .gitattributes
 ├── data/
-│   └── bangla_rag_hallucination_8k.csv
+├── docs/Fydp1_final_paper.pdf
 ├── src/
-│   ├── config.py        # backbone, hyperparams, paths — the only file to edit per run
-│   ├── data.py          # load, group split, tokenize + label alignment
-│   ├── model.py         # backbone + token classification head, LoRA wiring
-│   ├── train.py
-│   ├── evaluate.py      # token / example / span metrics, AUROC, latency bench
-│   └── baselines.py     # lexical string-match baseline
+│   ├── config.py        # backbone, schema, hyperparams — the only file to edit per run
+│   ├── data.py          # load, validate, group split, tokenize + label alignment
+│   ├── model.py         # backbone + token classification head, LoRA wiring, inference
+│   ├── train.py         # full vs LoRA; always prints the baseline beside the model
+│   ├── evaluate.py      # word/example/span metrics, AUROC, latency, efficiency
+│   └── baselines.py     # lexical string-match baseline, exact + morph
 ├── app/
-│   └── streamlit_app.py
-└── outputs/             # checkpoints, metrics JSON, plots
+│   ├── streamlit_app.py # not yet written
+│   └── api.py           # FastAPI + Uvicorn, promised by the paper; not yet written
+└── outputs/             # checkpoints, metrics JSON, plots (the paper's "Data Store D1")
 ```
 
 ## Environment
 
-Local, VS Code, CPU or laptop GPU. The job is small: ~2,100 training rows, seq len 256,
-110M params, ~130 steps per epoch. Minutes on a GPU, well under an hour on CPU. No cloud
-compute is needed for the primary model. Colab is an escape hatch for mDeBERTa sweeps
-only.
+Local, VS Code, CPU. `.venv` holds CPU-only torch 2.14. ~2,100 training rows, 116 steps
+per epoch, ~250s per epoch on CPU at 2.5GB peak. No cloud compute needed for the primary
+model. Colab is an escape hatch for mDeBERTa/mmBERT sweeps only — never for latency.
 
 ## Don't
 
 - Don't random-split the rows. Group on base ID.
-- Don't report example-level F1 alone.
-- Don't omit the lexical baseline from results tables.
-- Don't use ModernBERT for the Bangla model.
-- Don't benchmark latency on cloud hardware.
-- Don't silently drop the 4 English rows — either keep them and note it, or drop them and
-  note it.
-- Don't pad to 512 "just in case".
+- Don't report example-level F1 as the headline, or without the baseline beside it.
+- Don't omit the lexical baseline from results tables, and report the `morph` mode.
+- Don't use English ModernBERT for Bangla. mmBERT-base is a different model.
+- Don't benchmark latency on cloud hardware, or while another job is using the CPU.
+- Don't silently drop the 10 non-Bangla rows — keep and note, or drop and note.
+- Don't hardcode the sample's dimensions; the real dataset is being built elsewhere.
+- Don't quote smoke-test numbers as results.
