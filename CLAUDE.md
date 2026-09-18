@@ -140,7 +140,10 @@ a data defect is not charged to the model.
 2. Corruptions that **reuse vocabulary present elsewhere in the context**, so lexical
    overlap cannot detect them.
 3. A **human-verified gold test set of ~200 examples**, annotated by the team.
-4. A second test set at a **realistic class ratio** (~15–20% hallucinated). Report both.
+4. A second test set at a **realistic class ratio**. Note: RAGTruth is **not** 15–20% —
+   measured, **43.1%** of its 17,790 responses carry at least one hallucination span.
+   Pick the target ratio from the deployment story being argued, not from RAGTruth, and
+   report it alongside the balanced set.
 5. Fix the span-matching bug above before regenerating.
 
 Note: longer answers will push sequence length past the sample's p99 of 86. `max_length`
