@@ -23,6 +23,12 @@ outputs/**/*.ckpt
 .vscode/
 *.ipynb_checkpoints/
 
+# RAGTruth is downloaded on demand, never vendored: response.jsonl is 21MB,
+# source_info.jsonl 15MB, and the derived CSVs are larger still. The download
+# commands are in the docstring of src/data_ragtruth.py.
+data/ragtruth/
+data/ragtruth*.csv
+
 # OS files
 .DS_Store
 Thumbs.db

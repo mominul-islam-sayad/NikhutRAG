@@ -24,8 +24,12 @@ scikit-learn>=1.5
 seqeval>=1.2.2
 matplotlib>=3.9
 
-# UI demo
+# UI demo and API. The FYDP-I paper's software stack (p.17) commits to a
+# FastAPI backend served by Uvicorn alongside the Streamlit dashboard, so
+# Streamlit alone does not satisfy the paper.
 streamlit>=1.38
+fastapi>=0.115
+uvicorn>=0.30
 
 # Misc
 tqdm>=4.66
