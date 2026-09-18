@@ -1,0 +1,14 @@
+# Normalize to LF in the repository so diffs stay clean across machines.
+* text=auto eol=lf
+
+*.py    text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+*.csv   text eol=lf
+*.json  text eol=lf
+
+*.pdf   binary
+*.png   binary
+*.jpg   binary
+*.safetensors binary
+*.bin   binary
