@@ -210,10 +210,31 @@ Compare against: the lexical baseline (both modes), full fine-tuning vs LoRA, an
 least one LLM-as-a-judge reference point for the cost argument. For the RAGTruth arm,
 compare to Luna and LettuceDetect's published numbers.
 
-Note on LoRA: at 110M full fine-tuning is cheap, so LoRA is not strictly necessary — but
-it is a paper claim, so run both and report the delta in F1, trainable params and time.
-LoRA gives 886,274 trainable params (0.80%). If it loses accuracy for no meaningful
-saving at this scale, say so; that is a legitimate finding.
+### LoRA vs full fine-tuning — measured 2026-09-18
+
+Both run, 4 epochs, BanglaBERT, CPU, identical splits and seed:
+
+| | full | LoRA | delta |
+|---|---|---|---|
+| **word F1** | **0.857** | 0.831 | −0.026 |
+| **span exact** | **0.667** | 0.661 | −0.006 |
+| example F1 | 0.967 | **0.972** | +0.005 |
+| AUROC | **0.997** | 0.992 | −0.005 |
+| trainable params | 110,028,290 | **886,274** | 124× fewer |
+| peak memory | 2,749 MB | **2,025 MB** | −26% |
+| wall-clock | 1,123.9 s | **1,084.3 s** | −3.5% |
+| latency (median) | **33.8 ms** | 37.2 ms | +3.4 ms |
+
+**This is the legitimate finding the paper's LoRA claim needs.** At 110M, LoRA buys a
+124× reduction in trainable parameters and 26% less memory, but **almost no training
+time** — on CPU the backward pass still traverses the frozen backbone, so the saving
+LoRA is famous for does not materialise at this scale. It costs 0.026 word F1, which is
+the headline metric, while nudging example F1 up by 0.005 — a reminder that example-level
+numbers are too coarse to rank these two.
+
+Report this honestly rather than implying LoRA was necessary. It becomes genuinely
+worthwhile on the larger backbones (mmBERT 307M, mDeBERTa 278M) and on GPU; re-measure
+there before generalising from this row.
 
 ## Repo layout
 
