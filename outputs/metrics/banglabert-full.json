@@ -7,7 +7,7 @@
   "seed": 42,
   "config": {
     "backbone": "csebuetnlp/banglabert",
-    "epochs": 1,
+    "epochs": 4,
     "train_batch_size": 16,
     "eval_batch_size": 32,
     "learning_rate": 3e-05,
@@ -33,41 +33,62 @@
     "param_budget_500m_ok": true,
     "fp32_size_mb": 419.72461700439453
   },
-  "train_seconds": 249.20138270000007,
-  "peak_memory_mb": 2507.28515625,
-  "best_epoch": 1,
+  "train_seconds": 1123.9388581000003,
+  "peak_memory_mb": 2748.59765625,
+  "best_epoch": 4,
   "history": [
     {
       "epoch": 1,
-      "train_loss": 0.27646360722980623,
-      "val_word_f1": 0.8472622478386167,
-      "val_example_f1": 0.9744897959183674,
-      "val_auroc": 0.9907325572586552
+      "train_loss": 0.3192671981864962,
+      "val_word_f1": 0.8523206751054853,
+      "val_example_f1": 0.9692307692307692,
+      "val_auroc": 0.9942173177445014
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.14039050490627514,
+      "val_word_f1": 0.8547717842323651,
+      "val_example_f1": 0.9720101781170484,
+      "val_auroc": 0.994495088507866
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.09406504878404967,
+      "val_word_f1": 0.8615384615384616,
+      "val_example_f1": 0.9641025641025641,
+      "val_auroc": 0.9938132875432438
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.06672149621239253,
+      "val_word_f1": 0.8663853727144867,
+      "val_example_f1": 0.961439588688946,
+      "val_auroc": 0.9945203403954446
     }
   ],
   "test": {
     "name": "banglabert-full",
     "n_examples": 398,
     "word_level": {
-      "precision": 0.8210227272727273,
-      "recall": 0.8027777777777778,
-      "f1": 0.8117977528089888,
+      "precision": 0.864406779661017,
+      "recall": 0.85,
+      "f1": 0.8571428571428571,
       "support": 360,
-      "tp": 289,
-      "fp": 63,
-      "fn": 71
+      "tp": 306,
+      "fp": 48,
+      "fn": 54
     },
     "example_level": {
-      "precision": 0.9792746113989638,
-      "recall": 0.949748743718593,
-      "f1": 0.9642857142857143,
-      "accuracy": 0.964824120603015,
-      "auroc": 0.9922476705133709,
+      "precision": 0.9894736842105263,
+      "recall": 0.9447236180904522,
+      "f1": 0.9665809768637532,
+      "accuracy": 0.9673366834170855,
+      "auroc": 0.9965152395141537,
       "n": 398
     },
     "span_level": {
-      "exact": 0.6344086021505376,
-      "partial": 0.9516129032258065,
+      "exact": 0.6666666666666666,
+      "partial": 0.967741935483871,
       "n_gold": 186,
       "n_unusable": 13
     },
@@ -75,26 +96,26 @@
       "contradiction": {
         "n": 6,
         "n_hallucinated": 6,
-        "example_recall": 0.6666666666666666,
-        "word_f1": 0.42105263157894735
+        "example_recall": 0.8333333333333334,
+        "word_f1": 0.6086956521739131
       },
       "date_error": {
         "n": 35,
         "n_hallucinated": 35,
-        "example_recall": 0.9714285714285714,
-        "word_f1": 0.875
+        "example_recall": 1.0,
+        "word_f1": 0.9072164948453608
       },
       "entity_replacement": {
         "n": 57,
         "n_hallucinated": 57,
         "example_recall": 0.9122807017543859,
-        "word_f1": 0.7953216374269005
+        "word_f1": 0.875
       },
       "fabricated_fact": {
         "n": 30,
         "n_hallucinated": 30,
-        "example_recall": 1.0,
-        "word_f1": 0.717948717948718
+        "example_recall": 0.9,
+        "word_f1": 0.7466666666666667
       },
       "none": {
         "n": 199,
@@ -106,14 +127,14 @@
         "n": 71,
         "n_hallucinated": 71,
         "example_recall": 0.971830985915493,
-        "word_f1": 0.9049429657794676
+        "word_f1": 0.9207547169811321
       }
     },
     "per_domain": {
       "Agriculture": {
         "n": 150,
-        "example_f1": 0.9795918367346939,
-        "accuracy": 0.98
+        "example_f1": 0.9583333333333334,
+        "accuracy": 0.96
       },
       "Bangladesh Affairs": {
         "n": 8,
@@ -122,13 +143,13 @@
       },
       "Government Services": {
         "n": 96,
-        "example_f1": 1.0,
-        "accuracy": 1.0
+        "example_f1": 0.9894736842105263,
+        "accuracy": 0.9895833333333334
       },
       "History": {
         "n": 144,
-        "example_f1": 0.9219858156028369,
-        "accuracy": 0.9236111111111112
+        "example_f1": 0.9577464788732394,
+        "accuracy": 0.9583333333333334
       }
     }
   },
@@ -313,11 +334,11 @@
     "batch_size": 1,
     "warmup": 20,
     "runs": 100,
-    "mean_ms": 35.05776299994068,
-    "median_ms": 34.81205000025511,
-    "p95_ms": 36.97849999934988,
-    "min_ms": 32.07320000001346,
-    "max_ms": 53.44409999997879,
+    "mean_ms": 33.673204000015176,
+    "median_ms": 33.80830000014612,
+    "p95_ms": 37.19089999958669,
+    "min_ms": 24.901900000259047,
+    "max_ms": 58.41489999966143,
     "meets_200ms": true
   },
   "dataset_caveats": {
