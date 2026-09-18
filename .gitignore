@@ -1,0 +1,28 @@
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Model checkpoints and generated experiment files
+outputs/checkpoints/
+outputs/**/*.pt
+outputs/**/*.pth
+outputs/**/*.bin
+outputs/**/*.safetensors
+outputs/**/*.ckpt
+
+# Notebooks and tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.vscode/
+*.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
