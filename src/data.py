@@ -6,7 +6,7 @@ Two things this module exists to prevent, both called out in CLAUDE.md:
    hallucinated. Splitting rows at random puts the same context on both sides
    and the reported F1 stops meaning anything. Splits here are always grouped on
    the base id, and additionally stratified by domain so a small domain cannot
-   vanish from a split.
+   vanish from a split.                                         
 
 2. Silent label misalignment. Answer subword labels are derived through
    ``word_ids()`` on the pre-split answer words, never reconstructed from
