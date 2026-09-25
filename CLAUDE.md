@@ -42,7 +42,9 @@ Reasons, in the order they matter:
 
 - Model **under 500M parameters** — BanglaBERT measured at 110,028,290. Satisfied.
 - Inference **under 200ms** per example. The paper's wording is stricter: "within
-  100-200 milliseconds for each inference" (p.15). Measured 34.8ms median on CPU.
+  100-200 milliseconds for each inference" (p.15). BanglaBERT measured **57.1 ms median on
+  CPU and 11.5 ms on the RX 6600 GPU** on the 4,000-row dataset (30 test examples; see
+  Results). mmBERT **misses the budget on CPU (210 ms)**.
 - **LoRA / PEFT** fine-tuning must be used and measured
 - Runs **locally** on consumer hardware — no API calls, no cloud inference
 - Token-level output, not just a sequence-level true/false
@@ -183,7 +185,7 @@ could push it past; the loader reports truncated contexts when it happens.
 **only** for the English RAGTruth arm.
 
 Measured Bangla tokenizer fertility (subwords per word, lower is better), on 300 rows of
-the actual dataset:
+the first sample (see mmBERT below for the 4,000-row figures):
 
 | backbone | params | vocab | fertility | positions |
 |---|---|---|---|---|
@@ -197,8 +199,31 @@ the actual dataset:
 2. `jhu-clsp/mmBERT-base` — **main comparison.** This is the *multilingual* ModernBERT,
    not the English one, so it keeps the paper's ModernBERT thread intact honestly.
    Higher fertility costs sequence length and latency, but it cannot run out of context.
-   Latency headroom exists: BanglaBERT measured 34.8ms against a 200ms budget.
-   `AUTO_LENGTH_CAP` currently caps it at 512 — raise it to use its long context.
+   It turned out slower and not more accurate — see Results.
+
+   **Prepared 2026-09-25 on the 4,000-row dataset.** Fertility there: answers 3.51 vs
+   BanglaBERT 1.14, contexts 3.94 vs 1.36. Full sequences: median 383, p99 ~830, max
+   977 subwords. At 512 it would truncate context on ~19% of rows, so `AUTO_LENGTH_CAP`
+   was raised to 1024 (BanglaBERT is still held to 512 by its own position limit) and
+   `max_length` auto-selects **832**. Word alignment checked on all 4,000 rows: 0
+   misaligned. LoRA targets `Wqkv` verified: 1,082,882 trainable of 308.6M (0.35%).
+   Weights cached locally: `pytorch_model.bin` (1.2GB), plus a converted `model.safetensors` for `.venv-dml`.
+
+   **Run it on the GPU** (see Environment for the DirectML quirks). LoRA, batch 1 with
+   accumulation to an effective 16:
+
+   ```
+   $env:HF_HUB_OFFLINE=1
+   .venv-dml\Scripts\python.exe -m src.train --device dml --backbone jhu-clsp/mmBERT-base --lora --batch-size 1 --grad-accum 16 --eval-batch-size 1 --save-model
+   ```
+
+   On the CPU the same run would take several hours: batch 4 × accumulation 4 with
+   `--grad-checkpointing`, since batch 16 at ~830 subwords does not fit 16GB RAM. Full
+   fine-tuning is unlikely to fit the GPU's 8GB. AdamW state alone is ~4.9GB for 308M
+   params, most of it for the 256k-token embedding matrix.
+
+   Measured: 30 min on the GPU (7.5 min per epoch), reproducible to the last digit across
+   two runs. Latency **210 ms on CPU (over budget)** and 53 ms on the GPU.
 3. `microsoft/mdeberta-v3-base`, `xlm-roberta-base`, `google/muril-base-cased` —
    additional comparison points.
 4. `answerdotai/ModernBERT-base` — English RAGTruth arm only, never for Bangla.
@@ -245,9 +270,77 @@ Compare against: the lexical baseline (both modes), full fine-tuning vs LoRA, an
 least one LLM-as-a-judge reference point for the cost argument. For the RAGTruth arm,
 compare to Luna and LettuceDetect's published numbers.
 
+### Results on the 4,000-row dataset — measured 2026-09-25
+
+Test split (588 rows), 4 epochs, identical splits and seed, best epoch 4 for all.
+BanglaBERT trained on the CPU, mmBERT on the RX 6600 GPU:
+
+| system | word P | word R | **word F1** | **span F1** | span exact | span partial | ex F1 | AUROC |
+|---|---|---|---|---|---|---|---|---|
+| lexical baseline (`exact`) | 0.238 | 0.556 | 0.333 | 0.072 | 0.207 | 0.820 | 0.676 | 0.641 |
+| lexical baseline (`morph`) | 0.295 | 0.497 | 0.370 | 0.089 | 0.211 | 0.731 | 0.686 | 0.659 |
+| BanglaBERT full | 0.885 | 0.787 | **0.833** | **0.581** | 0.575 | 0.888 | 0.919 | 0.979 |
+| BanglaBERT LoRA | 0.838 | 0.796 | 0.817 | 0.488 | 0.500 | 0.908 | 0.929 | 0.975 |
+| mmBERT LoRA | 0.817 | 0.800 | 0.809 | 0.527 | 0.551 | 0.878 | 0.894 | 0.962 |
+
+The model beats the honest baseline by **+0.463 word F1** and **+0.492 span F1**.
+
+Per type (word F1, full / LoRA): `fabricated_info` 0.976 / 0.985, `contradiction` 0.851 /
+0.804, `number_error` 0.845 / 0.838, `date_error` 0.824 / 0.786, **`omission` 0.638 /
+0.580, `entity_replacement` 0.627 / 0.663**. The last two are the weak spots: only ~74%
+of those rows are caught at all (example recall 0.674–0.739). They are also what the
+lexical baseline cannot see, so this is where the paper should look for the model's
+added value and its limits.
+
+Full vs LoRA:
+
+| | full | LoRA | delta |
+|---|---|---|---|
+| **word F1** | **0.833** | 0.817 | −0.016 |
+| **span F1** | **0.581** | 0.488 | −0.093 |
+| example F1 | 0.919 | **0.929** | +0.010 |
+| trainable params | 110,028,290 | **886,274** | 124× fewer |
+| wall-clock | 5,658 s | **5,144 s** | −9% |
+
+The shape matches the first sample: LoRA costs headline accuracy — noticeably so at span
+level, where exact boundaries matter — nudges example F1 up, and saves little training
+time on CPU. Report it honestly rather than implying LoRA was necessary at 110M.
+
+**mmBERT does not beat BanglaBERT.** It has 2.8× the parameters and ~2.9× longer inputs
+(fertility), yet word F1 is 0.809, below both BanglaBERT runs. Its span F1 (0.527) sits
+between BanglaBERT LoRA and full. It shares the same weak types: `omission` 0.626 and
+`entity_replacement` 0.625 word F1. This backs BanglaBERT as the primary model:
+a Bangla-specific tokenizer beats a bigger multilingual model here.
+
+Latency, re-measured on saved checkpoints with `src/latency.py`, batch size 1, 20
+warmups, 100 timed calls cycling through the same 30 test examples, nothing else
+running. Results are in `outputs/metrics/latency.json`:
+
+| model | tokens (avg) | CPU median | CPU p95 | GPU median | GPU p95 |
+|---|---|---|---|---|---|
+| BanglaBERT full | 145 | **57.1 ms** | 99.7 ms | **11.5 ms** | 20.8 ms |
+| BanglaBERT LoRA | 145 | 66.3 ms | 118.9 ms | 12.4 ms | 22.2 ms |
+| mmBERT LoRA | 417 | **210.2 ms ✗** | 369.9 ms | 52.7 ms | 103.9 ms |
+
+CPU is a Ryzen (AMD64 Family 25 Model 97), 6 cores, torch 2.14. GPU is the RX 6600 via
+DirectML, torch 2.4.1. LoRA checkpoints are timed with the adapter unmerged, which
+explains their few extra ms. Merging it (`merge_and_unload`) would match full
+fine-tuning. **mmBERT breaks the paper's 200 ms budget on CPU.** It is usable only on
+the GPU.
+
+**Two measurements recorded during training are not reportable. Use the table above:**
+
+- **Latency in the BanglaBERT metrics JSONs** (full 153.2 ms, LoRA 108.8 ms) was timed
+  on **one** test example, and cost grows with length. `src/train.py` now cycles through
+  30 examples, as the mmBERT run did.
+- **"Peak memory"** in the BanglaBERT JSONs (1,794 / 957 MB, and 2,749 / 2,025 MB on the
+  first sample) was the process's memory at the *end* of the run, not the peak.
+  `src/train.py` now reads the true peak working set. The mmBERT figure (6,158 MB, host
+  RAM, not VRAM) uses the fix. Rerun BanglaBERT to get true peaks before quoting memory.
+
 ### LoRA vs full fine-tuning — first sample, measured 2026-09-18
 
-**To be superseded by the 4,000-row rerun (in progress); kept for the record.** Measured on the first
+**Superseded by the results above; kept for the record.** Measured on the first
 2,652-row sample, whose baseline was far stronger, so none of these numbers transfer.
 Both run, 4 epochs, BanglaBERT, CPU, identical splits and seed:
 
@@ -269,9 +362,8 @@ LoRA is famous for does not materialise at this scale. It costs 0.026 word F1, w
 the headline metric, while nudging example F1 up by 0.005 — a reminder that example-level
 numbers are too coarse to rank these two.
 
-Report this honestly rather than implying LoRA was necessary. It becomes genuinely
-worthwhile on the larger backbones (mmBERT 307M, mDeBERTa 278M) and on GPU; re-measure
-there before generalising from this row.
+The latency and "peak memory" rows above suffer the same measurement flaws described
+for the 4,000-row runs.
 
 ## Repo layout
 
@@ -288,18 +380,48 @@ there before generalising from this row.
 │   ├── model.py         # backbone + token classification head, LoRA wiring, inference
 │   ├── train.py         # full vs LoRA; always prints the baseline beside the model
 │   ├── evaluate.py      # word/example/span metrics, AUROC, latency, efficiency
-│   └── baselines.py     # lexical string-match baseline, exact + morph
+│   ├── baselines.py     # lexical string-match baseline, exact + morph
+│   ├── latency.py       # re-time saved checkpoints, CPU and GPU, same 30 examples
+│   └── data_ragtruth.py # RAGTruth adapter for the English arm
 ├── app/
-│   ├── streamlit_app.py # not yet written
-│   └── api.py           # FastAPI + Uvicorn, promised by the paper; not yet written
+│   ├── _loader.py       # checkpoint loading + inference shared by UI and API
+│   ├── streamlit_app.py # Streamlit demo
+│   └── api.py           # FastAPI + Uvicorn backend, promised by the paper
 └── outputs/             # checkpoints, metrics JSON, plots (the paper's "Data Store D1")
 ```
 
 ## Environment
 
-Local, VS Code, CPU. `.venv` holds CPU-only torch 2.14. 2,824 training rows, 177 steps
-per epoch at `max_length` 288. No cloud compute needed for the primary
-model. Colab is an escape hatch for mDeBERTa/mmBERT sweeps only — never for latency.
+Local, VS Code. Two venvs:
+
+- **`.venv`** — CPU-only torch 2.14. BanglaBERT at `max_length` 288: 2,824 training rows,
+  177 steps per epoch, ~22 min per epoch, ~95 min per 4-epoch run.
+- **`.venv-dml`** — torch 2.4.1 + `torch-directml`, for the **AMD RX 6600** (8GB) via
+  DirectML. ROCm does not support this card on Windows or WSL, so DirectML is the only
+  GPU route. Same `transformers`/`peft` versions as `.venv`. Run with `--device dml` and
+  `HF_HUB_OFFLINE=1`.
+
+DirectML quirks, all measured 2026-09-25:
+
+- **~4× faster than CPU.** BanglaBERT full fine-tuning: 0.10 s per example vs 0.40 s.
+  Inference: 11.2 ms vs 53.3 ms median.
+- **Bias-free LayerNorm backward is unsupported**, and crashes the device. mmBERT uses
+  bias-free norms throughout. `src/model.py:decompose_layernorms` rewrites them as plain
+  ops (identical output to ~2e-6, same checkpoint keys). `src/train.py` applies it
+  automatically for `--device dml`.
+- **Padded batches run out of VRAM on mmBERT**, even at batch 2: padded attention masks
+  are expensive under DirectML. Batch 1 has no padding and is stable. So run mmBERT with
+  `--batch-size 1 --grad-accum 16 --eval-batch-size 1` (~0.14 s per step, ~7 min per
+  epoch of training). BanglaBERT fits at batch 8 but not 16.
+- **Torch 2.4.1 cannot load `.bin` weights** under current `transformers` (CVE-2025-32434
+  guard). Both backbones therefore need a `model.safetensors` in the local HF cache
+  snapshot that `refs/main` points to, with no `.no_exist/<rev>/model.safetensors`
+  marker. For mmBERT it was converted locally from `pytorch_model.bin`. For BanglaBERT it
+  was copied from the other cached snapshot. `HF_HUB_OFFLINE=1` makes `transformers` use
+  the cache instead of asking the Hub, which has no safetensors for these repos.
+
+No cloud compute is needed. Latency is always measured on this machine, CPU and GPU
+separately, and never on Colab.
 
 ## Don't
 

@@ -38,6 +38,41 @@ def build_model(backbone: str | None = None, num_labels: int = 2):
     return model
 
 
+class DecomposedLayerNorm(nn.Module):
+    """LayerNorm written as plain tensor ops, numerically the same function.
+
+    DirectML (the only GPU route for an AMD RX 6600 on Windows) cannot run the
+    backward pass of a bias-free ``nn.LayerNorm`` -- the op fails to build or
+    takes the device down with it. ModernBERT/mmBERT uses bias-free norms
+    throughout (``norm_bias: false``), so it cannot be trained there without
+    this. Parameters keep their names, so checkpoints still load into a stock
+    model with ``nn.LayerNorm``.
+    """
+
+    def __init__(self, ln: nn.LayerNorm):
+        super().__init__()
+        self.weight, self.bias, self.eps = ln.weight, ln.bias, ln.eps
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        xc = x - x.mean(-1, keepdim=True)
+        y = xc * torch.rsqrt((xc * xc).mean(-1, keepdim=True) + self.eps)
+        if self.weight is not None:
+            y = y * self.weight
+        return y + self.bias if self.bias is not None else y
+
+
+def decompose_layernorms(module: nn.Module) -> int:
+    """Swap every nn.LayerNorm under ``module`` for DecomposedLayerNorm."""
+    n = 0
+    for name, child in module.named_children():
+        if isinstance(child, nn.LayerNorm):
+            setattr(module, name, DecomposedLayerNorm(child))
+            n += 1
+        else:
+            n += decompose_layernorms(child)
+    return n
+
+
 def _module_suffixes(model) -> set[str]:
     return {name.rsplit(".", 1)[-1] for name, _ in model.named_modules()}
 

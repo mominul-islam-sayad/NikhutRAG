@@ -1,9 +1,9 @@
 {
-  "run": "banglabert-full",
-  "backbone": "csebuetnlp/banglabert",
-  "use_lora": false,
-  "device": "cpu",
-  "max_length": 288,
+  "run": "mmBERT-base-lora",
+  "backbone": "jhu-clsp/mmBERT-base",
+  "use_lora": true,
+  "device": "dml",
+  "max_length": 832,
   "word_scheme": "regex",
   "dataset": {
     "csv": "bangla_rag_halu_4000.csv",
@@ -18,10 +18,10 @@
   },
   "seed": 42,
   "config": {
-    "backbone": "csebuetnlp/banglabert",
+    "backbone": "jhu-clsp/mmBERT-base",
     "epochs": 4,
-    "train_batch_size": 16,
-    "eval_batch_size": 32,
+    "train_batch_size": 1,
+    "eval_batch_size": 1,
     "learning_rate": 3e-05,
     "lora_learning_rate": 0.0003,
     "weight_decay": 0.01,
@@ -29,81 +29,83 @@
     "max_grad_norm": 1.0,
     "seed": 42,
     "fp16": false,
-    "use_lora": false,
+    "use_lora": true,
     "lora_r": 16,
     "lora_alpha": 32,
     "lora_dropout": 0.1,
     "positive_class_weight": 1.0,
+    "grad_accum_steps": 16,
+    "gradient_checkpointing": false,
     "early_stopping_patience": 2,
     "metric_for_best_model": "token_f1",
     "extra": {}
   },
   "efficiency": {
-    "total_params": 110028290,
-    "trainable_params": 110028290,
-    "trainable_pct": 100.0,
+    "total_params": 308614660,
+    "trainable_params": 1082882,
+    "trainable_pct": 0.35088482186815106,
     "param_budget_500m_ok": true,
-    "fp32_size_mb": 419.72461700439453
+    "fp32_size_mb": 1177.271499633789
   },
-  "train_seconds": 5658.3292236,
-  "peak_memory_mb": 1793.5546875,
+  "train_seconds": 1781.882583999999,
+  "peak_memory_mb": 6157.5546875,
   "best_epoch": 4,
   "history": [
     {
       "epoch": 1,
-      "train_loss": 0.228139301088486,
-      "val_word_f1": 0.8119402985074626,
-      "val_example_f1": 0.9097472924187726,
-      "val_auroc": 0.978134110787172
+      "train_loss": 0.336233137899378,
+      "val_word_f1": 0.7362697117998912,
+      "val_example_f1": 0.8309178743961353,
+      "val_auroc": 0.9245800360960711
     },
     {
       "epoch": 2,
-      "train_loss": 0.07493971360815783,
-      "val_word_f1": 0.8353276353276353,
-      "val_example_f1": 0.9401408450704225,
-      "val_auroc": 0.9848442778471933
+      "train_loss": 0.12046289674188214,
+      "val_word_f1": 0.7742316784869976,
+      "val_example_f1": 0.8888888888888888,
+      "val_auroc": 0.9638229441436438
     },
     {
       "epoch": 3,
-      "train_loss": 0.03644882598734003,
-      "val_word_f1": 0.8518518518518519,
-      "val_example_f1": 0.9458987783595113,
-      "val_auroc": 0.9873779443750289
+      "train_loss": 0.07924308981723222,
+      "val_word_f1": 0.7867069486404834,
+      "val_example_f1": 0.8924731182795699,
+      "val_auroc": 0.9732981628025359
     },
     {
       "epoch": 4,
-      "train_loss": 0.021231732267418108,
-      "val_word_f1": 0.8549971114962449,
-      "val_example_f1": 0.9493891797556719,
-      "val_auroc": 0.9871349900504418
+      "train_loss": 0.049291173320696456,
+      "val_word_f1": 0.8106607440310938,
+      "val_example_f1": 0.9134125636672326,
+      "val_auroc": 0.9732634550418806
     }
   ],
   "test": {
-    "name": "banglabert-full",
+    "name": "mmBERT-base-lora",
     "n_examples": 588,
     "word_level": {
-      "precision": 0.8853046594982079,
-      "recall": 0.7866242038216561,
-      "f1": 0.8330522765598651,
+      "precision": 0.8169014084507042,
+      "recall": 0.8004246284501062,
+      "f1": 0.8085790884718499,
       "support": 942,
-      "tp": 741,
-      "fp": 96,
-      "fn": 201
+      "tp": 754,
+      "fp": 169,
+      "fn": 188
     },
     "example_level": {
-      "precision": 0.9525547445255474,
+      "precision": 0.9,
       "recall": 0.8877551020408163,
-      "f1": 0.9190140845070423,
-      "accuracy": 0.9217687074829932,
-      "auroc": 0.9791059280855199,
+      "f1": 0.8938356164383562,
+      "accuracy": 0.8945578231292517,
+      "auroc": 0.9618561710398446,
       "n": 588
     },
     "span_level": {
-      "exact": 0.5748299319727891,
-      "partial": 0.8877551020408163,
-      "precision": 0.5868055555555556,
-      "recall": 0.5748299319727891,
-      "f1": 0.5807560137457044,
+      "exact": 0.5510204081632653,
+      "partial": 0.8775510204081632,
+      "precision": 0.5046728971962616,
+      "recall": 0.5510204081632653,
+      "f1": 0.526829268292683,
       "n_gold": 294,
       "n_unusable": 0
     },
@@ -111,26 +113,26 @@
       "contradiction": {
         "n": 58,
         "n_hallucinated": 58,
-        "example_recall": 0.9482758620689655,
-        "word_f1": 0.8514285714285714
+        "example_recall": 0.9137931034482759,
+        "word_f1": 0.8086253369272237
       },
       "date_error": {
         "n": 41,
         "n_hallucinated": 41,
-        "example_recall": 1.0,
-        "word_f1": 0.8235294117647058
+        "example_recall": 0.975609756097561,
+        "word_f1": 0.8333333333333334
       },
       "entity_replacement": {
         "n": 46,
         "n_hallucinated": 46,
-        "example_recall": 0.7391304347826086,
-        "word_f1": 0.6270270270270271
+        "example_recall": 0.717391304347826,
+        "word_f1": 0.625
       },
       "fabricated_info": {
         "n": 44,
         "n_hallucinated": 44,
         "example_recall": 1.0,
-        "word_f1": 0.975975975975976
+        "word_f1": 0.9850299401197605
       },
       "none": {
         "n": 294,
@@ -141,56 +143,56 @@
       "number_error": {
         "n": 59,
         "n_hallucinated": 59,
-        "example_recall": 0.9491525423728814,
+        "example_recall": 0.9830508474576272,
         "word_f1": 0.8449197860962567
       },
       "omission": {
         "n": 46,
         "n_hallucinated": 46,
-        "example_recall": 0.6739130434782609,
-        "word_f1": 0.6379310344827587
+        "example_recall": 0.717391304347826,
+        "word_f1": 0.6255144032921811
       }
     },
     "per_domain": {
       "Agriculture": {
         "n": 76,
-        "example_f1": 0.8493150684931506,
-        "accuracy": 0.8552631578947368
+        "example_f1": 0.9066666666666666,
+        "accuracy": 0.9078947368421053
       },
       "Bangladesh Affairs": {
         "n": 74,
-        "example_f1": 0.9166666666666666,
-        "accuracy": 0.918918918918919
+        "example_f1": 0.8648648648648649,
+        "accuracy": 0.8648648648648649
       },
       "Education": {
         "n": 78,
-        "example_f1": 0.9459459459459459,
-        "accuracy": 0.9487179487179487
+        "example_f1": 0.8648648648648649,
+        "accuracy": 0.8717948717948718
       },
       "Government Services": {
         "n": 64,
-        "example_f1": 0.8709677419354839,
+        "example_f1": 0.875,
         "accuracy": 0.875
       },
       "Healthcare": {
         "n": 72,
-        "example_f1": 0.927536231884058,
-        "accuracy": 0.9305555555555556
+        "example_f1": 0.9166666666666666,
+        "accuracy": 0.9166666666666666
       },
       "History": {
         "n": 68,
-        "example_f1": 0.9696969696969697,
-        "accuracy": 0.9705882352941176
+        "example_f1": 0.9090909090909091,
+        "accuracy": 0.9117647058823529
       },
       "Science & Technology": {
         "n": 76,
-        "example_f1": 0.961038961038961,
-        "accuracy": 0.9605263157894737
+        "example_f1": 0.9230769230769231,
+        "accuracy": 0.9210526315789473
       },
       "Universities": {
         "n": 80,
-        "example_f1": 0.9066666666666666,
-        "accuracy": 0.9125
+        "example_f1": 0.8888888888888888,
+        "accuracy": 0.8875
       }
     }
   },
@@ -429,16 +431,18 @@
     }
   ],
   "latency": {
-    "device": "cpu",
+    "device": "dml",
     "batch_size": 1,
     "warmup": 20,
     "runs": 100,
-    "mean_ms": 154.3220849998761,
-    "median_ms": 153.22885000023234,
-    "p95_ms": 165.5374000001757,
-    "min_ms": 147.80969999992521,
-    "max_ms": 179.13709999993443,
-    "meets_200ms": true
+    "mean_ms": 63.40635899996414,
+    "median_ms": 57.797800000116695,
+    "p95_ms": 106.08020000290708,
+    "min_ms": 35.981400000309804,
+    "max_ms": 157.3707999996259,
+    "meets_200ms": true,
+    "n_examples": 30,
+    "mean_input_tokens": 416.53333333333336
   },
   "dataset_caveats": {
     "unlearnable_rows": 0,

@@ -173,7 +173,10 @@ def backbone_spec(hf_id: str | None = None) -> BackboneSpec:
 #: answers become 3-5 sentences, so the default measures instead of assuming.
 MAX_LENGTH: int | str = "auto"
 AUTO_LENGTH_PERCENTILE = 0.99
-AUTO_LENGTH_CAP = 512
+#: Only a ceiling for backbones with more positions; each backbone's own limit
+#: (BanglaBERT 512) still applies. mmBERT needs ~864 to cover p99 of the
+#: 4,000-row dataset -- at 512 it would truncate context on ~19% of rows.
+AUTO_LENGTH_CAP = 1024
 AUTO_LENGTH_MULTIPLE = 32
 
 #: Label only the first subword of each answer word; the rest get -100.
@@ -229,6 +232,13 @@ class TrainConfig:
     #: Positive-class weight in the token loss. Answers are mostly grounded even
     #: in hallucinated rows, so positives are the minority at token level.
     positive_class_weight: float = 1.0
+
+    #: Optimizer steps every N batches, so the effective batch is
+    #: train_batch_size * grad_accum_steps. Lets a long-sequence backbone
+    #: (mmBERT at ~860 subwords) keep an effective batch of 16 in 16GB RAM.
+    grad_accum_steps: int = 1
+    #: Recompute activations in the backward pass: ~30% slower, far less memory.
+    gradient_checkpointing: bool = False
 
     early_stopping_patience: int = 2
     metric_for_best_model: str = "token_f1"
