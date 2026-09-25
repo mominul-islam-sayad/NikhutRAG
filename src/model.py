@@ -175,11 +175,16 @@ def predict_one(
     device: str = "cpu",
     max_length: int = 256,
     threshold: float = cfg.SPAN_THRESHOLD,
+    word_scheme: str = "regex",
 ) -> dict:
-    """Single-example path used by the UI and the latency benchmark."""
-    from .data import encode_example
+    """Single-example path used by the UI and the latency benchmark.
 
-    words = str(answer).split()
+    ``word_scheme`` must be the one the checkpoint was trained with (saved in
+    its metrics JSON), so the answer is cut into the same words as training.
+    """
+    from .data import encode_example, tokenize_answer
+
+    words = tokenize_answer(answer, word_scheme)
     feat, _ = encode_example(question, context, words, [0] * len(words), tokenizer, max_length)
     labels = feat.pop("labels")
     batch = {k: torch.tensor([v], device=device) for k, v in feat.items()}

@@ -2,16 +2,19 @@
 
 Two things this module exists to prevent, both called out in CLAUDE.md:
 
-1. Split leakage. Every context appears twice, once faithful and once
-   hallucinated. Splitting rows at random puts the same context on both sides
-   and the reported F1 stops meaning anything. Splits here are always grouped on
-   the base id, and additionally stratified by domain so a small domain cannot
-   vanish from a split.                                         
+1. Split leakage. Every context appears several times, with faithful and
+   hallucinated answers (2, 4 or 6 rows per context in the 4,000-row dataset).
+   Splitting rows at random puts the same context on both sides and the
+   reported F1 stops meaning anything. Splits here are always grouped on the
+   context (``group_id``), and additionally stratified by domain so a small
+   domain cannot vanish from a split.
 
-2. Silent label misalignment. Answer subword labels are derived through
-   ``word_ids()`` on the pre-split answer words, never reconstructed from
-   character offsets, and any answer word that receives zero subwords is
-   counted and reported rather than dropped quietly.
+2. Silent label misalignment. The labelled words are the words in
+   ``token_labels``, and the loader proves they can be reproduced from the raw
+   answer (see ``tokenize_answer``) so inference cuts answers identically.
+   Subword labels are derived through ``word_ids()`` on those words, never
+   reconstructed from character offsets, and any answer word that receives
+   zero subwords is counted and reported rather than dropped quietly.
 
 The CSV in data/ is a sample; the real dataset is built elsewhere. So the
 schema is validated explicitly and the sequence length is measured rather than
@@ -33,6 +36,27 @@ from torch.utils.data import Dataset
 from . import config as cfg
 
 BENGALI_RE = re.compile(r"[ঀ-৿]")
+#: Letters from scripts that have no business in a Bangla/English dataset
+#: (Armenian, Devanagari, ...). The generator has leaked a few into words.
+#: The danda U+0964 and double danda U+0965 are shared with Bangla and excluded.
+FOREIGN_LETTER_RE = re.compile(r"[\u0370-\u0963\u0966-\u097F\u0A00-\u0DFF]")
+ANSWER_TOKEN_RE = re.compile(cfg.ANSWER_TOKEN_PATTERN)
+
+WORD_SCHEMES = ("regex", "whitespace")
+
+
+def tokenize_answer(text: str, scheme: str = "regex") -> list[str]:
+    """Cut an answer into labelled words exactly as the dataset does.
+
+    Training reads words from ``token_labels``; inference has only the raw
+    answer. Both must agree or predicted and gold words stop lining up, so the
+    scheme a dataset uses is detected at load time and saved with each run.
+    """
+    if scheme == "regex":
+        return ANSWER_TOKEN_RE.findall(str(text))
+    if scheme == "whitespace":
+        return str(text).split()
+    raise ValueError(f"unknown word scheme {scheme!r}; expected one of {WORD_SCHEMES}")
 
 
 # --------------------------------------------------------------------------
@@ -68,6 +92,14 @@ class IntegrityReport:
     answer_overflow: list[str] = field(default_factory=list)
     #: Examples where context had to be truncated to fit.
     context_truncated: list[str] = field(default_factory=list)
+    #: Letters from an unrelated script inside the answer or context.
+    foreign_script: list[str] = field(default_factory=list)
+    #: Groups that do not contain both a faithful and a hallucinated row.
+    groups_missing_a_label: int = 0
+    #: How answers are cut into words; see tokenize_answer.
+    word_scheme: str = ""
+    #: Which column (or id rule) the split groups on.
+    group_key: str = ""
 
     def summary(self) -> str:
         # Each rate is quoted against the population it can actually occur in.
@@ -80,8 +112,10 @@ class IntegrityReport:
         lines = [
             (
                 f"rows={rows} (faithful={faith}, hallucinated={halluc})  "
-                f"groups={self.n_groups}  group sizes={self.group_sizes}"
+                f"groups={self.n_groups} on {self.group_key}  group sizes={self.group_sizes}"
             ),
+            f"  answer word scheme           : {self.word_scheme}",
+            f"  groups lacking a F/H pair    : {self.groups_missing_a_label}",
             (
                 f"  label=1 but no token flagged : "
                 f"{pct(len(self.label_says_hallucinated_tokens_say_clean), halluc, 'hallucinated')}"
@@ -100,6 +134,7 @@ class IntegrityReport:
                 f"{pct(len(self.fully_flagged), halluc, 'hallucinated')}"
             ),
             f"  no Bengali script            : {pct(len(self.non_bangla), rows, 'all rows')}",
+            f"  foreign-script letters       : {pct(len(self.foreign_script), rows, 'all rows')}",
         ]
         if self.zero_subword_words:
             lines.append(f"  answer words -> 0 subwords   : {self.zero_subword_words}  <-- labels lost")
@@ -121,11 +156,40 @@ class IntegrityReport:
 
 
 def _parse_token_labels(raw: object) -> list[tuple[str, int]]:
-    if isinstance(raw, (list, tuple)):
-        pairs = raw
-    else:
-        pairs = json.loads(str(raw))
-    return [(str(w), int(l)) for w, l in pairs]
+    """Accept ``[[word, label], ...]`` (first sample, RAGTruth adapter) or
+    ``[{"token": word, "label": label}, ...]`` (4,000-row dataset)."""
+    items = raw if isinstance(raw, (list, tuple)) else json.loads(str(raw))
+    out = []
+    for it in items:
+        if isinstance(it, dict):
+            out.append((str(it["token"]), int(it["label"])))
+        else:
+            w, l = it
+            out.append((str(w), int(l)))
+    return out
+
+
+def _detect_word_scheme(df: pd.DataFrame, schema: cfg.ColumnSchema) -> str:
+    """Find the scheme that reproduces token_labels from the raw answer.
+
+    Every row must fit the same scheme: a checkpoint is served with one scheme,
+    so a mixed dataset would train on words inference can never produce.
+    """
+    answers = df[schema.answer].astype(str)
+    gold = df["_tokens"].map(lambda t: [w for w, _ in t])
+    failures: dict[str, int] = {}
+    first = None
+    for scheme in WORD_SCHEMES:
+        bad = [i for i, (a, g) in enumerate(zip(answers, gold)) if tokenize_answer(a, scheme) != g]
+        if not bad:
+            return scheme
+        failures[scheme] = len(bad)
+        first = first or df.iloc[bad[0]][schema.id]
+    raise ValueError(
+        f"token_labels words cannot be reproduced from the answer text by any known "
+        f"scheme (rows failing: {failures}; first row {first}). Label alignment at "
+        f"inference would be impossible. Update ANSWER_TOKEN_PATTERN in src/config.py."
+    )
 
 
 def load_dataframe(
@@ -161,44 +225,45 @@ def load_dataframe(
     except Exception as exc:  # noqa: BLE001
         raise ValueError(f"could not parse {schema.token_labels!r}: {exc}") from exc
 
-    df["_words"] = df[schema.answer].astype(str).str.split()
+    # The labelled words come from token_labels, and must be reproducible from
+    # the raw answer so inference can cut unseen answers the same way.
+    word_scheme = _detect_word_scheme(df, schema)
+    df["_words"] = df["_tokens"].map(lambda t: [w for w, _ in t])
 
-    bad_len = df[df["_tokens"].map(len) != df["_words"].map(len)]
-    if len(bad_len):
-        raise ValueError(
-            f"{len(bad_len)} rows where len(token_labels) != len(answer.split()); "
-            f"label alignment is impossible. First: {bad_len.iloc[0][schema.id]}"
-        )
-
-    mismatched = [
-        r[schema.id]
-        for _, r in df.iterrows()
-        if any(tw != aw for (tw, _), aw in zip(r["_tokens"], r["_words"]))
-    ]
-    if mismatched:
-        raise ValueError(
-            f"{len(mismatched)} rows where token_labels words differ from "
-            f"answer.split(). First: {mismatched[0]}"
-        )
-
-    # --- base id ----------------------------------------------------------
-    df["base_id"] = df[schema.id].astype(str).str.replace(cfg.ID_SUFFIX_PATTERN, "", regex=True)
-    unchanged = (df["base_id"] == df[schema.id].astype(str)).sum()
-    if unchanged == len(df):
-        raise ValueError(
-            f"ID_SUFFIX_PATTERN {cfg.ID_SUFFIX_PATTERN!r} matched no id. Without a "
-            f"working base id the group split cannot prevent leakage. Example id: "
-            f"{df[schema.id].iloc[0]!r}"
-        )
+    # --- group id ---------------------------------------------------------
+    # Rows sharing a context must stay on one side of every split.
+    if schema.group and schema.group in df.columns:
+        if df[schema.group].isna().any():
+            raise ValueError(f"{int(df[schema.group].isna().sum())} rows have no {schema.group!r}")
+        df["group_id"] = df[schema.group].astype(str)
+        group_key = schema.group
+    else:
+        df["group_id"] = df[schema.id].astype(str).str.replace(cfg.ID_SUFFIX_PATTERN, "", regex=True)
+        group_key = f"{schema.id} minus {cfg.ID_SUFFIX_PATTERN}"
+        if (df["group_id"] == df[schema.id].astype(str)).all():
+            raise ValueError(
+                f"no {schema.group!r} column and ID_SUFFIX_PATTERN {cfg.ID_SUFFIX_PATTERN!r} "
+                f"matched no id. Without a group key the split cannot prevent leakage. "
+                f"Example id: {df[schema.id].iloc[0]!r}"
+            )
+    # A context that appears under two different texts would mean the group
+    # key does not actually identify the context.
+    if df.groupby("group_id")[schema.context].nunique().max() > 1:
+        raise ValueError(f"some {group_key} groups contain more than one distinct context")
+    if df.groupby(schema.context)["group_id"].nunique().max() > 1:
+        raise ValueError(f"the same context text appears under several {group_key} values; grouping would leak")
 
     df["_n_pos"] = df["_tokens"].map(lambda t: sum(l for _, l in t))
     df["_any_pos"] = (df["_n_pos"] > 0).astype(int)
 
     # --- report -----------------------------------------------------------
-    rep = IntegrityReport(n_rows=len(df), n_groups=df["base_id"].nunique())
-    rep.group_sizes = dict(pd.Series(df.groupby("base_id").size()).value_counts().sort_index())
+    rep = IntegrityReport(n_rows=len(df), n_groups=df["group_id"].nunique())
+    rep.word_scheme = word_scheme
+    rep.group_key = group_key
+    rep.group_sizes = dict(pd.Series(df.groupby("group_id").size()).value_counts().sort_index())
 
     labels = df[schema.label].astype(int)
+    rep.groups_missing_a_label = int((labels.groupby(df["group_id"]).nunique() < 2).sum())
     rep.n_hallucinated = int((labels == 1).sum())
     rep.n_faithful = int((labels == 0).sum())
     rep.label_says_hallucinated_tokens_say_clean = df.loc[
@@ -216,13 +281,19 @@ def load_dataframe(
             span = r[schema.hallucinated_span]
             if not isinstance(span, str) or not span.strip():
                 continue
-            flagged = " ".join(w for w, l in r["_tokens"] if l).strip()
-            if flagged and flagged != span.strip():
+            # Compared without whitespace: punctuation is its own word in the
+            # regex scheme, so "১০ %" and "১০%" are the same span.
+            flagged = "".join(w for w, l in r["_tokens"] if l)
+            if flagged and flagged != "".join(span.split()):
                 rep.span_token_mismatch.append(r[schema.id])
 
     has_bn = lambda s: bool(BENGALI_RE.search(str(s)))  # noqa: E731
     non_bangla_mask = ~df[schema.context].map(has_bn) | ~df[schema.answer].map(has_bn)
     rep.non_bangla = df.loc[non_bangla_mask, schema.id].tolist()
+    has_foreign = lambda s: bool(FOREIGN_LETTER_RE.search(str(s)))  # noqa: E731
+    rep.foreign_script = df.loc[
+        df[schema.context].map(has_foreign) | df[schema.answer].map(has_foreign), schema.id
+    ].tolist()
 
     drop_non_bangla = cfg.DROP_NON_BANGLA if drop_non_bangla is None else drop_non_bangla
     if drop_non_bangla:
@@ -270,7 +341,7 @@ def group_split(
     stratify_by_domain: bool | None = None,
     verbose: bool = True,
 ) -> dict[str, pd.DataFrame]:
-    """Split on ``base_id`` so twin rows never separate.
+    """Split on ``group_id`` so twin rows never separate.
 
     CLAUDE.md suggests GroupShuffleSplit or StratifiedGroupKFold. This does the
     grouping *and* the domain stratification in one pass by partitioning groups
@@ -282,21 +353,21 @@ def group_split(
         raise ValueError(f"split fractions must sum to 1, got {fracs} = {sum(fracs)}")
     stratify = cfg.STRATIFY_BY_DOMAIN if stratify_by_domain is None else stratify_by_domain
 
-    if "base_id" not in df.columns:
-        raise ValueError("call load_dataframe() first; base_id is missing")
+    if "group_id" not in df.columns:
+        raise ValueError("call load_dataframe() first; group_id is missing")
 
     domain_col = schema.domain if (stratify and schema.domain in df.columns) else None
 
-    groups = df.groupby("base_id")
+    groups = df.groupby("group_id")
     if domain_col:
         gdom = groups[domain_col].agg(lambda s: s.iloc[0])
         impure = groups[domain_col].nunique()
         if (impure > 1).any():
             n = int((impure > 1).sum())
-            raise ValueError(f"{n} base_ids span more than one domain; grouping is unsafe")
+            raise ValueError(f"{n} group_ids span more than one domain; grouping is unsafe")
         strata = {d: gdom.index[gdom == d].to_numpy() for d in sorted(gdom.unique())}
     else:
-        strata = {"_all": np.array(sorted(df["base_id"].unique()))}
+        strata = {"_all": np.array(sorted(df["group_id"].unique()))}
 
     rng = np.random.default_rng(seed)
     buckets: list[list[str]] = [[], [], []]
@@ -307,33 +378,33 @@ def group_split(
 
     names = ("train", "val", "test")
     out = {
-        name: df[df["base_id"].isin(set(ids))].reset_index(drop=True)
+        name: df[df["group_id"].isin(set(ids))].reset_index(drop=True)
         for name, ids in zip(names, buckets)
     }
 
-    # Leakage assertion: base_id sets must be pairwise disjoint.
-    sets = [set(out[n]["base_id"]) for n in names]
+    # Leakage assertion: group_id sets must be pairwise disjoint.
+    sets = [set(out[n]["group_id"]) for n in names]
     for i in range(3):
         for j in range(i + 1, 3):
             overlap = sets[i] & sets[j]
             if overlap:
                 raise AssertionError(
-                    f"LEAKAGE: {len(overlap)} base_ids in both {names[i]} and {names[j]}"
+                    f"LEAKAGE: {len(overlap)} group_ids in both {names[i]} and {names[j]}"
                 )
 
     if verbose:
-        print("\n[split] grouped on base_id" + (", stratified by domain" if domain_col else ""))
+        print("\n[split] grouped on group_id" + (", stratified by domain" if domain_col else ""))
         for name in names:
             d = out[name]
             share = f"{len(d) / max(len(df), 1):.0%}"
             pos = d[schema.label].astype(int).mean() if len(d) else float("nan")
-            print(f"  {name:<6} rows={len(d):<6} groups={d['base_id'].nunique():<6} ({share})  pos_rate={pos:.3f}")
+            print(f"  {name:<6} rows={len(d):<6} groups={d['group_id'].nunique():<6} ({share})  pos_rate={pos:.3f}")
         if domain_col:
             print("  domain coverage:")
             for name in names:
                 counts = out[name][domain_col].value_counts().to_dict()
                 print(f"    {name:<6} {counts}")
-        print("  leakage check: PASSED (no base_id shared across splits)")
+        print("  leakage check: PASSED (no group_id shared across splits)")
 
     return out
 

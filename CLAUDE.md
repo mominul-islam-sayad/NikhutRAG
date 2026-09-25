@@ -64,90 +64,118 @@ comparison** (see below) and must be raised, and the unit must change.
 
 ## The dataset
 
-`data/bangla_rag_hallucination_8k.csv` is **a sample, not the final dataset.** The real
-one is being built outside this repo. Everything below describes the sample and will
-change — do not hardcode any of it. `src/data.py` validates and measures instead.
+`data/bangla_rag_halu_4000.csv` (committed 2026-09-25) replaced the first 2,652-row
+sample `bangla_rag_hallucination_8k.csv`. It is still being built outside this repo and
+may change again — do not hardcode any of it. `src/data.py` validates and measures
+instead, and prints all of the checks below on every load.
 
-| Property | Value (sample) |
+| Property | Value (4,000-row dataset) |
 |---|---|
-| Rows | 2,652 |
-| Unique context+question pairs | 1,326 |
-| Structure | every pair has a faithful `_F` row and a hallucinated `_H` row |
-| Class balance | exactly 50/50 |
-| Rows lacking Bengali script | **10**, not the 4 previously recorded |
+| Rows | 4,000 (2,000 faithful, 2,000 hallucinated — exactly 50/50) |
+| Contexts (`context_id`) | 943, with **2, 4 or 6 rows each** (230 / 369 / 344 contexts) |
+| Structure | each context+question has one faithful and one hallucinated answer; every context has both labels |
+| IDs | `BDA_0001`, `HIS_0050`, … — **no `_F`/`_H` suffix any more** |
+| `token_labels` format | `[{"token": w, "label": l}, …]`, punctuation split off as its own token |
+| Answer length | 15 words median, p95 27, max 51; **96% are a single sentence** |
+| Context length | 71 words median, max 219 |
+| Rows lacking Bengali script | 0 |
+| Rows with foreign-script letters | 23 — 3 are real corruption inside an answer word (`কবিতայ`, `আওत`, `सार्वजनिक`), 20 are in contexts |
 | Human verified | 0% |
+| Source | Bangla Wikipedia 3,658, DGHS 162, National Portal 126, Ministry of Education 48, BANBEIS 6 |
 
-Domains: Agriculture 1000, History 970, Government Services 638, Bangladesh Affairs 44.
+Domains: 500 each of Bangladesh Affairs, History, Healthcare, Agriculture, Government
+Services, Education, Universities, Science & Technology.
 
-Hallucination types: `number_error` 480, `entity_replacement` 389, `date_error` 251,
-`fabricated_fact` 173, `contradiction` 33, `none` 1326.
+Hallucination types: `fabricated_info` 334, `entity_replacement` 334, `omission` 333,
+`contradiction` 333, `number_error` 333, `date_error` 333, `none` 2000. Note `omission`
+is new and `fabricated_fact` was renamed `fabricated_info`.
 
-The 10 non-Bangla rows are 4 fully-English plus 6 with Bangla questions and Latin or
-numeric answers (`1764`, `Dell Inspiron 15।`, `Ministry of Foreign Affairs`).
-`config.DROP_NON_BANGLA` controls them and the count is printed on every load.
+`config.DROP_NON_BANGLA` still exists but currently affects no rows.
 
 ## Three things that must not be gotten wrong
 
 ### 1. Split leakage
 
-Each context appears exactly twice. A random row-level split puts the same context on
-both sides and the reported F1 becomes meaningless.
+Each context appears 2, 4 or 6 times, under different questions and with faithful and
+hallucinated answers. A random row-level split puts the same context on both sides and
+the reported F1 becomes meaningless.
 
-**Always group-split on the base ID** (`BD_HIS_01519_F` → `BD_HIS_01519`). Implemented
-in `src/data.py:group_split`, which groups *and* stratifies by domain in one pass and
-asserts the splits are disjoint. Plain `GroupShuffleSplit` would not keep Bangladesh
-Affairs (44 rows) in every split; this does — 30/6/8.
+**Always group-split on `context_id`** (`ColumnSchema.group`). Grouping on the ID alone
+would now be **wrong**: IDs are unique per row, so the old `_F`/`_H` suffix rule would
+leak. The loader falls back to the suffix rule only when the column is missing (old
+sample, RAGTruth adapter), and it refuses to load if one context text appears under two
+`context_id`s or one `context_id` holds two texts.
 
-### 2. The lexical baseline is stronger than the target
+Implemented in `src/data.py:group_split`, which groups *and* stratifies by domain in one
+pass and asserts the splits are disjoint. On the 4,000-row dataset: train 2,824 rows /
+659 contexts, val 588 / 142, test 588 / 142, all eight domains in every split,
+positive rate 0.500 in each.
 
-Flagging any answer word absent from the context — no model, no training — measured on
-the full sample:
+### 2. The lexical baseline — always in the table
 
-| mode | ex_P | ex_R | ex_F1 | ex_Acc | AUROC | word_F1 | span_exact |
-|---|---|---|---|---|---|---|---|
-| `exact` | 0.838 | 0.986 | **0.906** | 0.898 | 0.896 | 0.541 | 0.387 |
-| `morph` | 0.915 | 0.964 | **0.939** | 0.937 | 0.942 | 0.581 | 0.391 |
+Flagging any answer word absent from the context — no model, no training. On the first
+sample it scored example F1 0.939 (`morph`), above the paper's >75% target. On the
+**4,000-row dataset it collapses**, because in 24% of hallucinated rows every flagged
+word also appears verbatim somewhere in the context:
 
-`exact` is the variant previously recorded here as F1 0.900. It is **handicapped by
-Bangla morphology** — `গ্রিসে` does not string-match `গ্রিস`. `morph` absorbs case
-suffixes and the danda and is **the honest bar**. Report `morph`.
+| mode | split | ex_P | ex_R | ex_F1 | ex_Acc | AUROC | word_F1 | span_F1 | span_exact | span_partial |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `exact` | test (588) | 0.523 | 0.952 | 0.676 | 0.543 | 0.641 | 0.333 | 0.072 | 0.207 | 0.820 |
+| `morph` | test (588) | 0.549 | 0.915 | **0.686** | 0.582 | 0.659 | **0.370** | 0.089 | 0.211 | 0.731 |
+| `morph` | all (4,000) | 0.553 | 0.907 | 0.687 | 0.586 | 0.674 | 0.396 | 0.094 | 0.216 | 0.744 |
+
+For comparison, the first sample (morph, all rows): ex_F1 0.939, word_F1 0.581.
+
+`exact` is **handicapped by Bangla morphology** — `গ্রিসে` does not string-match `গ্রিস`.
+`morph` absorbs case suffixes and is **the honest bar**. Report `morph`.
 
 Both live in `src/baselines.py` and **must appear in every results table**;
 `src/train.py` prints them automatically beside the model row.
 
-Note where the baseline is weak: word F1 0.581 and span exact 0.391. That gap is the
-contribution.
+Per type (morph, test): `omission` is nearly invisible to it (ex recall 0.587, word F1
+0.113), as is `entity_replacement` at word level (0.198). `fabricated_info` is its easiest
+case (word F1 0.756).
 
-### 3. The generator mislabels inflected spans
+### 3. Words at inference must be cut exactly as the labels were
 
-**66 of 1,326 hallucinated rows (5.0%) carry `label=1` with every token label 0.** They
-are unlearnable under max-over-tokens scoring and cap achievable recall. A further
-**316 (23.8%)** have flagged words disagreeing with `hallucinated_span`.
+The labelled words are the tokens in `token_labels`, **not** `answer.split()`. The
+4,000-row dataset splits punctuation (`।`, `,`, `(`, `-`, `%`) into its own tokens but
+keeps numbers whole (`১০,০০০`, `২.৫`, `1.4.1.2`), and treats only Bengali and ASCII as
+word characters. `config.ANSWER_TOKEN_PATTERN` reproduces its tokens for **all 4,000
+rows**. `src/data.py:tokenize_answer` applies it.
 
-Cause: the generator matches `hallucinated_span` to answer words by exact whitespace
-equality, which Bangla agglutination and the attached danda defeat — span `বাংলাদেশ` vs
-word `বাংলাদেশের`, span `দিল্লি` vs word `দিল্লিতে।`. 56 of the 66 are
-`entity_replacement`, because entities take case endings.
+The loader detects which scheme a dataset uses (`regex` or `whitespace`), refuses to load
+if neither fits every row, and `src/train.py` saves it as `word_scheme` in the metrics
+JSON. `app/_loader.py` reads it back, so the UI and API cut unseen answers the same way
+the checkpoint was trained. Runs with no `word_scheme` are treated as `whitespace`.
 
-**Fix this in the generator, not here:** match by substring/prefix per token, strip `।`
-first, and assert every `label=1` row ends with ≥1 positive token. `src/data.py` reports
-both counts on every load. `src/evaluate.py` excludes unusable rows from span scoring so
-a data defect is not charged to the model.
+**The first sample's generator bug is fixed in this dataset.** The sample had 66
+hallucinated rows (5.0%) with no flagged token and 316 (23.8%) whose flagged words
+disagreed with `hallucinated_span` — exact whitespace matching broke on inflection and
+the attached danda. The 4,000-row dataset has **0** of either: flagged tokens match
+`hallucinated_span` on every row once whitespace is ignored. `src/data.py` still reports
+both counts on every load, in case a regeneration brings the bug back.
 
 ## Planned dataset regeneration
 
-1. Multi-sentence answers (3–5 sentences) where only **one clause** is corrupted.
+Status against the 4,000-row dataset:
+
+1. Multi-sentence answers (3–5 sentences) where only **one clause** is corrupted —
+   **not yet**: 96% of answers are still one sentence (15 words median).
 2. Corruptions that **reuse vocabulary present elsewhere in the context**, so lexical
-   overlap cannot detect them.
-3. A **human-verified gold test set of ~200 examples**, annotated by the team.
+   overlap cannot detect them — **partly**: in 24% of hallucinated rows every flagged
+   word appears verbatim in the context, and the baseline fell from 0.939 to 0.686 ex_F1.
+3. A **human-verified gold test set of ~200 examples**, annotated by the team — **not yet**.
 4. A second test set at a **realistic class ratio**. Note: RAGTruth is **not** 15–20% —
    measured, **43.1%** of its 17,790 responses carry at least one hallucination span.
    Pick the target ratio from the deployment story being argued, not from RAGTruth, and
-   report it alongside the balanced set.
-5. Fix the span-matching bug above before regenerating.
+   report it alongside the balanced set — **not yet**; the dataset is again exactly 50/50.
+5. Fix the span-matching bug — **done** (0 unlearnable rows, 0 span mismatches).
+6. Clean the 3 answers with foreign-script letters inside Bangla words (reported on load).
 
-Note: longer answers will push sequence length past the sample's p99 of 86. `max_length`
-is measured automatically, but check `AUTO_LENGTH_CAP` and the backbone's position limit.
+Sequence length already grew: p99 is 288 subwords (was 86), max 365, so `max_length`
+auto-selects 288. That still fits BanglaBERT's 512 positions, but 3–5 sentence answers
+could push it past; the loader reports truncated contexts when it happens.
 
 ## Model choice
 
@@ -182,10 +210,11 @@ One training script driven by config: the backbone is a string in `src/config.py
 - Sequence: `[CLS] question [SEP] context [SEP] answer [SEP]`
 - **`max_length` is measured, not pinned.** `config.MAX_LENGTH = "auto"` covers the 99th
   percentile, rounded to a multiple of 32, capped by `AUTO_LENGTH_CAP` and the backbone's
-  position limit. On the sample this selects **96** (p99 = 86). The previously pinned 256
-  was ~2.7× over-padded and would have become wrong anyway once answers lengthen.
-- Tokenize the **answer with `is_split_into_words=True`** on its whitespace tokens, so
-  `word_ids()` maps subwords back to `token_labels`. Never reconstruct from char offsets.
+  position limit. On the 4,000-row dataset this selects **288** (p99 = 288, median 135);
+  on the first sample it selected 96.
+- Tokenize the **answer with `is_split_into_words=True`** on the `token_labels` words
+  (see "Words at inference" above), so `word_ids()` maps subwords back to the labels.
+  Never reconstruct from char offsets.
 - Label **only answer subword tokens**; question, context and specials get `-100`.
 - Label the **first subword** of each word, rest `-100` (`LABEL_ALL_SUBWORDS=False`).
 - **Truncation is `only_first`** — sacrifice context before the answer. Truncating the
@@ -198,10 +227,16 @@ One training script driven by config: the backbone is a string in `src/config.py
 All implemented in `src/evaluate.py`, which scores every system through one code path.
 
 - **Word-level** P/R/F1 on the hallucinated class — *headline*
-- **Span-level** exact and partial match against `hallucinated_span` — *headline*
+- **Span-level** — *headline*. Gold spans are runs of flagged words in the gold token
+  labels; spans are compared by word position, not text. Reported as span F1 (exact
+  boundaries, pooled over all rows so spans on faithful answers count as false
+  positives), span exact (share of hallucinated rows whose every gold span is predicted
+  exactly) and span partial (any overlap). Text comparison against `hallucinated_span`
+  was dropped once punctuation became its own word; the two agree on every row anyway.
 - **Example-level** P/R/F1, accuracy, AUROC — only with the baseline beside it
-- **Per hallucination type** — `contradiction` (33 rows) is the expected weak spot and
-  that should be said out loud
+- **Per hallucination type** — types are now balanced (~333 each, 41–59 per type in
+  test). `omission` is the new one and the baseline's weakest; say out loud whichever
+  type the model is weakest on.
 - **Latency**: ms per example at batch size 1, CPU and GPU separately, after ~20 warmups,
   on the actual local machine. Never on Colab — the claim is about consumer hardware.
 - **Efficiency**: parameter count, trainable count under LoRA, peak memory, wall-clock
@@ -210,8 +245,10 @@ Compare against: the lexical baseline (both modes), full fine-tuning vs LoRA, an
 least one LLM-as-a-judge reference point for the cost argument. For the RAGTruth arm,
 compare to Luna and LettuceDetect's published numbers.
 
-### LoRA vs full fine-tuning — measured 2026-09-18
+### LoRA vs full fine-tuning — first sample, measured 2026-09-18
 
+**To be superseded by the 4,000-row rerun (in progress); kept for the record.** Measured on the first
+2,652-row sample, whose baseline was far stronger, so none of these numbers transfer.
 Both run, 4 epochs, BanglaBERT, CPU, identical splits and seed:
 
 | | full | LoRA | delta |
@@ -260,8 +297,8 @@ there before generalising from this row.
 
 ## Environment
 
-Local, VS Code, CPU. `.venv` holds CPU-only torch 2.14. ~2,100 training rows, 116 steps
-per epoch, ~250s per epoch on CPU at 2.5GB peak. No cloud compute needed for the primary
+Local, VS Code, CPU. `.venv` holds CPU-only torch 2.14. 2,824 training rows, 177 steps
+per epoch at `max_length` 288. No cloud compute needed for the primary
 model. Colab is an escape hatch for mDeBERTa/mmBERT sweeps only — never for latency.
 
 ## Don't

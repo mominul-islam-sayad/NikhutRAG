@@ -118,11 +118,19 @@ class ExampleMetrics:
 
 @dataclass
 class SpanMetrics:
+    #: Share of hallucinated examples where every gold span was predicted with
+    #: exactly its boundaries.
     exact: float
+    #: Share of hallucinated examples where some predicted span overlaps a gold one.
     partial: float
+    #: Exact-boundary span P/R/F1 pooled over all examples, faithful ones
+    #: included, so a span predicted on a faithful answer is a false positive.
+    precision: float
+    recall: float
+    f1: float
     n_gold: int
-    #: Gold spans that disagree with the gold token labels. On a dataset with a
-    #: buggy generator this is large, and span scores then measure the dataset.
+    #: Hallucinated examples whose gold token labels flag nothing, so there is
+    #: no gold span to match. Excluded rather than charged to the system.
     n_unusable: int
 
 
@@ -160,41 +168,44 @@ def example_level_metrics(records: Sequence[Record]) -> ExampleMetrics:
 
 
 def span_level_metrics(records: Iterable[Record]) -> SpanMetrics:
-    """Exact and partial match of predicted spans against `hallucinated_span`.
+    """Span match by word positions, gold spans taken from the gold word labels.
 
-    Only hallucinated examples with a usable gold span are scored. A gold span
-    is unusable when the gold token labels flag nothing -- there is then no
-    consistent target and counting it would punish the model for a data bug.
+    Gold and predicted spans are both runs of flagged words over the same word
+    list, so they are compared by (start, end) rather than by text. Text
+    comparison against ``hallucinated_span`` stopped working once punctuation
+    became its own word, and the gold token labels are what the model is
+    trained on, so they are the consistent target. The 4,000-row dataset's
+    token labels agree with ``hallucinated_span`` on ~94% of rows.
     """
     exact = partial = n = unusable = 0
+    tp = n_pred = n_gold_spans = 0
     for r in records:
-        if r.gold_label != 1 or not r.gold_span:
+        gold = {(s, e) for s, e, _ in extract_spans(r.words, r.gold_word_labels)}
+        pred = {(s, e) for s, e, _ in extract_spans(r.words, r.pred_word_labels)}
+        tp += len(gold & pred)
+        n_pred += len(pred)
+        n_gold_spans += len(gold)
+
+        if r.gold_label != 1:
             continue
-        if not any(r.gold_word_labels):
+        if not gold:
             unusable += 1
             continue
         n += 1
-        gold = normalize(r.gold_span)
-        gold_toks = set(gold.split())
-        preds = [normalize(t) for _, _, t in extract_spans(r.words, r.pred_word_labels)]
-        if any(p == gold for p in preds):
+        if gold <= pred:
             exact += 1
+        if any(ps < ge and gs < pe for ps, pe in pred for gs, ge in gold):
             partial += 1
-        elif any(gold_toks & set(p.split()) for p in preds):
-            partial += 1
-        else:
-            # Bangla inflection: the predicted word may carry a case suffix the
-            # bare gold span lacks, so fall back to prefix containment.
-            joined = " ".join(preds)
-            if gold and (gold in joined or any(t.startswith(g) or g.startswith(t) for g in gold_toks for t in joined.split())):
-                partial += 1
     denom = max(n, 1)
-    return SpanMetrics(exact / denom, partial / denom, n, unusable)
+    p = tp / n_pred if n_pred else 0.0
+    rc = tp / n_gold_spans if n_gold_spans else 0.0
+    f1 = 2 * p * rc / (p + rc) if p + rc else 0.0
+    return SpanMetrics(exact / denom, partial / denom, p, rc, f1, n, unusable)
 
 
 def per_type_metrics(records: Sequence[Record]) -> dict[str, dict]:
-    """Per hallucination type. CLAUDE.md expects `contradiction` to be weak and
-    says so out loud; with ~33 examples the interval is wide, so n is reported."""
+    """Per hallucination type. Test-split counts per type are small (tens), so
+    the interval is wide and n is always reported beside the score."""
     out: dict[str, dict] = {}
     types = sorted({r.hallucination_type for r in records if r.hallucination_type})
     for t in types:
@@ -302,7 +313,7 @@ def format_table(reports: Sequence[dict]) -> str:
     """One row per system. The lexical baseline must always be one of them."""
     head = (
         f"{'system':<34}{'ex_P':>7}{'ex_R':>7}{'ex_F1':>7}{'ex_Acc':>8}{'AUROC':>8}"
-        f"{'wd_P':>7}{'wd_R':>7}{'wd_F1':>7}{'sp_ex':>7}{'sp_pt':>7}"
+        f"{'wd_P':>7}{'wd_R':>7}{'wd_F1':>7}{'sp_F1':>7}{'sp_ex':>7}{'sp_pt':>7}"
     )
     lines = [head, "-" * len(head)]
     for r in reports:
@@ -312,7 +323,7 @@ def format_table(reports: Sequence[dict]) -> str:
             f"{r['name']:<34}{e['precision']:>7.3f}{e['recall']:>7.3f}{e['f1']:>7.3f}"
             f"{e['accuracy']:>8.3f}{auroc:>8}"
             f"{w['precision']:>7.3f}{w['recall']:>7.3f}{w['f1']:>7.3f}"
-            f"{s['exact']:>7.3f}{s['partial']:>7.3f}"
+            f"{s['f1']:>7.3f}{s['exact']:>7.3f}{s['partial']:>7.3f}"
         )
     return "\n".join(lines)
 

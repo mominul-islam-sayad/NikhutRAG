@@ -39,6 +39,8 @@ class Bundle:
     backbone: str
     max_length: int
     is_lora: bool
+    #: How answers are cut into words; must match the checkpoint's training data.
+    word_scheme: str = "regex"
     device: str = "cpu"
     metrics: dict = field(default_factory=dict)
 
@@ -90,6 +92,8 @@ def load_bundle(checkpoint: str | Path | None = None, device: str = "cpu") -> Bu
     metrics = _metrics_for(run_name)
     backbone = metrics.get("backbone", cfg.BACKBONE)
     max_length = int(metrics.get("max_length") or DEFAULT_MAX_LENGTH)
+    # Runs predating word_scheme were trained on whitespace-split answers.
+    word_scheme = metrics.get("word_scheme", "whitespace")
     is_lora = (path / "adapter_config.json").exists()
 
     if is_lora:
@@ -114,6 +118,7 @@ def load_bundle(checkpoint: str | Path | None = None, device: str = "cpu") -> Bu
         backbone=backbone,
         max_length=max_length,
         is_lora=is_lora,
+        word_scheme=word_scheme,
         device=device,
         metrics=metrics,
     )
@@ -143,6 +148,7 @@ def analyze(
         device=bundle.device,
         max_length=bundle.max_length,
         threshold=threshold,
+        word_scheme=bundle.word_scheme,
     )
     latency_ms = (time.perf_counter() - t0) * 1000.0
 

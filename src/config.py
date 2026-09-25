@@ -22,7 +22,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 
-CSV_PATH = DATA_DIR / "bangla_rag_hallucination_8k.csv"
+CSV_PATH = DATA_DIR / "bangla_rag_halu_4000.csv"
 
 CHECKPOINT_DIR = OUTPUT_DIR / "checkpoints"
 METRICS_DIR = OUTPUT_DIR / "metrics"
@@ -48,6 +48,10 @@ class ColumnSchema:
     hallucination_type: str = "hallucination_type"
     hallucinated_span: str = "hallucinated_span"
     token_labels: str = "token_labels"
+    #: Rows sharing a value here share a context and must never be split apart.
+    #: When the column is absent (the old sample, the RAGTruth adapter) the
+    #: group key is derived from the id via ID_SUFFIX_PATTERN instead.
+    group: str = "context_id"
 
     @property
     def required(self) -> list[str]:
@@ -64,10 +68,26 @@ class ColumnSchema:
 
 COLUMNS = ColumnSchema()
 
-#: Strips the faithful/hallucinated twin marker off an id to get the group key.
-#: ``BD_HIS_01519_F`` -> ``BD_HIS_01519``. The entire anti-leakage guarantee
-#: rests on this, so data.py verifies it actually matched something.
+#: Fallback group key for datasets without a ``group`` column: strips the
+#: faithful/hallucinated twin marker off an id. ``BD_HIS_01519_F`` ->
+#: ``BD_HIS_01519``. The anti-leakage guarantee rests on the group key, so
+#: data.py verifies it actually groups something.
 ID_SUFFIX_PATTERN = r"_(F|H)$"
+
+#: How an answer string is cut into the words that carry labels. Inference must
+#: cut raw answers exactly as the dataset generator did, or predicted words and
+#: gold words stop lining up.
+#:
+#: The 4,000-row dataset splits punctuation (the danda, commas, brackets) into
+#: its own tokens but keeps numbers like ``১০,০০০`` and ``২.৫`` whole, and treats
+#: only Bengali and ASCII characters as word characters. This pattern
+#: reproduces its ``token_labels`` for every row. data.py detects which scheme a
+#: dataset uses ("regex" or "whitespace") and fails if neither fits.
+ANSWER_TOKEN_PATTERN = (
+    r"[\u09E6-\u09EF0-9]+(?:[.,/:][\u09E6-\u09EF0-9]+)+"
+    r"|[\u0980-\u09FFA-Za-z0-9\u200c\u200d]+"
+    r"|\S"
+)
 
 #: Rows whose context/answer contain no Bengali script. CLAUDE.md is explicit
 #: that these must not be dropped silently: either keep and note, or drop and
@@ -169,15 +189,15 @@ IGNORE_INDEX = -100
 # Splitting
 # --------------------------------------------------------------------------
 
-#: Grouped on base id so a context's faithful and hallucinated twins can never
+#: Grouped on the context so its faithful and hallucinated rows can never
 #: land on opposite sides of a split.
 TRAIN_FRAC = 0.70
 VAL_FRAC = 0.15
 TEST_FRAC = 0.15
 SPLIT_SEED = 42
 
-#: Bangladesh Affairs has only 44 rows in the sample and vanishes from a naive
-#: split, so stratify group assignment by domain where possible.
+#: Stratify group assignment by domain so a small domain cannot vanish from a
+#: split (Bangladesh Affairs had only 44 rows in the first sample).
 STRATIFY_BY_DOMAIN = True
 
 

@@ -1,13 +1,13 @@
 """Fine-tune the token classifier, full or LoRA, and report against the baseline.
 
-A plain PyTorch loop rather than HF Trainer: the job is ~130 steps an epoch, the
+A plain PyTorch loop rather than HF Trainer: the job is ~175 steps an epoch, the
 loss needs a class weight over answer tokens only, and a visible loop is easier
 to defend than Trainer's defaults.
 
 Every run ends by printing the results table with the lexical baseline in it.
 CLAUDE.md requires that, and for good reason -- the morphology-aware baseline
-scores example-level F1 ~0.94 on the sample, so a model row without a baseline
-row next to it says nothing about whether the model learned anything.
+scored example-level F1 ~0.94 on the first sample, so a model row without a
+baseline row next to it says nothing about whether the model learned anything.
 
     python -m src.train                      # full fine-tuning
     python -m src.train --lora               # LoRA
@@ -196,6 +196,14 @@ def train(args: argparse.Namespace) -> dict:
         "use_lora": args.lora,
         "device": device,
         "max_length": max_length,
+        "word_scheme": report.word_scheme,
+        "dataset": {
+            "csv": cfg.CSV_PATH.name,
+            "rows": report.n_rows,
+            "groups": report.n_groups,
+            "group_key": report.group_key,
+            "split_rows": {k: len(v) for k, v in splits.items()},
+        },
         "seed": args.seed,
         "config": asdict(train_cfg),
         "efficiency": eff,
@@ -210,6 +218,8 @@ def train(args: argparse.Namespace) -> dict:
             "unlearnable_rows": len(report.label_says_hallucinated_tokens_say_clean),
             "span_token_mismatch": len(report.span_token_mismatch),
             "non_bangla_rows": len(report.non_bangla),
+            "foreign_script_rows": len(report.foreign_script),
+            "context_truncated_rows": len(report.context_truncated),
         },
     }
 

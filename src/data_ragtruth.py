@@ -163,6 +163,9 @@ def load_ragtruth(
         rows.append(
             {
                 "id": f"RT_{r['source_id']}_m{k}",
+                # Several models answer each source; they share its context, so
+                # the split must group on the source (ColumnSchema.group).
+                "context_id": f"RT_{r['source_id']}",
                 "domain": task_type,
                 "context": context,
                 "question": question,

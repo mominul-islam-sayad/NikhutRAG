@@ -105,11 +105,12 @@ def run_all(split: str = "test", save: bool = False) -> list[dict]:
     target = splits[split] if split in splits else df
 
     print(f"[baseline] split={split}  rows={len(target)}")
-    print(
-        f"[baseline] NOTE: {len(report.label_says_hallucinated_tokens_say_clean)} rows in the "
-        f"full dataset carry label=1 with no flagged word, so word-level recall is "
-        f"capped below 1.0 for any system."
-    )
+    n_unlearnable = len(report.label_says_hallucinated_tokens_say_clean)
+    if n_unlearnable:
+        print(
+            f"[baseline] NOTE: {n_unlearnable} rows in the full dataset carry label=1 with "
+            f"no flagged word, so example-level recall is capped below 1.0 for any system."
+        )
 
     reports = []
     for mode in ("exact", "morph"):
