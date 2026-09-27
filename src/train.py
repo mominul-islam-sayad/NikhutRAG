@@ -33,11 +33,42 @@ from . import config as cfg
 from . import evaluate as ev
 from .baselines import LexicalOverlapBaseline
 from .data import Collator, build_datasets
-from .model import WeightedTokenLoss, attach_lora, build_model, decompose_layernorms, predict_records
+from .model import (
+    WeightedTokenLoss,
+    attach_lora,
+    build_model,
+    decompose_layernorms,
+    predict_records,
+    predict_word_probs,
+    records_from_probs,
+)
 
 
 #: Latency cycles through this many test examples at batch size 1.
 LATENCY_EXAMPLES = 30
+
+#: Word-probability thresholds swept on the validation split.
+THRESHOLD_GRID = [round(0.05 * i, 2) for i in range(1, 20)]
+
+
+def tune_threshold(dataset, probs: list[list[float]]) -> tuple[float, list[dict]]:
+    """Pick the threshold that maximises word F1 on the validation split.
+
+    Chosen on val, applied to test, never the other way round, so the tuned
+    test number is not fitted to the test set.
+    """
+    sweep = []
+    for t in THRESHOLD_GRID:
+        recs = records_from_probs(dataset, probs, t)
+        sweep.append(
+            {
+                "threshold": t,
+                "word_f1": ev.word_level_metrics(recs).f1,
+                "span_f1": ev.span_level_metrics(recs).f1,
+            }
+        )
+    best = max(sweep, key=lambda r: (r["word_f1"], -abs(r["threshold"] - cfg.SPAN_THRESHOLD)))
+    return best["threshold"], sweep
 
 
 def set_seed(seed: int) -> None:
@@ -109,6 +140,8 @@ def train(args: argparse.Namespace) -> dict:
 
     set_seed(args.seed)
     run_name = f"{args.backbone.split('/')[-1]}-{'lora' if args.lora else 'full'}"
+    if args.run_tag:
+        run_name += f"-{args.run_tag}"
     if args.limit_rows:
         run_name += "-smoke"
     print(f"[train] run={run_name}  device={device_name}  machine={platform.processor() or platform.machine()}")
@@ -223,16 +256,26 @@ def train(args: argparse.Namespace) -> dict:
         model.load_state_dict(best_state)
 
     # ---- final evaluation, always alongside the baseline --------------------
-    test_report = evaluate_split(
-        model, datasets["test"], tokenizer, device, run_name, train_cfg.eval_batch_size
+    # Probabilities once per split; every threshold is scored from them.
+    val_probs = predict_word_probs(
+        model, datasets["val"], tokenizer, device=device, batch_size=train_cfg.eval_batch_size
     )
+    test_probs = predict_word_probs(
+        model, datasets["test"], tokenizer, device=device, batch_size=train_cfg.eval_batch_size
+    )
+    tuned_t, sweep = tune_threshold(datasets["val"], val_probs)
+    test_report = ev.full_report(records_from_probs(datasets["test"], test_probs), run_name)
+    tuned_report = ev.full_report(
+        records_from_probs(datasets["test"], test_probs, tuned_t), f"{run_name} @t={tuned_t}"
+    )
+    print(f"\n[train] threshold tuned on val: {tuned_t} (default {cfg.SPAN_THRESHOLD})")
     baseline_reports = []
     for mode in ("exact", "morph"):
         bl = LexicalOverlapBaseline(mode=mode)
         baseline_reports.append(ev.full_report(bl.run(splits["test"]), bl.name))
 
     print("\n=== test results ===")
-    print(ev.format_table(baseline_reports + [test_report]))
+    print(ev.format_table(baseline_reports + [test_report, tuned_report]))
 
     print("\nper hallucination type:")
     for t, m in test_report["per_type"].items():
@@ -295,6 +338,9 @@ def train(args: argparse.Namespace) -> dict:
         "best_epoch": best_epoch,
         "history": history,
         "test": test_report,
+        "threshold_tuned": tuned_t,
+        "test_tuned": tuned_report,
+        "val_threshold_sweep": sweep,
         "baselines": baseline_reports,
         "latency": lat,
         "dataset_caveats": {
@@ -337,6 +383,7 @@ def main() -> None:
     ap.add_argument("--batch-size", type=int, default=None, help="per-step batch (default: config)")
     ap.add_argument("--grad-accum", type=int, default=None, help="batches per optimizer step")
     ap.add_argument("--eval-batch-size", type=int, default=None)
+    ap.add_argument("--run-tag", default="", help="appended to the run name, e.g. e10-s43")
     ap.add_argument("--grad-checkpointing", action="store_true", help="trade ~30%% speed for memory")
     ap.add_argument(
         "--limit-rows", type=int, default=0, help="smoke test: N rows per split, run name gets -smoke"

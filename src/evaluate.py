@@ -312,7 +312,7 @@ def full_report(records: Sequence[Record], name: str) -> dict:
 def format_table(reports: Sequence[dict]) -> str:
     """One row per system. The lexical baseline must always be one of them."""
     head = (
-        f"{'system':<34}{'ex_P':>7}{'ex_R':>7}{'ex_F1':>7}{'ex_Acc':>8}{'AUROC':>8}"
+        f"{'system':<44}{'ex_P':>7}{'ex_R':>7}{'ex_F1':>7}{'ex_Acc':>8}{'AUROC':>8}"
         f"{'wd_P':>7}{'wd_R':>7}{'wd_F1':>7}{'sp_F1':>7}{'sp_ex':>7}{'sp_pt':>7}"
     )
     lines = [head, "-" * len(head)]
@@ -320,7 +320,7 @@ def format_table(reports: Sequence[dict]) -> str:
         e, w, s = r["example_level"], r["word_level"], r["span_level"]
         auroc = f"{e['auroc']:.3f}" if e["auroc"] is not None else "  n/a"
         lines.append(
-            f"{r['name']:<34}{e['precision']:>7.3f}{e['recall']:>7.3f}{e['f1']:>7.3f}"
+            f"{r['name']:<44}{e['precision']:>7.3f}{e['recall']:>7.3f}{e['f1']:>7.3f}"
             f"{e['accuracy']:>8.3f}{auroc:>8}"
             f"{w['precision']:>7.3f}{w['recall']:>7.3f}{w['f1']:>7.3f}"
             f"{s['f1']:>7.3f}{s['exact']:>7.3f}{s['partial']:>7.3f}"

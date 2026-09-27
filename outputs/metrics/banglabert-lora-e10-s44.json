@@ -1,0 +1,703 @@
+{
+  "run": "banglabert-lora-e10-s44",
+  "backbone": "csebuetnlp/banglabert",
+  "use_lora": true,
+  "device": "dml",
+  "max_length": 288,
+  "word_scheme": "regex",
+  "dataset": {
+    "csv": "bangla_rag_halu_4000.csv",
+    "rows": 4000,
+    "groups": 943,
+    "group_key": "context_id",
+    "split_rows": {
+      "train": 2824,
+      "val": 588,
+      "test": 588
+    }
+  },
+  "seed": 44,
+  "config": {
+    "backbone": "csebuetnlp/banglabert",
+    "epochs": 10,
+    "train_batch_size": 8,
+    "eval_batch_size": 8,
+    "learning_rate": 3e-05,
+    "lora_learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "max_grad_norm": 1.0,
+    "seed": 42,
+    "fp16": false,
+    "use_lora": true,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.1,
+    "positive_class_weight": 1.0,
+    "grad_accum_steps": 2,
+    "gradient_checkpointing": false,
+    "early_stopping_patience": 2,
+    "metric_for_best_model": "token_f1",
+    "extra": {}
+  },
+  "efficiency": {
+    "total_params": 110914564,
+    "trainable_params": 886274,
+    "trainable_pct": 0.7990600765468455,
+    "param_budget_500m_ok": true,
+    "fp32_size_mb": 423.10548400878906
+  },
+  "train_seconds": 1730.1197354999986,
+  "peak_memory_mb": 5499.63671875,
+  "best_epoch": 7,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.35443626029717684,
+      "val_word_f1": 0.7247524752475247,
+      "val_example_f1": 0.8380952380952381,
+      "val_auroc": 0.9576333934934518
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.11544753549351401,
+      "val_word_f1": 0.7687614399023796,
+      "val_example_f1": 0.9094138543516874,
+      "val_auroc": 0.9779952797445509
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.08344733790908716,
+      "val_word_f1": 0.8246828143021915,
+      "val_example_f1": 0.9298245614035088,
+      "val_auroc": 0.9822296265444953
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.06331573094758429,
+      "val_word_f1": 0.8327566320645905,
+      "val_example_f1": 0.9333333333333333,
+      "val_auroc": 0.9843583691980194
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.04757812063746608,
+      "val_word_f1": 0.827313769751693,
+      "val_example_f1": 0.9372822299651568,
+      "val_auroc": 0.9844972002406405
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.03967544460760181,
+      "val_word_f1": 0.8337965536409117,
+      "val_example_f1": 0.9433962264150944,
+      "val_auroc": 0.9836526447313619
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.03284691930956289,
+      "val_word_f1": 0.8447488584474886,
+      "val_example_f1": 0.9446366782006921,
+      "val_auroc": 0.9845897542690546
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.028517902125314236,
+      "val_word_f1": 0.8416988416988417,
+      "val_example_f1": 0.9504273504273504,
+      "val_auroc": 0.9845781850155028
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.024200102566146468,
+      "val_word_f1": 0.844097995545657,
+      "val_example_f1": 0.9466437177280551,
+      "val_auroc": 0.9847748623258827
+    }
+  ],
+  "test": {
+    "name": "banglabert-lora-e10-s44",
+    "n_examples": 588,
+    "word_level": {
+      "precision": 0.8979343863912516,
+      "recall": 0.7845010615711253,
+      "f1": 0.8373937677053824,
+      "support": 942,
+      "tp": 739,
+      "fp": 84,
+      "fn": 203
+    },
+    "example_level": {
+      "precision": 0.9540636042402827,
+      "recall": 0.9183673469387755,
+      "f1": 0.9358752166377816,
+      "accuracy": 0.9370748299319728,
+      "auroc": 0.9796381137489009,
+      "n": 588
+    },
+    "span_level": {
+      "exact": 0.5340136054421769,
+      "partial": 0.9183673469387755,
+      "precision": 0.5322033898305085,
+      "recall": 0.5340136054421769,
+      "f1": 0.533106960950764,
+      "n_gold": 294,
+      "n_unusable": 0
+    },
+    "per_type": {
+      "contradiction": {
+        "n": 58,
+        "n_hallucinated": 58,
+        "example_recall": 0.9655172413793104,
+        "word_f1": 0.8467966573816156
+      },
+      "date_error": {
+        "n": 41,
+        "n_hallucinated": 41,
+        "example_recall": 1.0,
+        "word_f1": 0.8125
+      },
+      "entity_replacement": {
+        "n": 46,
+        "n_hallucinated": 46,
+        "example_recall": 0.8043478260869565,
+        "word_f1": 0.6666666666666666
+      },
+      "fabricated_info": {
+        "n": 44,
+        "n_hallucinated": 44,
+        "example_recall": 1.0,
+        "word_f1": 0.9863842662632375
+      },
+      "none": {
+        "n": 294,
+        "n_hallucinated": 0,
+        "example_recall": null,
+        "word_f1": 0.0
+      },
+      "number_error": {
+        "n": 59,
+        "n_hallucinated": 59,
+        "example_recall": 0.9661016949152542,
+        "word_f1": 0.8181818181818182
+      },
+      "omission": {
+        "n": 46,
+        "n_hallucinated": 46,
+        "example_recall": 0.7608695652173914,
+        "word_f1": 0.6271186440677966
+      }
+    },
+    "per_domain": {
+      "Agriculture": {
+        "n": 76,
+        "example_f1": 0.868421052631579,
+        "accuracy": 0.868421052631579
+      },
+      "Bangladesh Affairs": {
+        "n": 74,
+        "example_f1": 0.9014084507042254,
+        "accuracy": 0.9054054054054054
+      },
+      "Education": {
+        "n": 78,
+        "example_f1": 0.987012987012987,
+        "accuracy": 0.9871794871794872
+      },
+      "Government Services": {
+        "n": 64,
+        "example_f1": 0.9333333333333333,
+        "accuracy": 0.9375
+      },
+      "Healthcare": {
+        "n": 72,
+        "example_f1": 0.927536231884058,
+        "accuracy": 0.9305555555555556
+      },
+      "History": {
+        "n": 68,
+        "example_f1": 0.9714285714285714,
+        "accuracy": 0.9705882352941176
+      },
+      "Science & Technology": {
+        "n": 76,
+        "example_f1": 0.9487179487179487,
+        "accuracy": 0.9473684210526315
+      },
+      "Universities": {
+        "n": 80,
+        "example_f1": 0.9473684210526315,
+        "accuracy": 0.95
+      }
+    }
+  },
+  "threshold_tuned": 0.45,
+  "test_tuned": {
+    "name": "banglabert-lora-e10-s44 @t=0.45",
+    "n_examples": 588,
+    "word_level": {
+      "precision": 0.8896797153024911,
+      "recall": 0.7961783439490446,
+      "f1": 0.8403361344537815,
+      "support": 942,
+      "tp": 750,
+      "fp": 93,
+      "fn": 192
+    },
+    "example_level": {
+      "precision": 0.954225352112676,
+      "recall": 0.9217687074829932,
+      "f1": 0.9377162629757786,
+      "accuracy": 0.9387755102040817,
+      "auroc": 0.9796381137489009,
+      "n": 588
+    },
+    "span_level": {
+      "exact": 0.5340136054421769,
+      "partial": 0.9217687074829932,
+      "precision": 0.5250836120401338,
+      "recall": 0.5340136054421769,
+      "f1": 0.5295109612141652,
+      "n_gold": 294,
+      "n_unusable": 0
+    },
+    "per_type": {
+      "contradiction": {
+        "n": 58,
+        "n_hallucinated": 58,
+        "example_recall": 0.9655172413793104,
+        "word_f1": 0.8476454293628809
+      },
+      "date_error": {
+        "n": 41,
+        "n_hallucinated": 41,
+        "example_recall": 1.0,
+        "word_f1": 0.8270676691729323
+      },
+      "entity_replacement": {
+        "n": 46,
+        "n_hallucinated": 46,
+        "example_recall": 0.8043478260869565,
+        "word_f1": 0.6839378238341969
+      },
+      "fabricated_info": {
+        "n": 44,
+        "n_hallucinated": 44,
+        "example_recall": 1.0,
+        "word_f1": 0.9863842662632375
+      },
+      "none": {
+        "n": 294,
+        "n_hallucinated": 0,
+        "example_recall": null,
+        "word_f1": 0.0
+      },
+      "number_error": {
+        "n": 59,
+        "n_hallucinated": 59,
+        "example_recall": 0.9830508474576272,
+        "word_f1": 0.819672131147541
+      },
+      "omission": {
+        "n": 46,
+        "n_hallucinated": 46,
+        "example_recall": 0.7608695652173914,
+        "word_f1": 0.6302521008403361
+      }
+    },
+    "per_domain": {
+      "Agriculture": {
+        "n": 76,
+        "example_f1": 0.868421052631579,
+        "accuracy": 0.868421052631579
+      },
+      "Bangladesh Affairs": {
+        "n": 74,
+        "example_f1": 0.9014084507042254,
+        "accuracy": 0.9054054054054054
+      },
+      "Education": {
+        "n": 78,
+        "example_f1": 0.987012987012987,
+        "accuracy": 0.9871794871794872
+      },
+      "Government Services": {
+        "n": 64,
+        "example_f1": 0.9333333333333333,
+        "accuracy": 0.9375
+      },
+      "Healthcare": {
+        "n": 72,
+        "example_f1": 0.927536231884058,
+        "accuracy": 0.9305555555555556
+      },
+      "History": {
+        "n": 68,
+        "example_f1": 0.9714285714285714,
+        "accuracy": 0.9705882352941176
+      },
+      "Science & Technology": {
+        "n": 76,
+        "example_f1": 0.9620253164556962,
+        "accuracy": 0.9605263157894737
+      },
+      "Universities": {
+        "n": 80,
+        "example_f1": 0.9473684210526315,
+        "accuracy": 0.95
+      }
+    }
+  },
+  "val_threshold_sweep": [
+    {
+      "threshold": 0.05,
+      "word_f1": 0.8227593152064451,
+      "span_f1": 0.48580441640378547
+    },
+    {
+      "threshold": 0.1,
+      "word_f1": 0.8370408691153647,
+      "span_f1": 0.5298869143780292
+    },
+    {
+      "threshold": 0.15,
+      "word_f1": 0.8395581273014203,
+      "span_f1": 0.5439739413680782
+    },
+    {
+      "threshold": 0.2,
+      "word_f1": 0.8425531914893617,
+      "span_f1": 0.5611745513866232
+    },
+    {
+      "threshold": 0.25,
+      "word_f1": 0.8426176311519741,
+      "span_f1": 0.5639344262295082
+    },
+    {
+      "threshold": 0.3,
+      "word_f1": 0.8442982456140351,
+      "span_f1": 0.5818181818181819
+    },
+    {
+      "threshold": 0.35,
+      "word_f1": 0.8468767274737424,
+      "span_f1": 0.578512396694215
+    },
+    {
+      "threshold": 0.4,
+      "word_f1": 0.8472686733556298,
+      "span_f1": 0.5880398671096345
+    },
+    {
+      "threshold": 0.45,
+      "word_f1": 0.8473239436619718,
+      "span_f1": 0.5862646566164155
+    },
+    {
+      "threshold": 0.5,
+      "word_f1": 0.8447488584474886,
+      "span_f1": 0.5777027027027027
+    },
+    {
+      "threshold": 0.55,
+      "word_f1": 0.8397917871602082,
+      "span_f1": 0.567062818336163
+    },
+    {
+      "threshold": 0.6,
+      "word_f1": 0.8337236533957846,
+      "span_f1": 0.5476190476190477
+    },
+    {
+      "threshold": 0.65,
+      "word_f1": 0.8355029585798817,
+      "span_f1": 0.5534804753820033
+    },
+    {
+      "threshold": 0.7,
+      "word_f1": 0.8344291691572027,
+      "span_f1": 0.5563139931740615
+    },
+    {
+      "threshold": 0.75,
+      "word_f1": 0.8297101449275363,
+      "span_f1": 0.5463917525773196
+    },
+    {
+      "threshold": 0.8,
+      "word_f1": 0.8203556100551809,
+      "span_f1": 0.5363321799307958
+    },
+    {
+      "threshold": 0.85,
+      "word_f1": 0.8119925046845722,
+      "span_f1": 0.5486725663716814
+    },
+    {
+      "threshold": 0.9,
+      "word_f1": 0.8012698412698412,
+      "span_f1": 0.5240641711229946
+    },
+    {
+      "threshold": 0.95,
+      "word_f1": 0.769433465085639,
+      "span_f1": 0.5036496350364964
+    }
+  ],
+  "baselines": [
+    {
+      "name": "lexical-overlap[exact]",
+      "n_examples": 588,
+      "word_level": {
+        "precision": 0.2380736029077692,
+        "recall": 0.5562632696390658,
+        "f1": 0.33343938911867643,
+        "support": 942,
+        "tp": 524,
+        "fp": 1677,
+        "fn": 418
+      },
+      "example_level": {
+        "precision": 0.5233644859813084,
+        "recall": 0.9523809523809523,
+        "f1": 0.6755126658624849,
+        "accuracy": 0.5425170068027211,
+        "auroc": 0.6408498773659125,
+        "n": 588
+      },
+      "span_level": {
+        "exact": 0.20748299319727892,
+        "partial": 0.8197278911564626,
+        "precision": 0.04332386363636364,
+        "recall": 0.20748299319727892,
+        "f1": 0.07168037602820213,
+        "n_gold": 294,
+        "n_unusable": 0
+      },
+      "per_type": {
+        "contradiction": {
+          "n": 58,
+          "n_hallucinated": 58,
+          "example_recall": 0.9827586206896551,
+          "word_f1": 0.4166666666666667
+        },
+        "date_error": {
+          "n": 41,
+          "n_hallucinated": 41,
+          "example_recall": 1.0,
+          "word_f1": 0.45
+        },
+        "entity_replacement": {
+          "n": 46,
+          "n_hallucinated": 46,
+          "example_recall": 0.9565217391304348,
+          "word_f1": 0.22073578595317725
+        },
+        "fabricated_info": {
+          "n": 44,
+          "n_hallucinated": 44,
+          "example_recall": 1.0,
+          "word_f1": 0.7413554633471646
+        },
+        "none": {
+          "n": 294,
+          "n_hallucinated": 0,
+          "example_recall": null,
+          "word_f1": 0.0
+        },
+        "number_error": {
+          "n": 59,
+          "n_hallucinated": 59,
+          "example_recall": 1.0,
+          "word_f1": 0.37462235649546827
+        },
+        "omission": {
+          "n": 46,
+          "n_hallucinated": 46,
+          "example_recall": 0.7608695652173914,
+          "word_f1": 0.1721311475409836
+        }
+      },
+      "per_domain": {
+        "Agriculture": {
+          "n": 76,
+          "example_f1": 0.6796116504854369,
+          "accuracy": 0.5657894736842105
+        },
+        "Bangladesh Affairs": {
+          "n": 74,
+          "example_f1": 0.6981132075471698,
+          "accuracy": 0.5675675675675675
+        },
+        "Education": {
+          "n": 78,
+          "example_f1": 0.6782608695652174,
+          "accuracy": 0.5256410256410257
+        },
+        "Government Services": {
+          "n": 64,
+          "example_f1": 0.651685393258427,
+          "accuracy": 0.515625
+        },
+        "Healthcare": {
+          "n": 72,
+          "example_f1": 0.6601941747572816,
+          "accuracy": 0.5138888888888888
+        },
+        "History": {
+          "n": 68,
+          "example_f1": 0.673469387755102,
+          "accuracy": 0.5294117647058824
+        },
+        "Science & Technology": {
+          "n": 76,
+          "example_f1": 0.6915887850467289,
+          "accuracy": 0.5657894736842105
+        },
+        "Universities": {
+          "n": 80,
+          "example_f1": 0.6666666666666666,
+          "accuracy": 0.55
+        }
+      }
+    },
+    {
+      "name": "lexical-overlap[morph]",
+      "n_examples": 588,
+      "word_level": {
+        "precision": 0.2948960302457467,
+        "recall": 0.4968152866242038,
+        "f1": 0.3701067615658363,
+        "support": 942,
+        "tp": 468,
+        "fp": 1119,
+        "fn": 474
+      },
+      "example_level": {
+        "precision": 0.5489795918367347,
+        "recall": 0.9149659863945578,
+        "f1": 0.6862244897959183,
+        "accuracy": 0.5816326530612245,
+        "auroc": 0.65857397380721,
+        "n": 588
+      },
+      "span_level": {
+        "exact": 0.2108843537414966,
+        "partial": 0.7312925170068028,
+        "precision": 0.05656934306569343,
+        "recall": 0.2108843537414966,
+        "f1": 0.08920863309352518,
+        "n_gold": 294,
+        "n_unusable": 0
+      },
+      "per_type": {
+        "contradiction": {
+          "n": 58,
+          "n_hallucinated": 58,
+          "example_recall": 0.9655172413793104,
+          "word_f1": 0.3917525773195876
+        },
+        "date_error": {
+          "n": 41,
+          "n_hallucinated": 41,
+          "example_recall": 1.0,
+          "word_f1": 0.5283018867924528
+        },
+        "entity_replacement": {
+          "n": 46,
+          "n_hallucinated": 46,
+          "example_recall": 0.9130434782608695,
+          "word_f1": 0.19827586206896552
+        },
+        "fabricated_info": {
+          "n": 44,
+          "n_hallucinated": 44,
+          "example_recall": 1.0,
+          "word_f1": 0.7559523809523809
+        },
+        "none": {
+          "n": 294,
+          "n_hallucinated": 0,
+          "example_recall": null,
+          "word_f1": 0.0
+        },
+        "number_error": {
+          "n": 59,
+          "n_hallucinated": 59,
+          "example_recall": 1.0,
+          "word_f1": 0.4468864468864469
+        },
+        "omission": {
+          "n": 46,
+          "n_hallucinated": 46,
+          "example_recall": 0.5869565217391305,
+          "word_f1": 0.11320754716981132
+        }
+      },
+      "per_domain": {
+        "Agriculture": {
+          "n": 76,
+          "example_f1": 0.6736842105263158,
+          "accuracy": 0.5921052631578947
+        },
+        "Bangladesh Affairs": {
+          "n": 74,
+          "example_f1": 0.7058823529411765,
+          "accuracy": 0.5945945945945946
+        },
+        "Education": {
+          "n": 78,
+          "example_f1": 0.6972477064220184,
+          "accuracy": 0.5769230769230769
+        },
+        "Government Services": {
+          "n": 64,
+          "example_f1": 0.6746987951807228,
+          "accuracy": 0.578125
+        },
+        "Healthcare": {
+          "n": 72,
+          "example_f1": 0.6732673267326733,
+          "accuracy": 0.5416666666666666
+        },
+        "History": {
+          "n": 68,
+          "example_f1": 0.6526315789473685,
+          "accuracy": 0.5147058823529411
+        },
+        "Science & Technology": {
+          "n": 76,
+          "example_f1": 0.7184466019417476,
+          "accuracy": 0.618421052631579
+        },
+        "Universities": {
+          "n": 80,
+          "example_f1": 0.6875,
+          "accuracy": 0.625
+        }
+      }
+    }
+  ],
+  "latency": {
+    "device": "dml",
+    "batch_size": 1,
+    "warmup": 20,
+    "runs": 100,
+    "mean_ms": 15.330727999971714,
+    "median_ms": 13.765100000455277,
+    "p95_ms": 23.38910000071337,
+    "min_ms": 12.072099998476915,
+    "max_ms": 23.98440000069968,
+    "meets_200ms": true,
+    "n_examples": 30,
+    "mean_input_tokens": 145.0
+  },
+  "dataset_caveats": {
+    "unlearnable_rows": 0,
+    "span_token_mismatch": 0,
+    "non_bangla_rows": 0,
+    "foreign_script_rows": 23,
+    "context_truncated_rows": 0
+  }
+}

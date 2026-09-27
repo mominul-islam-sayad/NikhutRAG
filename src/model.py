@@ -145,19 +145,19 @@ class WeightedTokenLoss:
 
 
 @torch.no_grad()
-def predict_records(
+def predict_word_probs(
     model,
     dataset,
     tokenizer,
     device: str = "cpu",
-    threshold: float = cfg.SPAN_THRESHOLD,
     batch_size: int = 32,
-) -> list[ev.Record]:
-    """Run the model over an encoded dataset and produce evaluable Records.
+) -> list[list[float]]:
+    """Hallucination probability for every answer word, per example.
 
     Labelled positions are exactly the first subword of each answer word, in
     order, so the probabilities read off those positions map one-to-one onto
-    the answer's words. data.py asserts that correspondence holds (delta=0).
+    the answer's words. Kept separate from thresholding so a threshold sweep
+    does not rerun the model.
     """
     from torch.utils.data import DataLoader
 
@@ -175,7 +175,13 @@ def predict_records(
         for i in range(p_halluc.size(0)):
             mask = labels[i] != cfg.IGNORE_INDEX
             probs_per_example.append(p_halluc[i][mask].tolist())
+    return probs_per_example
 
+
+def records_from_probs(
+    dataset, probs_per_example: list[list[float]], threshold: float = cfg.SPAN_THRESHOLD
+) -> list[ev.Record]:
+    """Turn per-word probabilities into evaluable Records at one threshold."""
     records: list[ev.Record] = []
     for meta, probs in zip(dataset.meta, probs_per_example):
         words = meta["words"]
@@ -198,6 +204,19 @@ def predict_records(
             )
         )
     return records
+
+
+def predict_records(
+    model,
+    dataset,
+    tokenizer,
+    device: str = "cpu",
+    threshold: float = cfg.SPAN_THRESHOLD,
+    batch_size: int = 32,
+) -> list[ev.Record]:
+    """Run the model over an encoded dataset and produce evaluable Records."""
+    probs = predict_word_probs(model, dataset, tokenizer, device=device, batch_size=batch_size)
+    return records_from_probs(dataset, probs, threshold)
 
 
 @torch.no_grad()

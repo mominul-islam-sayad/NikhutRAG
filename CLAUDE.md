@@ -270,7 +270,48 @@ Compare against: the lexical baseline (both modes), full fine-tuning vs LoRA, an
 least one LLM-as-a-judge reference point for the cost argument. For the RAGTruth arm,
 compare to Luna and LettuceDetect's published numbers.
 
-### Results on the 4,000-row dataset — measured 2026-09-25
+### Headline results — BanglaBERT, 3 seeds, measured 2026-09-27
+
+**Quote these numbers.** Seeds 42/43/44, up to 10 epochs with early stopping on val word
+F1 (patience 2), effective batch 16 (8 × 2 accumulation), trained on the RX 6600 GPU.
+Splits are identical across seeds. Test split (588 rows), mean ± std. Produced by
+`python -m src.summarize banglabert-full-e10 banglabert-lora-e10`, written to
+`outputs/metrics/summary.json`.
+
+| system | **word F1** | word P | word R | **span F1** | span exact | ex F1 | AUROC |
+|---|---|---|---|---|---|---|---|
+| lexical baseline (`morph`) | 0.370 | 0.295 | 0.497 | 0.089 | 0.211 | 0.686 | 0.659 |
+| **BanglaBERT full** | **0.835 ± 0.007** | 0.883 ± 0.016 | 0.793 ± 0.024 | **0.583 ± 0.016** | 0.580 ± 0.014 | 0.924 ± 0.004 | 0.977 ± 0.001 |
+| BanglaBERT LoRA | 0.822 ± 0.016 | 0.862 ± 0.037 | 0.786 ± 0.031 | 0.513 ± 0.017 | 0.524 ± 0.015 | 0.925 ± 0.011 | 0.974 ± 0.005 |
+
+Per type, word F1 (full / LoRA): `fabricated_info` 0.976 / 0.980, `number_error` 0.882 /
+0.837, `contradiction` 0.844 / 0.829, `date_error` 0.827 / 0.793, **`entity_replacement`
+0.643 / 0.666, `omission` 0.598 / 0.598** (± 0.01–0.04).
+
+What the tuning run established:
+
+- **More epochs do not help.** The best epoch was 3, 9 and 4 (full) and 3, 3 and 7
+  (LoRA). Val word F1 plateaus around epoch 3. The 4-epoch CPU run (0.833) was already at
+  the ceiling for this setup, and the 3-seed mean is 0.835.
+- **Threshold tuning does not help.** The val-tuned thresholds are unstable (0.30–0.65),
+  and test word F1 is identical at 0.5 and tuned (0.835 vs 0.835). Span F1 is slightly
+  worse when tuned. **Keep 0.5** in the UI and API. `train.py` still reports both.
+- **Full vs LoRA.** The word F1 gap (−0.013) is within one LoRA std, so it is **not
+  distinguishable from seed noise**. The span F1 gap (**−0.070**, stds ~0.017) is real:
+  LoRA finds hallucinations about as well but draws their boundaries worse.
+- **LoRA saves real time on the GPU:** 168 ± 21 s per epoch vs 304 ± 22 s for full,
+  **1.8× faster**. On the CPU it saved only 9%. The saved adapter is **5 MB vs 422 MB**
+  (84× smaller), which is the deployment argument for LoRA.
+- **Seed variance is small** (word F1 std 0.007 full). A difference between systems
+  below ~0.02 word F1 should not be claimed from one seed.
+
+**Not reportable from these runs.** "Peak memory" on DirectML grows with the number of
+epochs trained (full: 3.1 GB at 5 epochs, 6.4 GB at 10 epochs), so it measures run
+length, not the model. It is host RAM, and VRAM is not measured. The in-training
+latencies are noisy on DirectML (one run read 52.6 ms, the others 13–20 ms). Use
+`src/latency.py` for latency.
+
+### Results on the 4,000-row dataset — measured 2026-09-25 (single seed, superseded by the headline above)
 
 Test split (588 rows), 4 epochs, identical splits and seed, best epoch 4 for all.
 BanglaBERT trained on the CPU, mmBERT on the RX 6600 GPU:
