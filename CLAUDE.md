@@ -167,7 +167,8 @@ Status against the 4,000-row dataset:
 2. Corruptions that **reuse vocabulary present elsewhere in the context**, so lexical
    overlap cannot detect them — **partly**: in 24% of hallucinated rows every flagged
    word appears verbatim in the context, and the baseline fell from 0.939 to 0.686 ex_F1.
-3. A **human-verified gold test set of ~200 examples**, annotated by the team — **not yet**.
+3. A **human-verified gold test set of ~200 examples**, annotated by the team —
+   **tooling ready 2026-09-28, annotation not started.** See "Gold test set" below.
 4. A second test set at a **realistic class ratio**. Note: RAGTruth is **not** 15–20% —
    measured, **43.1%** of its 17,790 responses carry at least one hallucination span.
    Pick the target ratio from the deployment story being argued, not from RAGTruth, and
@@ -178,6 +179,37 @@ Status against the 4,000-row dataset:
 Sequence length already grew: p99 is 288 subwords (was 86), max 365, so `max_length`
 auto-selects 288. That still fits BanglaBERT's 512 positions, but 3–5 sentence answers
 could push it past; the loader reports truncated contexts when it happens.
+
+## Gold test set — human verification
+
+The generator's labels have never been checked by a person. `src/gold.py` drew 200
+items from the **test split only** (seed 2026) into `data/gold/gold_items.csv`:
+
+- **Labels:** 100 faithful and 100 hallucinated. Hallucinated items are 16–17 per type.
+- **Domains:** all 8, with 22–27 items each.
+- **At most one row per (context, question) pair.** The faithful and hallucinated answers
+  to one question differ in a word or two, so seeing both would give the answer away.
+- **Blind:** annotators never see the label or type.
+- **Two annotators per item,** rotating over all 6 pairs of the team, 99–101 items each.
+  This makes Cohen's kappa measurable per pair.
+
+Workflow, with teammate instructions in `docs/annotation_guide.md`:
+
+1. `streamlit run app/annotate.py`. It needs only pandas and Streamlit, no torch. Each
+   person's work goes to `data/gold/annotations/<Name>.jsonl`, append-only, latest line
+   per item wins, one file per person so commits never conflict.
+2. `python -m src.gold status` shows progress. `python -m src.gold agree` reports verdict
+   kappa (3-way and binary), word-level kappa, per-pair kappa and the disagreement queue.
+3. Settle disagreements in the app's **Adjudicate** mode. Results go to
+   `data/gold/adjudicated.jsonl`.
+4. `python -m src.gold evaluate` scores against the human labels: the generator's own
+   labels (as a system), the lexical baseline, the cached LLM judges, and all six e10
+   BanglaBERT checkpoints (mean ± std per group). Results go to
+   `outputs/metrics/gold_eval.json`. Items marked "unsure" or still pending are excluded
+   and counted.
+
+Tested end to end with synthetic annotators on 2026-09-28. **Those numbers are not
+results.** Quote gold-set numbers only from real annotations.
 
 ## Model choice
 
@@ -477,9 +509,12 @@ for the 4,000-row runs.
 │   ├── latency.py       # re-time saved checkpoints, CPU and GPU, same 30 examples
 │   ├── summarize.py     # mean ± std across seeds
 │   ├── llm_judge.py     # local LLM-as-a-judge via llama.cpp, same metrics
+│   ├── gold.py          # gold set: sample, status, agreement, evaluate
+│   ├── gold_io.py       # gold set files, torch-free (used by the annotation UI)
 │   └── data_ragtruth.py # RAGTruth adapter for the English arm
 ├── app/
 │   ├── _loader.py       # checkpoint loading + inference shared by UI and API
+│   ├── annotate.py      # gold set annotation + adjudication UI
 │   ├── streamlit_app.py # Streamlit demo
 │   └── api.py           # FastAPI + Uvicorn backend, promised by the paper
 └── outputs/             # checkpoints, metrics JSON, plots (the paper's "Data Store D1")
