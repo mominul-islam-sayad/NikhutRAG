@@ -267,7 +267,8 @@ All implemented in `src/evaluate.py`, which scores every system through one code
 - **Efficiency**: parameter count, trainable count under LoRA, peak memory, wall-clock
 
 Compare against: the lexical baseline (both modes), full fine-tuning vs LoRA, and at
-least one LLM-as-a-judge reference point for the cost argument. For the RAGTruth arm,
+least one LLM-as-a-judge reference point for the cost argument (done: two local Gemma 4
+judges, see below). For the RAGTruth arm,
 compare to Luna and LettuceDetect's published numbers.
 
 ### Headline results — BanglaBERT, 3 seeds, measured 2026-09-27
@@ -310,6 +311,57 @@ epochs trained (full: 3.1 GB at 5 epochs, 6.4 GB at 10 epochs), so it measures r
 length, not the model. It is host RAM, and VRAM is not measured. The in-training
 latencies are noisy on DirectML (one run read 52.6 ms, the others 13–20 ms). Use
 `src/latency.py` for latency.
+
+### LLM-as-a-judge reference point — measured 2026-09-28
+
+Two local Gemma 4 judges, served by llama.cpp (Vulkan build b11223) on the RX 6600 and
+scored by `src/llm_judge.py` through the same `src/evaluate.py` code on the same 588
+test rows. Setup:
+
+- **Prompt:** English instructions, Bangla data. Two worked examples from the train split
+  (one faithful, one hallucinated). The judge quotes the unsupported parts of the answer
+  as JSON, enforced by a schema. The quotes are mapped back onto answer words.
+- **Decoding:** temperature 0, one request at a time, reasoning **off**. Gemma 4
+  otherwise sometimes thinks out loud and returns empty content.
+- **Outputs:** raw responses are cached in `outputs/judge/<name>.jsonl`, metrics in
+  `outputs/metrics/judge-<name>.json`.
+- **Models:** in `C:/Users/sayad/llm/models`, outside the repo (E: has little free space).
+
+| system | size on disk | **word F1** | word P | word R | **span F1** | span exact | ex F1 | ex Acc | latency (GPU, median) |
+|---|---|---|---|---|---|---|---|---|---|
+| lexical baseline (`morph`) | – | 0.370 | 0.295 | 0.497 | 0.089 | 0.211 | 0.686 | 0.582 | – |
+| Gemma 4 E4B judge (Q4_0) | 4.3 GB | 0.674 | 0.581 | 0.801 | 0.351 | 0.439 | 0.838 | 0.808 | 950 ms |
+| Gemma 4 12B judge (QAT Q4) | 6.4 GB | 0.755 | 0.753 | 0.757 | 0.479 | 0.551 | 0.849 | 0.835 | 2,560 ms |
+| **BanglaBERT full (3 seeds)** | **0.42 GB** | **0.835** | **0.883** | 0.793 | **0.583** | **0.580** | **0.924** | – | **11.5 ms** |
+
+**The SLM beats both LLM judges on every headline metric,** while being 15× smaller
+on disk than the 12B judge and **~220× faster** (11.5 ms vs 2.56 s on the same GPU).
+Scoring the 588 test rows took the 12B judge 25.7 min and the E4B judge 9.9 min. This
+is the paper's cost argument, measured.
+
+Where the judges differ:
+
+- **They over-flag faithful answers.** Judge example precision is 0.725 (E4B) and 0.782
+  (12B), so they flag roughly **38% and 26% of the faithful answers**. BanglaBERT flags
+  about 4%. A deployed judge would cry wolf far more often.
+- **They are better on entity swaps.** `entity_replacement` word F1 is **0.876 (12B)**
+  and 0.783 (E4B), against 0.643 for BanglaBERT. That is BanglaBERT's weak spot, and it
+  suggests world or linguistic knowledge the 110M encoder lacks.
+- **`omission` splits them.** E4B scores 0.678, above BanglaBERT's 0.598. The 12B judge
+  collapses to 0.366 and catches only 59% of those answers: it tends to treat an answer
+  that leaves something out as supported.
+- **Both are close to perfect on `fabricated_info`**, as is BanglaBERT (0.88–0.98).
+
+Caveats to state:
+
+- The judges are deterministic (temperature 0) single runs, while BanglaBERT is a 3-seed
+  mean. The judges give a verdict, not a probability, so their AUROC equals balanced
+  accuracy and is omitted.
+- Each judge left 7 quoted spans that matched no answer word; they are counted as misses.
+- A stronger or cloud judge, or a judge with reasoning on, could score higher, at
+  still greater cost. That is untested.
+- The 12B model barely fits the 8 GB card, and llama.cpp warned it could not fit
+  all parameters in free VRAM, which may inflate its latency.
 
 ### Results on the 4,000-row dataset — measured 2026-09-25 (single seed, superseded by the headline above)
 
@@ -423,6 +475,8 @@ for the 4,000-row runs.
 │   ├── evaluate.py      # word/example/span metrics, AUROC, latency, efficiency
 │   ├── baselines.py     # lexical string-match baseline, exact + morph
 │   ├── latency.py       # re-time saved checkpoints, CPU and GPU, same 30 examples
+│   ├── summarize.py     # mean ± std across seeds
+│   ├── llm_judge.py     # local LLM-as-a-judge via llama.cpp, same metrics
 │   └── data_ragtruth.py # RAGTruth adapter for the English arm
 ├── app/
 │   ├── _loader.py       # checkpoint loading + inference shared by UI and API

@@ -1,0 +1,588 @@
+{"id": "BDA_0003", "content": "{\"hallucinated_spans\": [\"যা বর্তমানে ঢাকা জাদুঘরে সংরক্ষিত আছে\"]}", "latency_s": 3.5891120999999657, "prompt_tokens": 1024, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "BDA_0005", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1626604000000498, "prompt_tokens": 827, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0009", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.250700600000073, "prompt_tokens": 833, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0023", "content": "{\"hallucinated_spans\": [\"যুক্তরাষ্ট্র\"]}", "latency_s": 2.2307676000000356, "prompt_tokens": 810, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "BDA_0027", "content": "{\"hallucinated_spans\": [\"ফেডারেশন অব বাংলাদেশ চেম্বার অব কমার্স এন্ড ইন্ডাস্ট্রিজ\"]}", "latency_s": 2.951476499999899, "prompt_tokens": 841, "completion_tokens": 32, "finish_reason": "stop"}
+{"id": "BDA_0061", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.149584700000105, "prompt_tokens": 815, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0065", "content": "{\"hallucinated_spans\": [\"মোট\"]}", "latency_s": 2.281793900000139, "prompt_tokens": 840, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "BDA_0079", "content": "{\"hallucinated_spans\": [\"সব অঞ্চলে\", \"বেশ ঘন\"]}", "latency_s": 2.8198697999998785, "prompt_tokens": 889, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "BDA_0087", "content": "{\"hallucinated_spans\": [\"ঘটেনি\"]}", "latency_s": 2.54751269999997, "prompt_tokens": 842, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "BDA_0095", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2276898999998593, "prompt_tokens": 840, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0110", "content": "{\"hallucinated_spans\": [\"কোনো হিন্দু জনসংখ্যা নেই\"]}", "latency_s": 3.1112818999999945, "prompt_tokens": 939, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "BDA_0125", "content": "{\"hallucinated_spans\": [\"রাজশাহী (আংশিক)\"]}", "latency_s": 2.5318063000001985, "prompt_tokens": 824, "completion_tokens": 24, "finish_reason": "stop"}
+{"id": "BDA_0132", "content": "{\"hallucinated_spans\": [\"এ জেলা\"]}", "latency_s": 2.7464073999999528, "prompt_tokens": 915, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "BDA_0133", "content": "{\"hallucinated_spans\": [\"প্রধানত\"]}", "latency_s": 2.6393668000000616, "prompt_tokens": 893, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "BDA_0137", "content": "{\"hallucinated_spans\": [\"পরিকল্পনা সেল\"]}", "latency_s": 2.4406653000000915, "prompt_tokens": 835, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0142", "content": "{\"hallucinated_spans\": [\"হয়\"]}", "latency_s": 2.1811428000000888, "prompt_tokens": 814, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "BDA_0143", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.8416193999998995, "prompt_tokens": 935, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0159", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.132109299999911, "prompt_tokens": 815, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0166", "content": "{\"hallucinated_spans\": [\"জেলা\"]}", "latency_s": 2.206894300000158, "prompt_tokens": 816, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "BDA_0176", "content": "{\"hallucinated_spans\": [\"১৯৭০ সালে\"]}", "latency_s": 2.370614200000091, "prompt_tokens": 833, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0180", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.2776609000000008, "prompt_tokens": 1021, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0183", "content": "{\"hallucinated_spans\": [\"উপস্থিতি বেশ ঘন\"]}", "latency_s": 2.817848099999992, "prompt_tokens": 898, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "BDA_0185", "content": "{\"hallucinated_spans\": [\"২০১৪ সালের\"]}", "latency_s": 2.731813900000134, "prompt_tokens": 909, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0186", "content": "{\"hallucinated_spans\": [\"১৯৭৫\"]}", "latency_s": 2.9770365000001675, "prompt_tokens": 935, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0192", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1327495000000454, "prompt_tokens": 811, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0198", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.2652286000000004, "prompt_tokens": 1009, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0200", "content": "{\"hallucinated_spans\": [\"রেকর্ড করা হয়েছিল\"]}", "latency_s": 2.495130200000176, "prompt_tokens": 853, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0206", "content": "{\"hallucinated_spans\": [\"আফগানিস্তান\"]}", "latency_s": 3.092270800000051, "prompt_tokens": 947, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0207", "content": "{\"hallucinated_spans\": [\"১৯৯১\"]}", "latency_s": 2.800565000000006, "prompt_tokens": 924, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0208", "content": "{\"hallucinated_spans\": [\"সাধারণ পাসপোর্ট\"]}", "latency_s": 2.6261363999999503, "prompt_tokens": 893, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "BDA_0221", "content": "{\"hallucinated_spans\": [\"নির্দিষ্ট পরিমাণে\"]}", "latency_s": 2.627425599999924, "prompt_tokens": 893, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "BDA_0224", "content": "{\"hallucinated_spans\": [\"যিনি পরবর্তীতে পদত্যাগ করেছিলেন\"]}", "latency_s": 3.1068279999999504, "prompt_tokens": 935, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "BDA_0226", "content": "{\"hallucinated_spans\": [\"৭২ থেকে\"]}", "latency_s": 2.6835399999999936, "prompt_tokens": 889, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0233", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5363881000000674, "prompt_tokens": 884, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0242", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5301469000000907, "prompt_tokens": 888, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0251", "content": "{\"hallucinated_spans\": [\"ত্রিপুরা রাজ্যের\"]}", "latency_s": 2.779898099999855, "prompt_tokens": 911, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0252", "content": "{\"hallucinated_spans\": [\"নির্বাচন কমিশনের ওপর অতিরিক্ত আর্থিক চাপ সৃষ্টি হয়েছিল\"]}", "latency_s": 3.0515060000000176, "prompt_tokens": 920, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "BDA_0267", "content": "{\"hallucinated_spans\": [\"১৭৮৮ সালে\"]}", "latency_s": 3.4666328999999223, "prompt_tokens": 1021, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0275", "content": "{\"hallucinated_spans\": [\"১৭৮৫ সালে\"]}", "latency_s": 3.4535163000000466, "prompt_tokens": 1010, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0278", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.612627499999917, "prompt_tokens": 910, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0279", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.843229099999917, "prompt_tokens": 938, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0285", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.242418599999837, "prompt_tokens": 842, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0294", "content": "{\"hallucinated_spans\": [\"যা গত এক দশের রেকর্ড ভঙ্গ করেছে\"]}", "latency_s": 2.6634248999998817, "prompt_tokens": 862, "completion_tokens": 24, "finish_reason": "stop"}
+{"id": "BDA_0295", "content": "{\"hallucinated_spans\": [\"শীর্ষস্থানীয়\"]}", "latency_s": 2.4330393000000186, "prompt_tokens": 852, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0304", "content": "{\"hallucinated_spans\": [\"বাধ্যতামূলক\"]}", "latency_s": 2.7305943999999727, "prompt_tokens": 905, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0312", "content": "{\"hallucinated_spans\": [\"যুক্তরাজ্য বা\"]}", "latency_s": 2.3142113999999765, "prompt_tokens": 816, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0335", "content": "{\"hallucinated_spans\": [\"৩৫৯০\"]}", "latency_s": 2.347210200000063, "prompt_tokens": 839, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "BDA_0341", "content": "{\"hallucinated_spans\": [\"(৫ম তলা)\"]}", "latency_s": 2.875597199999902, "prompt_tokens": 904, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "BDA_0349", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1462320999999065, "prompt_tokens": 808, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0352", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.248231300000043, "prompt_tokens": 835, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0353", "content": "{\"hallucinated_spans\": [\"মধ্যে রয়েছে\"]}", "latency_s": 2.2751200000000154, "prompt_tokens": 824, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "BDA_0357", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.147978799999919, "prompt_tokens": 808, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0373", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1567215000000033, "prompt_tokens": 815, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0380", "content": "{\"hallucinated_spans\": [\"কোনো\"]}", "latency_s": 2.217832400000134, "prompt_tokens": 806, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "BDA_0395", "content": "{\"hallucinated_spans\": [\"পাওয়ার প্যারীটি ক্রয়ে\"]}", "latency_s": 3.261915300000055, "prompt_tokens": 958, "completion_tokens": 24, "finish_reason": "stop"}
+{"id": "BDA_0402", "content": "{\"hallucinated_spans\": [\"কোন প্রয়োজন নেই\"]}", "latency_s": 2.7460353999999825, "prompt_tokens": 907, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0408", "content": "{\"hallucinated_spans\": [\"১২.৫%\"]}", "latency_s": 2.3255369999999402, "prompt_tokens": 815, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0410", "content": "{\"hallucinated_spans\": [\"২০১৫ সালের\"]}", "latency_s": 2.251555099999905, "prompt_tokens": 816, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0418", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.150678199999902, "prompt_tokens": 813, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0425", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.8366439999999784, "prompt_tokens": 929, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0446", "content": "{\"hallucinated_spans\": [\"১৪০টিরও\"]}", "latency_s": 2.4292257000001882, "prompt_tokens": 840, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0447", "content": "{\"hallucinated_spans\": [\"যা অনলাইনেও নবায়ন করা সম্ভব\"]}", "latency_s": 2.8668587000001935, "prompt_tokens": 895, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "BDA_0448", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6085093000001507, "prompt_tokens": 904, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0449", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5395302999997966, "prompt_tokens": 888, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0462", "content": "{\"hallucinated_spans\": [\"৪৫%\"]}", "latency_s": 2.782745200000136, "prompt_tokens": 915, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0463", "content": "{\"hallucinated_spans\": [\"হ্যাঁ\", \"সুনির্দিষ্ট কারণ দর্শিয়েই\"]}", "latency_s": 2.563482199999953, "prompt_tokens": 813, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "BDA_0466", "content": "{\"hallucinated_spans\": [\"গঠিত হয়নি\"]}", "latency_s": 2.28571850000003, "prompt_tokens": 816, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "BDA_0468", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.654572000000144, "prompt_tokens": 924, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0476", "content": "{\"hallucinated_spans\": [\"সরকারব্যবস্থা\"]}", "latency_s": 2.8313353999999435, "prompt_tokens": 926, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "BDA_0486", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.272789899999907, "prompt_tokens": 1017, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0491", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1993251000001237, "prompt_tokens": 832, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0492", "content": "{\"hallucinated_spans\": [\"এবং এর পরিবর্তে\", \"সমাজতন্ত্রকে\", \"প্রধান চালিকাশক্তি\", \"হিসেবে ঘোষণা করা হয়\"]}", "latency_s": 3.174072199999955, "prompt_tokens": 829, "completion_tokens": 38, "finish_reason": "stop"}
+{"id": "BDA_0498", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.838480699999991, "prompt_tokens": 931, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "BDA_0499", "content": "{\"hallucinated_spans\": [\"খালেদ জিয়া\"]}", "latency_s": 2.3591005000000678, "prompt_tokens": 810, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "HIS_0002", "content": "{\"hallucinated_spans\": [\"১৯৫০ সালে\"]}", "latency_s": 3.048905900000136, "prompt_tokens": 954, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0006", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.963935400000082, "prompt_tokens": 965, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0017", "content": "{\"hallucinated_spans\": [\"“মাদার ল্যাংগুয়েজ”\"]}", "latency_s": 3.6230147000001125, "prompt_tokens": 1003, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "HIS_0026", "content": "{\"hallucinated_spans\": [\"এই যুদ্ধ\"]}", "latency_s": 2.9385056000000986, "prompt_tokens": 933, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0029", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.9063332999999147, "prompt_tokens": 959, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0039", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.8487665999998626, "prompt_tokens": 940, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0043", "content": "{\"hallucinated_spans\": [\"গঠিত হয়নি\"]}", "latency_s": 2.7838764000000538, "prompt_tokens": 921, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0055", "content": "{\"hallucinated_spans\": [\"৯৮টি\"]}", "latency_s": 3.032078599999977, "prompt_tokens": 946, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0059", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.602171300000009, "prompt_tokens": 907, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0081", "content": "{\"hallucinated_spans\": [\"হোসেন কুলি খানের\"]}", "latency_s": 2.463266599999997, "prompt_tokens": 840, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "HIS_0091", "content": "{\"hallucinated_spans\": [\"চাকরি\"]}", "latency_s": 2.4274502999999186, "prompt_tokens": 850, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0093", "content": "{\"hallucinated_spans\": [\"ভাষা আন্দোলনেও সক্রিয় ভূমিকা রেখেছিলেন\"]}", "latency_s": 2.804210100000091, "prompt_tokens": 873, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "HIS_0096", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4821740999998383, "prompt_tokens": 871, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0104", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.662871300000006, "prompt_tokens": 918, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0122", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1869137999999566, "prompt_tokens": 830, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0131", "content": "{\"hallucinated_spans\": [\"মৃত্যুবরণ করেননি\"]}", "latency_s": 3.21336650000012, "prompt_tokens": 992, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HIS_0132", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2537624999999935, "prompt_tokens": 837, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0142", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.0195567999999184, "prompt_tokens": 990, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0162", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.275107100000014, "prompt_tokens": 1017, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0173", "content": "{\"hallucinated_spans\": [\"এবং তাদের যাতায়াতের জন্য একটি বিশেষ সরকারি জিপগাড়ির ব্যবস্থা করে দিয়েছিলেন\"]}", "latency_s": 3.3677626999999575, "prompt_tokens": 891, "completion_tokens": 35, "finish_reason": "stop"}
+{"id": "HIS_0174", "content": "{\"hallucinated_spans\": [\"আশ্রয় নিতে বাধ্য হয়েছিলেন\"]}", "latency_s": 3.1284436000000824, "prompt_tokens": 931, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "HIS_0176", "content": "{\"hallucinated_spans\": [\"১৭৬৫ সালে\"]}", "latency_s": 2.756457199999886, "prompt_tokens": 910, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0177", "content": "{\"hallucinated_spans\": [\"৮ম\"]}", "latency_s": 2.326030800000126, "prompt_tokens": 842, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0201", "content": "{\"hallucinated_spans\": [\"দায়িত্ব দেওয়া হয়\"]}", "latency_s": 2.411481399999957, "prompt_tokens": 843, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HIS_0202", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2546127000000524, "prompt_tokens": 834, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0204", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1853891999999178, "prompt_tokens": 817, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0207", "content": "{\"hallucinated_spans\": [\"চলে যায়\"]}", "latency_s": 2.384581300000036, "prompt_tokens": 851, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0220", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1975563000000875, "prompt_tokens": 828, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0225", "content": "{\"hallucinated_spans\": [\"৫ হাজার\"]}", "latency_s": 3.112807900000007, "prompt_tokens": 986, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0235", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.9819668000000092, "prompt_tokens": 976, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0236", "content": "{\"hallucinated_spans\": [\"৩০,০০০\"]}", "latency_s": 2.9768814000001385, "prompt_tokens": 931, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0237", "content": "{\"hallucinated_spans\": [\"৩৫ হাজার\"]}", "latency_s": 3.1223053999999593, "prompt_tokens": 990, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0245", "content": "{\"hallucinated_spans\": [\"১৩৩৮\"]}", "latency_s": 2.743409100000008, "prompt_tokens": 917, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0246", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.190401700000166, "prompt_tokens": 831, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0268", "content": "{\"hallucinated_spans\": [\"৬টি\"]}", "latency_s": 3.0617308000000776, "prompt_tokens": 965, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0279", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.900789100000111, "prompt_tokens": 945, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0286", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.132804399999941, "prompt_tokens": 813, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0293", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.0264704000001075, "prompt_tokens": 986, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0306", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.3093776000000616, "prompt_tokens": 860, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0308", "content": "{\"hallucinated_spans\": [\"জুলাই মাসে\"]}", "latency_s": 2.3194134999998823, "prompt_tokens": 823, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0317", "content": "{\"hallucinated_spans\": [\"কখনো ক্ষমতা দখল করেননি\"]}", "latency_s": 2.56273740000006, "prompt_tokens": 849, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "HIS_0324", "content": "{\"hallucinated_spans\": [\"এক ব্যক্তির\"]}", "latency_s": 2.7446541000001616, "prompt_tokens": 921, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0327", "content": "{\"hallucinated_spans\": [\"তিনি কখনোই কোনো রাজনৈতিক দলের সাথে যুক্ত ছিলেন না\"]}", "latency_s": 2.6379830000000766, "prompt_tokens": 838, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "HIS_0328", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.659749099999999, "prompt_tokens": 917, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0341", "content": "{\"hallucinated_spans\": [\"নৌকায় তুলে\"]}", "latency_s": 2.799013900000091, "prompt_tokens": 910, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HIS_0355", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.606422500000008, "prompt_tokens": 904, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0361", "content": "{\"hallucinated_spans\": [\"মুজিবনগর সরকারের\"]}", "latency_s": 2.381521899999825, "prompt_tokens": 839, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0365", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.319676400000162, "prompt_tokens": 864, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0373", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.915335599999935, "prompt_tokens": 954, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0377", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.190697, "prompt_tokens": 823, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0378", "content": "{\"hallucinated_spans\": [\"তাজউদ্দীন আহমদকে\"]}", "latency_s": 2.758942000000161, "prompt_tokens": 872, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "HIS_0387", "content": "{\"hallucinated_spans\": [\"১৯৭৫ সালে\"]}", "latency_s": 2.6543951999999535, "prompt_tokens": 871, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HIS_0392", "content": "{\"hallucinated_spans\": [\"ব্যবস্থা করেননি\"]}", "latency_s": 2.629295799999909, "prompt_tokens": 871, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0396", "content": "{\"hallucinated_spans\": [\"তাজউদ্দীন আহমদ\"]}", "latency_s": 2.4941691000001356, "prompt_tokens": 853, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "HIS_0408", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.0342207000001054, "prompt_tokens": 992, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0416", "content": "{\"hallucinated_spans\": [\"যেখানে একটি স্মৃতিফলকও স্থাপন করা হয়েছে\"]}", "latency_s": 2.7032444000001306, "prompt_tokens": 848, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "HIS_0417", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.244096600000148, "prompt_tokens": 838, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0433", "content": "{\"hallucinated_spans\": [\"৪ নং\"]}", "latency_s": 2.374258399999917, "prompt_tokens": 851, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0435", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.257405399999925, "prompt_tokens": 1010, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0438", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.310679299999947, "prompt_tokens": 851, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0441", "content": "{\"hallucinated_spans\": [\"১৮৫০ সালে\"]}", "latency_s": 2.3703316000000996, "prompt_tokens": 834, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0444", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6477810000001227, "prompt_tokens": 923, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HIS_0447", "content": "{\"hallucinated_spans\": [\"প্রকাশিত হয়েছিল\"]}", "latency_s": 2.622245600000042, "prompt_tokens": 871, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0457", "content": "{\"hallucinated_spans\": [\"ঢাকা বন্দর\"]}", "latency_s": 2.6873081999999613, "prompt_tokens": 904, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HIS_0458", "content": "{\"hallucinated_spans\": [\"১৩৮ ফুট\"]}", "latency_s": 2.4406369999999242, "prompt_tokens": 860, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HIS_0462", "content": "{\"hallucinated_spans\": [\"সমাহিত করা হয়নি\"]}", "latency_s": 3.086461399999962, "prompt_tokens": 959, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HIS_0475", "content": "{\"hallucinated_spans\": [\"গোপনে\", \"একটি ব্রিটিশ যুদ্ধজাহাজে\", \"করে ইংল্যান্ডে পাঠিয়ে দেওয়া হয়েছিল\"]}", "latency_s": 3.4441256999998586, "prompt_tokens": 922, "completion_tokens": 34, "finish_reason": "stop"}
+{"id": "HIS_0483", "content": "{\"hallucinated_spans\": [\"বা\"]}", "latency_s": 2.345955500000173, "prompt_tokens": 854, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "HLT_0001", "content": "{\"hallucinated_spans\": [\"১২ টি\"]}", "latency_s": 2.7554847999999765, "prompt_tokens": 928, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0005", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.632712099999935, "prompt_tokens": 1069, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0009", "content": "{\"hallucinated_spans\": [\"https://health.gov.bd\"]}", "latency_s": 2.985021399999823, "prompt_tokens": 915, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "HLT_0016", "content": "{\"hallucinated_spans\": [\"হয়নি\"]}", "latency_s": 2.3759500999999545, "prompt_tokens": 837, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0017", "content": "{\"hallucinated_spans\": [\"সংক্রমিত হয়\"]}", "latency_s": 2.7310593000001973, "prompt_tokens": 892, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HLT_0022", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.654230200000029, "prompt_tokens": 915, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0023", "content": "{\"hallucinated_spans\": [\"কার্যকর ফলাফল দেয়\"]}", "latency_s": 2.4963626999999633, "prompt_tokens": 856, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HLT_0037", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.266360599999871, "prompt_tokens": 1010, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0041", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.6240104999999403, "prompt_tokens": 1072, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0045", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2582279000000653, "prompt_tokens": 845, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0047", "content": "{\"hallucinated_spans\": [\"এবং এর নিজস্ব বিশাল খেলার মাঠ রয়েছে\"]}", "latency_s": 2.800781700000016, "prompt_tokens": 874, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "HLT_0051", "content": "{\"hallucinated_spans\": [\"নয়\"]}", "latency_s": 3.352843699999994, "prompt_tokens": 1011, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0056", "content": "{\"hallucinated_spans\": [\"এনএস২\"]}", "latency_s": 2.4407598999998754, "prompt_tokens": 856, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0065", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.313824199999999, "prompt_tokens": 862, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0066", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.281456199999866, "prompt_tokens": 856, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0075", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2980024999999387, "prompt_tokens": 855, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0080", "content": "{\"hallucinated_spans\": [\"৩০০ টিরও বেশি\"]}", "latency_s": 2.9064241999999467, "prompt_tokens": 927, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "HLT_0082", "content": "{\"hallucinated_spans\": [\"ডিসেম্বর মাস\"]}", "latency_s": 2.327207000000044, "prompt_tokens": 832, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0087", "content": "{\"hallucinated_spans\": [\"CD145\"]}", "latency_s": 2.6672915999999987, "prompt_tokens": 869, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HLT_0092", "content": "{\"hallucinated_spans\": [\"এবং এখানে আধুনিক আইসিইউ সুবিধা রয়েছে\"]}", "latency_s": 2.6685288999999557, "prompt_tokens": 864, "completion_tokens": 24, "finish_reason": "stop"}
+{"id": "HLT_0112", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.263371700000107, "prompt_tokens": 836, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0114", "content": "{\"hallucinated_spans\": [\"সাল থেকে\"]}", "latency_s": 2.5680651000000125, "prompt_tokens": 874, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0122", "content": "{\"hallucinated_spans\": [\"০৪ জুলাই ২০১২\"]}", "latency_s": 2.6502775999999812, "prompt_tokens": 866, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HLT_0125", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4954713000001902, "prompt_tokens": 869, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0135", "content": "{\"hallucinated_spans\": [\"১৯৯৫ সালে\"]}", "latency_s": 2.4146332000000257, "prompt_tokens": 849, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0136", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6017698000000564, "prompt_tokens": 901, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0137", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.3018343000001096, "prompt_tokens": 859, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0138", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2854399999998805, "prompt_tokens": 849, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0149", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2760223999998743, "prompt_tokens": 840, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0161", "content": "{\"hallucinated_spans\": [\"ক্যাপসিড ভাইরাল প্রোটিন\"]}", "latency_s": 2.77886999999987, "prompt_tokens": 868, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "HLT_0170", "content": "{\"hallucinated_spans\": [\"না\"]}", "latency_s": 2.357618900000034, "prompt_tokens": 856, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "HLT_0172", "content": "{\"hallucinated_spans\": [\"১৯৪৮\"]}", "latency_s": 2.6448508999999376, "prompt_tokens": 896, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0180", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6659810000001016, "prompt_tokens": 920, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0191", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.259279600000127, "prompt_tokens": 841, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0201", "content": "{\"hallucinated_spans\": [\"বলা হয়।\"]}", "latency_s": 2.4359073000000535, "prompt_tokens": 833, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HLT_0207", "content": "{\"hallucinated_spans\": [\"জনগণের মধ্যে\"]}", "latency_s": 2.3958900000000085, "prompt_tokens": 837, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0214", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.3083804000000328, "prompt_tokens": 852, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0237", "content": "{\"hallucinated_spans\": [\"ব্যবহার করে আসছে\"]}", "latency_s": 2.612075200000163, "prompt_tokens": 875, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0239", "content": "{\"hallucinated_spans\": [\"২০২০ সালের\"]}", "latency_s": 2.798387299999831, "prompt_tokens": 917, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0247", "content": "{\"hallucinated_spans\": [\"লিমন প্রদেশের মাতিনা এলাকাটি\"]}", "latency_s": 2.598255800000061, "prompt_tokens": 850, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "HLT_0250", "content": "{\"hallucinated_spans\": [\"এবং এটি স্বাস্থ্য মন্ত্রণালয়ের সরাসরি তত্ত্বাবধানে পরিচালিত হয়\"]}", "latency_s": 2.9323916999999255, "prompt_tokens": 870, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "HLT_0289", "content": "{\"hallucinated_spans\": [\"৩টি\"]}", "latency_s": 2.392526699999962, "prompt_tokens": 862, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0290", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6023053999999775, "prompt_tokens": 907, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0294", "content": "{\"hallucinated_spans\": [\"রোগের\"]}", "latency_s": 2.5688622999998643, "prompt_tokens": 874, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0310", "content": "{\"hallucinated_spans\": [\"অত্যন্ত\"]}", "latency_s": 2.6037205000000085, "prompt_tokens": 873, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0312", "content": "{\"hallucinated_spans\": [\"পর্বের\"]}", "latency_s": 2.7442934000000605, "prompt_tokens": 916, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0318", "content": "{\"hallucinated_spans\": [\"১৯৯৫-এর\", \"মাতিনা এলাকাটি\"]}", "latency_s": 2.7099162999998043, "prompt_tokens": 850, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "HLT_0323", "content": "{\"hallucinated_spans\": [\"মরুভূমি অঞ্চল\"]}", "latency_s": 2.467973900000061, "prompt_tokens": 858, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HLT_0325", "content": "{\"hallucinated_spans\": [\"১৪ দিন\"]}", "latency_s": 3.7000926999999137, "prompt_tokens": 1069, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0329", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6659123999997973, "prompt_tokens": 928, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0330", "content": "{\"hallucinated_spans\": [\"৫টি\", \"অত্যন্ত\"]}", "latency_s": 2.8009064999998827, "prompt_tokens": 874, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "HLT_0336", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.29496180000001, "prompt_tokens": 862, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0345", "content": "{\"hallucinated_spans\": [\"অভিন্ন নয়\"]}", "latency_s": 2.373824400000103, "prompt_tokens": 846, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0350", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.642998099999886, "prompt_tokens": 922, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0380", "content": "{\"hallucinated_spans\": [\"ডায়াবেটিস ক্রনিক রোগ হিসেবে গুরুতর ঝুঁকি বহন করায়\"]}", "latency_s": 3.854588299999932, "prompt_tokens": 1011, "completion_tokens": 29, "finish_reason": "stop"}
+{"id": "HLT_0383", "content": "{\"hallucinated_spans\": [\"না\"]}", "latency_s": 2.6528794000000744, "prompt_tokens": 908, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "HLT_0387", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.247563499999842, "prompt_tokens": 834, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0394", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4734435000000303, "prompt_tokens": 871, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0399", "content": "{\"hallucinated_spans\": [\"রোগ\", \"দূর করার\", \"বাড়তি নজর\"]}", "latency_s": 2.700378399999863, "prompt_tokens": 847, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "HLT_0415", "content": "{\"hallucinated_spans\": [\"এবং ফারাও রাজারা এটি নিয়মিত ব্যবহার করতেন\"]}", "latency_s": 2.9400241999999253, "prompt_tokens": 872, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "HLT_0417", "content": "{\"hallucinated_spans\": [\"২০ বছর\"]}", "latency_s": 3.7102118000000246, "prompt_tokens": 1072, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0421", "content": "{\"hallucinated_spans\": [\"দূর করার\", \"বাড়তি নজর\"]}", "latency_s": 2.6094076999997924, "prompt_tokens": 851, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "HLT_0426", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2916333999999097, "prompt_tokens": 858, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0437", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.593412199999875, "prompt_tokens": 897, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0438", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6554842000000463, "prompt_tokens": 927, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0449", "content": "{\"hallucinated_spans\": [\"শক্তিশালী মানবিক প্রতিক্রিয়া\"]}", "latency_s": 2.4874594000000343, "prompt_tokens": 860, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "HLT_0456", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.493628899999976, "prompt_tokens": 877, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0463", "content": "{\"hallucinated_spans\": [\"৮৩টি\"]}", "latency_s": 2.4219898999999714, "prompt_tokens": 858, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0464", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.464747299999999, "prompt_tokens": 867, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "HLT_0476", "content": "{\"hallucinated_spans\": [\"বিশ্বের\"]}", "latency_s": 2.404503499999919, "prompt_tokens": 860, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "HLT_0480", "content": "{\"hallucinated_spans\": [\"২০০৮ সালে\"]}", "latency_s": 3.4051741999999194, "prompt_tokens": 1011, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "HLT_0482", "content": "{\"hallucinated_spans\": [\"১০ তলা\"]}", "latency_s": 2.439395000000104, "prompt_tokens": 852, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "AGR_0014", "content": "{\"hallucinated_spans\": [\"১৯৬৮\"]}", "latency_s": 3.496328299999959, "prompt_tokens": 1045, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0021", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4853458999998566, "prompt_tokens": 873, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0032", "content": "{\"hallucinated_spans\": [\"বিশ্ব খাদ্য পুরস্কার-২০০৫\"]}", "latency_s": 3.1112004000001434, "prompt_tokens": 940, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "AGR_0042", "content": "{\"hallucinated_spans\": [\"২০০৯ সালে\"]}", "latency_s": 2.6777532999999494, "prompt_tokens": 886, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "AGR_0043", "content": "{\"hallucinated_spans\": [\"না\"]}", "latency_s": 3.0800166999999874, "prompt_tokens": 989, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "AGR_0046", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.605097900000146, "prompt_tokens": 902, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0054", "content": "{\"hallucinated_spans\": [\"১৯৫৫\"]}", "latency_s": 2.2303686999998718, "prompt_tokens": 811, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0058", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.332032799999979, "prompt_tokens": 1027, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0063", "content": "{\"hallucinated_spans\": [\"নির্দিষ্ট\"]}", "latency_s": 3.316532600000073, "prompt_tokens": 1017, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "AGR_0064", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1543788000001314, "prompt_tokens": 812, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0067", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.544554199999993, "prompt_tokens": 895, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0070", "content": "{\"hallucinated_spans\": [\"খোঁড়াখুঁড়ি\"]}", "latency_s": 2.9293261999998776, "prompt_tokens": 924, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "AGR_0075", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4764390999998795, "prompt_tokens": 868, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0078", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.3967807999999877, "prompt_tokens": 1045, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0090", "content": "{\"hallucinated_spans\": [\"15%\"]}", "latency_s": 2.6543808999999783, "prompt_tokens": 882, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "AGR_0094", "content": "{\"hallucinated_spans\": [\"এবং পরবর্তীতে তাকে আজীবন সম্মাননা স্মারক দেওয়া হয়\"]}", "latency_s": 3.0898696000001564, "prompt_tokens": 906, "completion_tokens": 27, "finish_reason": "stop"}
+{"id": "AGR_0103", "content": "{\"hallucinated_spans\": [\"যা মাটির উর্বরতা বৃদ্ধিতে অত্যন্ত সহায়ক\"]}", "latency_s": 3.398913400000083, "prompt_tokens": 959, "completion_tokens": 27, "finish_reason": "stop"}
+{"id": "AGR_0104", "content": "{\"hallucinated_spans\": [\"এবং এটি রপ্তানির মাধ্যমে প্রচুর বৈদেশিক মুদ্রা অর্জিত হয়\"]}", "latency_s": 3.1010321000001113, "prompt_tokens": 907, "completion_tokens": 27, "finish_reason": "stop"}
+{"id": "AGR_0108", "content": "{\"hallucinated_spans\": [\"১৯৭৫\"]}", "latency_s": 2.6846034000000145, "prompt_tokens": 896, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "AGR_0110", "content": "{\"hallucinated_spans\": [\"গুয়াংজু\"]}", "latency_s": 3.0870866999998725, "prompt_tokens": 957, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "AGR_0113", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.274216999999908, "prompt_tokens": 1009, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0121", "content": "{\"hallucinated_spans\": [\"অ্যাকুয়াকালচার\"]}", "latency_s": 2.7524296000001414, "prompt_tokens": 870, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "AGR_0122", "content": "{\"hallucinated_spans\": [\"রাজশাহী শহরে অবস্থিত নয়\", \"বরং সিলেটে অবস্থিত\"]}", "latency_s": 2.6960434000000078, "prompt_tokens": 815, "completion_tokens": 29, "finish_reason": "stop"}
+{"id": "AGR_0128", "content": "{\"hallucinated_spans\": [\"ফসফেট\"]}", "latency_s": 3.2986409000000094, "prompt_tokens": 1008, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0134", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.336933600000066, "prompt_tokens": 1032, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0139", "content": "{\"hallucinated_spans\": [\"১৫.৮ শতাংশ\"]}", "latency_s": 3.5241591999999855, "prompt_tokens": 1040, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "AGR_0144", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5212122999998883, "prompt_tokens": 885, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0145", "content": "{\"hallucinated_spans\": [\"সব এলাকায়\"]}", "latency_s": 2.628596199999947, "prompt_tokens": 890, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0150", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5321329000000787, "prompt_tokens": 882, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0155", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1329682000000503, "prompt_tokens": 810, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0159", "content": "{\"hallucinated_spans\": [\"এবং এসব খামারে মূলত বিদেশি জাতের হাঁস-মুরগি পালন করা হতো\"]}", "latency_s": 4.158690699999852, "prompt_tokens": 1049, "completion_tokens": 33, "finish_reason": "stop"}
+{"id": "AGR_0164", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.343358900000112, "prompt_tokens": 1025, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0179", "content": "{\"hallucinated_spans\": [\"১৪৫ থেকে ১৪৮ গ্রাম\"]}", "latency_s": 3.617201500000192, "prompt_tokens": 1027, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "AGR_0180", "content": "{\"hallucinated_spans\": [\"অ-স্বায়ত্তশাসিত\"]}", "latency_s": 2.460281699999996, "prompt_tokens": 831, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "AGR_0184", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4655119999997623, "prompt_tokens": 868, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0196", "content": "{\"hallucinated_spans\": [\"ল্যাংড়া আম\"]}", "latency_s": 2.7700544999997874, "prompt_tokens": 902, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "AGR_0204", "content": "{\"hallucinated_spans\": [\"যা মাটি পরীক্ষার মাধ্যমে নির্ধারণ করা হয়\"]}", "latency_s": 3.587427999999818, "prompt_tokens": 1024, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "AGR_0210", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1981362999999874, "prompt_tokens": 829, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0212", "content": "{\"hallucinated_spans\": [\"২০০৫ সালে\"]}", "latency_s": 2.597938900000372, "prompt_tokens": 868, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "AGR_0215", "content": "{\"hallucinated_spans\": [\"৫০ টি\"]}", "latency_s": 2.5816283999997722, "prompt_tokens": 873, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0235", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.90842369999973, "prompt_tokens": 947, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0238", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.481706099999883, "prompt_tokens": 870, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0264", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.90653519999978, "prompt_tokens": 945, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0296", "content": "{\"hallucinated_spans\": [\"উপজেলাগুলো\"]}", "latency_s": 2.609156400000302, "prompt_tokens": 869, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "AGR_0299", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1919913000001543, "prompt_tokens": 819, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0304", "content": "{\"hallucinated_spans\": [\"এবং এর প্রথম পরিচালক ছিলেন একজন ব্রিটিশ কৃষিবিদ\"]}", "latency_s": 2.58662779999986, "prompt_tokens": 826, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "AGR_0310", "content": "{\"hallucinated_spans\": [\"৫টি\"]}", "latency_s": 2.6890300000000025, "prompt_tokens": 899, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0315", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.3413590999998632, "prompt_tokens": 1040, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0316", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.8410030999998526, "prompt_tokens": 940, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0320", "content": "{\"hallucinated_spans\": [\"দৌলতপুর\"]}", "latency_s": 2.7214383000000453, "prompt_tokens": 892, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "AGR_0325", "content": "{\"hallucinated_spans\": [\"জুনাগড় কৃষি বিশ্ববিদ্যালয়\"]}", "latency_s": 2.810422000000017, "prompt_tokens": 882, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "AGR_0327", "content": "{\"hallucinated_spans\": [\"১৪টি\"]}", "latency_s": 2.578053000000182, "prompt_tokens": 870, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0334", "content": "{\"hallucinated_spans\": [\"সেন্ট্রাল ইনস্টিটিউট অফ ফিশারিজ এডুকেশন\"]}", "latency_s": 3.16343870000037, "prompt_tokens": 882, "completion_tokens": 30, "finish_reason": "stop"}
+{"id": "AGR_0335", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.8905165000001034, "prompt_tokens": 956, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0338", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5285769999995864, "prompt_tokens": 890, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0344", "content": "{\"hallucinated_spans\": [\"পাকিস্তান চা বোর্ডের\"]}", "latency_s": 2.2632426999998643, "prompt_tokens": 810, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "AGR_0345", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1269680999998855, "prompt_tokens": 809, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0348", "content": "{\"hallucinated_spans\": [\"শূন্য শতাংশ\"]}", "latency_s": 3.3784519999999247, "prompt_tokens": 1016, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0352", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5545474999998987, "prompt_tokens": 896, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0365", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.654029100000116, "prompt_tokens": 918, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0366", "content": "{\"hallucinated_spans\": [\"গম\"]}", "latency_s": 2.227520700000241, "prompt_tokens": 823, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "AGR_0370", "content": "{\"hallucinated_spans\": [\"১৯৯৫\"]}", "latency_s": 2.749701300000197, "prompt_tokens": 918, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0374", "content": "{\"hallucinated_spans\": [\"খোঁড়াখুঁড়ি\", \"এই আম গাছ থেকে\", \"প্রচুর অক্সিজেন উৎপন্ন হয়\"]}", "latency_s": 3.7185538999997334, "prompt_tokens": 933, "completion_tokens": 36, "finish_reason": "stop"}
+{"id": "AGR_0398", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.187476499999775, "prompt_tokens": 817, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0416", "content": "{\"hallucinated_spans\": [\"উৎপাদিত\"]}", "latency_s": 2.6803423000001203, "prompt_tokens": 896, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "AGR_0421", "content": "{\"hallucinated_spans\": [\"অক্ষম\"]}", "latency_s": 3.3670358000003944, "prompt_tokens": 1017, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "AGR_0424", "content": "{\"hallucinated_spans\": [\"পাকিস্তানের\"]}", "latency_s": 2.2323050999998486, "prompt_tokens": 819, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "AGR_0425", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.0447455000003174, "prompt_tokens": 988, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0439", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.191241400000308, "prompt_tokens": 825, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0441", "content": "{\"hallucinated_spans\": [\"ইউরোপ মহাদেশের\"]}", "latency_s": 3.1240308999999797, "prompt_tokens": 946, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "AGR_0444", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5444867999999587, "prompt_tokens": 895, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0445", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5584732000002077, "prompt_tokens": 889, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0455", "content": "{\"hallucinated_spans\": [\"৫.৮ টন\"]}", "latency_s": 3.5113891999999396, "prompt_tokens": 1027, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "AGR_0459", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.290964400000121, "prompt_tokens": 862, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "AGR_0478", "content": "{\"hallucinated_spans\": [\"দেখা দেয়\"]}", "latency_s": 2.6015636999995877, "prompt_tokens": 873, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "AGR_0482", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5872425000002295, "prompt_tokens": 899, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0011", "content": "{\"hallucinated_spans\": [\"অন্যান্য\"]}", "latency_s": 2.3252446999999847, "prompt_tokens": 841, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "GOV_0018", "content": "{\"hallucinated_spans\": [\"নির্দিষ্ট\"]}", "latency_s": 2.2909543000000667, "prompt_tokens": 835, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "GOV_0019", "content": "{\"hallucinated_spans\": [\"জেলার সবচেয়ে বড়\", \"থানা হিসেবে পরিচিত\"]}", "latency_s": 2.629412400000092, "prompt_tokens": 841, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "GOV_0029", "content": "{\"hallucinated_spans\": [\"নথি দিয়ে থাকে\"]}", "latency_s": 2.3700723000001744, "prompt_tokens": 827, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "GOV_0034", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.543661400000019, "prompt_tokens": 894, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0035", "content": "{\"hallucinated_spans\": [\"নামক\"]}", "latency_s": 2.3873475999998846, "prompt_tokens": 860, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "GOV_0052", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.251554400000259, "prompt_tokens": 845, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0068", "content": "{\"hallucinated_spans\": [\"২০১৮ সাল\"]}", "latency_s": 2.9829956999997194, "prompt_tokens": 941, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0071", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4991534999999203, "prompt_tokens": 874, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0074", "content": "{\"hallucinated_spans\": [\"যা দেশের ইতিহাসে\", \"সবচেয়ে দীর্ঘ সময় ধরে\", \"চলা নির্বাচন ছিল\"]}", "latency_s": 3.0588659000000007, "prompt_tokens": 856, "completion_tokens": 33, "finish_reason": "stop"}
+{"id": "GOV_0075", "content": "{\"hallucinated_spans\": [\"চার বছরের\"]}", "latency_s": 2.3601165999998557, "prompt_tokens": 845, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "GOV_0078", "content": "{\"hallucinated_spans\": [\"গোলাপগঞ্জ\"]}", "latency_s": 2.6287184000002526, "prompt_tokens": 878, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0081", "content": "{\"hallucinated_spans\": [\"৩৫\"]}", "latency_s": 2.3476337000001877, "prompt_tokens": 849, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "GOV_0083", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2564690999997765, "prompt_tokens": 847, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0084", "content": "{\"hallucinated_spans\": [\"যা সে সময় আন্তর্জাতিক মহলে ব্যাপক প্রশংসিত হয়\"]}", "latency_s": 2.690055399999892, "prompt_tokens": 837, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "GOV_0096", "content": "{\"hallucinated_spans\": [\"যা বিশ্ব ব্যাংকের আর্থিক সহায়তায় পরিচালিত হচ্ছে\"]}", "latency_s": 2.7064086999998835, "prompt_tokens": 857, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "GOV_0101", "content": "{\"hallucinated_spans\": [\"দিয়ে থাকে না\"]}", "latency_s": 2.359798100000262, "prompt_tokens": 828, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "GOV_0127", "content": "{\"hallucinated_spans\": [\"৫.০০ কি.মি.\"]}", "latency_s": 2.846297599999616, "prompt_tokens": 885, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "GOV_0132", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1967721000000893, "prompt_tokens": 826, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0133", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2845940000001974, "prompt_tokens": 849, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0146", "content": "{\"hallucinated_spans\": [\"ভারত\"]}", "latency_s": 2.6073050999998486, "prompt_tokens": 906, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "GOV_0147", "content": "{\"hallucinated_spans\": [\"এলজিডি\"]}", "latency_s": 2.3153904000000693, "prompt_tokens": 820, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0175", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.3012926999999763, "prompt_tokens": 858, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0176", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.544974800000091, "prompt_tokens": 890, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0178", "content": "{\"hallucinated_spans\": [\"একটি নির্দিষ্ট\"]}", "latency_s": 2.321114899999884, "prompt_tokens": 833, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "GOV_0183", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4823668000003636, "prompt_tokens": 880, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0191", "content": "{\"hallucinated_spans\": [\"৬৮তম\"]}", "latency_s": 2.3417160999997577, "prompt_tokens": 836, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "GOV_0198", "content": "{\"hallucinated_spans\": [\"সাধারণ মানুষের কার্যাবলী\"]}", "latency_s": 2.7750918000001548, "prompt_tokens": 895, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "GOV_0215", "content": "{\"hallucinated_spans\": [\"হংকংকে\"]}", "latency_s": 2.958568099999866, "prompt_tokens": 943, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0217", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.246763000000101, "prompt_tokens": 847, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0224", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.263434999999845, "prompt_tokens": 846, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0235", "content": "{\"hallucinated_spans\": [\"দায়িত্ব পালন করেন\"]}", "latency_s": 2.4208098999997674, "prompt_tokens": 845, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "GOV_0237", "content": "{\"hallucinated_spans\": [\"প্রণয়ন করা হয়েছিল\"]}", "latency_s": 2.4336418999996567, "prompt_tokens": 839, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "GOV_0239", "content": "{\"hallucinated_spans\": [\"২ কিলোমিটার দূরে\"]}", "latency_s": 2.423722699999871, "prompt_tokens": 860, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0241", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2680484000002252, "prompt_tokens": 845, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0251", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.30634850000024, "prompt_tokens": 849, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0269", "content": "{\"hallucinated_spans\": [\"সাধারণ মানুষের কার্যাবলী\"]}", "latency_s": 2.8285673000000315, "prompt_tokens": 898, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "GOV_0291", "content": "{\"hallucinated_spans\": [\"স্থানীয় সরকার বিভাগ\"]}", "latency_s": 2.792215500000111, "prompt_tokens": 920, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0294", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2470594000001256, "prompt_tokens": 840, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0304", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5882039999996778, "prompt_tokens": 906, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0321", "content": "{\"hallucinated_spans\": [\"চট্টগ্রাম-২\"]}", "latency_s": 2.2545224000000417, "prompt_tokens": 805, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0322", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.646960200000194, "prompt_tokens": 919, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0327", "content": "{\"hallucinated_spans\": [\"মিল\"]}", "latency_s": 2.342618399999992, "prompt_tokens": 853, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "GOV_0328", "content": "{\"hallucinated_spans\": [\"১৩টি\"]}", "latency_s": 2.2755287999998473, "prompt_tokens": 823, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "GOV_0332", "content": "{\"hallucinated_spans\": [\"প্রবেশ করতে পারবে\"]}", "latency_s": 3.010682799999813, "prompt_tokens": 941, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "GOV_0341", "content": "{\"hallucinated_spans\": [\"নির্বাচন কমিশনার থাকবে\"]}", "latency_s": 2.412121599999864, "prompt_tokens": 839, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "GOV_0344", "content": "{\"hallucinated_spans\": [\"ইউরোপীয় ইউনিয়নের\"]}", "latency_s": 2.4653181999997287, "prompt_tokens": 841, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "GOV_0352", "content": "{\"hallucinated_spans\": [\"১০ বছরের\"]}", "latency_s": 2.5546816000000945, "prompt_tokens": 874, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "GOV_0360", "content": "{\"hallucinated_spans\": [\"২০ হাজার\"]}", "latency_s": 2.3884508999999525, "prompt_tokens": 853, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "GOV_0365", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.51820459999999, "prompt_tokens": 885, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0380", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.546852399999807, "prompt_tokens": 891, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0382", "content": "{\"hallucinated_spans\": [\"২৫ টি\"]}", "latency_s": 2.391865599999619, "prompt_tokens": 853, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "GOV_0387", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1327806999997847, "prompt_tokens": 805, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0388", "content": "{\"hallucinated_spans\": [\"২০০৪ সালে\"]}", "latency_s": 2.3766694000000825, "prompt_tokens": 840, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0400", "content": "{\"hallucinated_spans\": [\"মিশর\", \"জর্ডান\"]}", "latency_s": 3.17749270000013, "prompt_tokens": 944, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "GOV_0411", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.3050917999999, "prompt_tokens": 853, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0441", "content": "{\"hallucinated_spans\": [\"না\"]}", "latency_s": 2.5840054000000237, "prompt_tokens": 891, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "GOV_0451", "content": "{\"hallucinated_spans\": [\"২০১৬ সালে\"]}", "latency_s": 2.3782255000000987, "prompt_tokens": 839, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0459", "content": "{\"hallucinated_spans\": [\"বিশ্বমঞ্চে\"]}", "latency_s": 2.4294323999997687, "prompt_tokens": 836, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "GOV_0460", "content": "{\"hallucinated_spans\": [\"ই-সেবা কেন্দ্র\"]}", "latency_s": 2.4649686999996447, "prompt_tokens": 839, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "GOV_0463", "content": "{\"hallucinated_spans\": [\"ই-সেবা কেন্দ্রের মাধ্যমেই\"]}", "latency_s": 2.6111014000002797, "prompt_tokens": 852, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "GOV_0467", "content": "{\"hallucinated_spans\": [\"এই উপজেলায়\"]}", "latency_s": 2.31647619999967, "prompt_tokens": 823, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "GOV_0484", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.174648800000341, "prompt_tokens": 820, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "GOV_0493", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.297815200000059, "prompt_tokens": 856, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0003", "content": "{\"hallucinated_spans\": [\"অষ্টম শ্রেণী\", \"দ্বাদশ শ্রেণী\"]}", "latency_s": 2.5309628999998495, "prompt_tokens": 818, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "EDU_0007", "content": "{\"hallucinated_spans\": [\"লাভ করেনি\"]}", "latency_s": 2.38782829999991, "prompt_tokens": 852, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0008", "content": "{\"hallucinated_spans\": [\"কোনো\", \"নেই\"]}", "latency_s": 2.3880487000001267, "prompt_tokens": 823, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "EDU_0011", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.584953300000052, "prompt_tokens": 898, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0021", "content": "{\"hallucinated_spans\": [\"উনিশ শতকের\"]}", "latency_s": 2.423854399999982, "prompt_tokens": 843, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "EDU_0025", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.48042310000028, "prompt_tokens": 869, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0033", "content": "{\"hallucinated_spans\": [\"সংযুক্ত এই\"]}", "latency_s": 2.3762087999998585, "prompt_tokens": 846, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0038", "content": "{\"hallucinated_spans\": [\"এবং দোতলায় একটি সমৃদ্ধ লাইব্রেরি রয়েছে\"]}", "latency_s": 3.0435324000000037, "prompt_tokens": 904, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "EDU_0039", "content": "{\"hallucinated_spans\": [\"দায়িত্ব পালন করেছিলেন\"]}", "latency_s": 3.0212012000001778, "prompt_tokens": 939, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "EDU_0040", "content": "{\"hallucinated_spans\": [\"সমস্ত ধরনের\"]}", "latency_s": 2.3378632999997535, "prompt_tokens": 839, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0044", "content": "{\"hallucinated_spans\": [\"১৯০৮\"]}", "latency_s": 2.4239754000000175, "prompt_tokens": 856, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0048", "content": "{\"hallucinated_spans\": [\"আওতায়\"]}", "latency_s": 2.334974500000044, "prompt_tokens": 831, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0054", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.190701699999863, "prompt_tokens": 824, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0058", "content": "{\"hallucinated_spans\": [\"মাস্টার্স ডিগ্রি সমতুল্য\"]}", "latency_s": 2.6079860999998346, "prompt_tokens": 850, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "EDU_0062", "content": "{\"hallucinated_spans\": [\"৮টি\"]}", "latency_s": 2.3505615999997644, "prompt_tokens": 848, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0064", "content": "{\"hallucinated_spans\": [\"মাধ্যমিক স্তরের\"]}", "latency_s": 2.6631556999996064, "prompt_tokens": 870, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "EDU_0072", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6039278000002923, "prompt_tokens": 898, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0087", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4810836000001473, "prompt_tokens": 873, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0093", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.3084313999997903, "prompt_tokens": 856, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0098", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.316794800000025, "prompt_tokens": 855, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0102", "content": "{\"hallucinated_spans\": [\"১:৩৫\"]}", "latency_s": 2.3681848000001082, "prompt_tokens": 833, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0112", "content": "{\"hallucinated_spans\": [\"যা সমুদ্রপৃষ্ঠ থেকে প্রায় একশ ফুট উঁচুতে নির্মিত\"]}", "latency_s": 3.0401013999999122, "prompt_tokens": 875, "completion_tokens": 29, "finish_reason": "stop"}
+{"id": "EDU_0114", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.525826699999925, "prompt_tokens": 893, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0119", "content": "{\"hallucinated_spans\": [\"৩৮.২%\"]}", "latency_s": 2.7663312999998197, "prompt_tokens": 898, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "EDU_0120", "content": "{\"hallucinated_spans\": [\"মোট\"]}", "latency_s": 2.282439600000089, "prompt_tokens": 848, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "EDU_0132", "content": "{\"hallucinated_spans\": [\"এর প্রতিষ্ঠাতা প্রধান শিক্ষক ছিলেন স্থানীয় এক শিক্ষানুরাগী ব্যক্তি\"]}", "latency_s": 3.119448200000079, "prompt_tokens": 904, "completion_tokens": 28, "finish_reason": "stop"}
+{"id": "EDU_0133", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4639415999999983, "prompt_tokens": 870, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0136", "content": "{\"hallucinated_spans\": [\"নিষ্ক্রিয়\"]}", "latency_s": 2.329452599999968, "prompt_tokens": 832, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0148", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.3031110000001718, "prompt_tokens": 852, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0151", "content": "{\"hallucinated_spans\": [\"বিশেষ ভ্রুক্ষেপ করে\"]}", "latency_s": 3.491053499999907, "prompt_tokens": 1010, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "EDU_0158", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6014541999998073, "prompt_tokens": 899, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0162", "content": "{\"hallucinated_spans\": [\"যা ঢাকা বিশ্ববিদ্যালয় কর্তৃক অধিভুক্ত\"]}", "latency_s": 2.802917200000138, "prompt_tokens": 881, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "EDU_0173", "content": "{\"hallucinated_spans\": [\"সাধারণ জনগণের নেতৃত্বে\"]}", "latency_s": 2.6187747000003583, "prompt_tokens": 880, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0177", "content": "{\"hallucinated_spans\": [\"চলে যায়নি\"]}", "latency_s": 2.394631500000287, "prompt_tokens": 846, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0196", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5533572999997887, "prompt_tokens": 889, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0201", "content": "{\"hallucinated_spans\": [\"আল - মারহালাতুস সানাবিয়াহ্ আল উলইয়া\"]}", "latency_s": 2.9772884000003614, "prompt_tokens": 860, "completion_tokens": 31, "finish_reason": "stop"}
+{"id": "EDU_0213", "content": "{\"hallucinated_spans\": [\"মরহুম আব্দুল জব্বার\"]}", "latency_s": 2.7336129999998775, "prompt_tokens": 869, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "EDU_0215", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.3174706000004335, "prompt_tokens": 861, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0217", "content": "{\"hallucinated_spans\": [\"শুধুমাত্র\"]}", "latency_s": 3.3652847999996993, "prompt_tokens": 1013, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0224", "content": "{\"hallucinated_spans\": [\"৫\"]}", "latency_s": 2.304009800000131, "prompt_tokens": 842, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "EDU_0227", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2696062999998503, "prompt_tokens": 842, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0230", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.313579600000139, "prompt_tokens": 859, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0231", "content": "{\"hallucinated_spans\": [\"৫৯টি\"]}", "latency_s": 2.445719899999858, "prompt_tokens": 856, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0232", "content": "{\"hallucinated_spans\": [\"লাভ করেননি\"]}", "latency_s": 2.9749815000000126, "prompt_tokens": 950, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0239", "content": "{\"hallucinated_spans\": [\"১৯৫০ সালে\"]}", "latency_s": 2.6717078000001493, "prompt_tokens": 888, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0249", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2416321999999127, "prompt_tokens": 847, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0261", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5455042999997204, "prompt_tokens": 891, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0270", "content": "{\"hallucinated_spans\": [\"১৬ বছর\"]}", "latency_s": 3.1203780999999253, "prompt_tokens": 992, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0289", "content": "{\"hallucinated_spans\": [\"১:৫০\"]}", "latency_s": 2.3252787000001263, "prompt_tokens": 824, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0298", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.039244900000085, "prompt_tokens": 992, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0304", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5482554000000164, "prompt_tokens": 883, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0309", "content": "{\"hallucinated_spans\": [\"৮২৫টি\"]}", "latency_s": 2.4005043000001933, "prompt_tokens": 846, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0318", "content": "{\"hallucinated_spans\": [\"দুই বছরের\"]}", "latency_s": 2.5846332999999504, "prompt_tokens": 871, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0326", "content": "{\"hallucinated_spans\": [\"তবে উচ্চশিক্ষায় তা প্রযোজ্য নয়\"]}", "latency_s": 2.589114299999892, "prompt_tokens": 835, "completion_tokens": 24, "finish_reason": "stop"}
+{"id": "EDU_0332", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2951963000000433, "prompt_tokens": 850, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0337", "content": "{\"hallucinated_spans\": [\"একটি আধুনিক খেলার মাঠ\"]}", "latency_s": 2.4472186999996666, "prompt_tokens": 848, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "EDU_0349", "content": "{\"hallucinated_spans\": [\"এই বিদ্যালয়ে\"]}", "latency_s": 2.313626199999817, "prompt_tokens": 818, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0358", "content": "{\"hallucinated_spans\": [\"অধিবাসী\"]}", "latency_s": 2.3281473000001824, "prompt_tokens": 830, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0362", "content": "{\"hallucinated_spans\": [\"তৎকালীন ব্রিটিশ ভারতের জেলার\"]}", "latency_s": 2.4495239000002584, "prompt_tokens": 827, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "EDU_0367", "content": "{\"hallucinated_spans\": [\"যা ঢাকা বোর্ডের অধীনে পরিচালিত হয়\"]}", "latency_s": 2.756017400000019, "prompt_tokens": 878, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "EDU_0368", "content": "{\"hallucinated_spans\": [\"এই মেডিকেল কলেজ\"]}", "latency_s": 2.3746150000001762, "prompt_tokens": 836, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0369", "content": "{\"hallucinated_spans\": [\"পড়াশোনার সুবিধার্থে\"]}", "latency_s": 2.456246100000044, "prompt_tokens": 823, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "EDU_0374", "content": "{\"hallucinated_spans\": [\"নয়\"]}", "latency_s": 2.334257300000445, "prompt_tokens": 839, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0382", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2306133000001864, "prompt_tokens": 840, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0387", "content": "{\"hallucinated_spans\": [\"১২৫১৭\"]}", "latency_s": 2.6510441999998875, "prompt_tokens": 883, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0405", "content": "{\"hallucinated_spans\": [\"পরবর্তীতে\"]}", "latency_s": 3.0405839999998534, "prompt_tokens": 950, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0410", "content": "{\"hallucinated_spans\": [\"১৯৫৮ সালে\"]}", "latency_s": 2.427965399999721, "prompt_tokens": 858, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0411", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2377722000001086, "prompt_tokens": 842, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0445", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.893786000000091, "prompt_tokens": 957, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0459", "content": "{\"hallucinated_spans\": [\"যা যাতায়াতের জন্য খুবই সুবিধাজনক\"]}", "latency_s": 2.9366926999996394, "prompt_tokens": 883, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "EDU_0461", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.195144099999652, "prompt_tokens": 830, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0470", "content": "{\"hallucinated_spans\": [\"মৌলভী আলী সরকারের\", \"প্রতিষ্ঠাতা হিসেবেও\", \"দায়িত্ব পালন করেছিলেন\"]}", "latency_s": 3.6568970999996964, "prompt_tokens": 940, "completion_tokens": 34, "finish_reason": "stop"}
+{"id": "EDU_0471", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.294728700000178, "prompt_tokens": 849, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "EDU_0474", "content": "{\"hallucinated_spans\": [\"কমিয়ে\"]}", "latency_s": 2.3472671000004084, "prompt_tokens": 833, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0483", "content": "{\"hallucinated_spans\": [\"প্রথম স্থান\"]}", "latency_s": 2.9981290000000627, "prompt_tokens": 957, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0484", "content": "{\"hallucinated_spans\": [\"অবস্থিত নয়\"]}", "latency_s": 2.379076199999872, "prompt_tokens": 837, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "EDU_0486", "content": "{\"hallucinated_spans\": [\"দুই বছরের\"]}", "latency_s": 2.5728828999999678, "prompt_tokens": 874, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "EDU_0492", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.55156020000004, "prompt_tokens": 894, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0006", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.0481972000002315, "prompt_tokens": 992, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0007", "content": "{\"hallucinated_spans\": [\"৫০টি\"]}", "latency_s": 2.332556100000147, "prompt_tokens": 836, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "UNI_0011", "content": "{\"hallucinated_spans\": [\"যা পরবর্তীতে শিক্ষা মন্ত্রণালয় কর্তৃক অনুমোদিত হয়\"]}", "latency_s": 2.998771300000044, "prompt_tokens": 902, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "UNI_0014", "content": "{\"hallucinated_spans\": [\"১৯৪৮\"]}", "latency_s": 2.2767845999997007, "prompt_tokens": 832, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "UNI_0017", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.9569031999999424, "prompt_tokens": 967, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0021", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.605883100000028, "prompt_tokens": 899, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0025", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.490051400000084, "prompt_tokens": 876, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0032", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1747724000001654, "prompt_tokens": 824, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0037", "content": "{\"hallucinated_spans\": [\"মোট ৬ জন\"]}", "latency_s": 2.29674279999972, "prompt_tokens": 818, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0045", "content": "{\"hallucinated_spans\": [\"বিরোধিতা সত্ত্বেও\"]}", "latency_s": 2.3022117000000435, "prompt_tokens": 813, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "UNI_0049", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1194272000002456, "prompt_tokens": 801, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0050", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5866814999999406, "prompt_tokens": 903, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0051", "content": "{\"hallucinated_spans\": [\"২০০২ সালে\"]}", "latency_s": 3.0308363000003737, "prompt_tokens": 956, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0053", "content": "{\"hallucinated_spans\": [\"তৎকালীন\"]}", "latency_s": 2.3328293999998095, "prompt_tokens": 832, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0076", "content": "{\"hallucinated_spans\": [\"৫ তলা বিশিষ্ট\"]}", "latency_s": 3.392810400000144, "prompt_tokens": 996, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "UNI_0080", "content": "{\"hallucinated_spans\": [\"নয়\"]}", "latency_s": 3.296603199999936, "prompt_tokens": 1000, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "UNI_0097", "content": "{\"hallucinated_spans\": [\"মোট ১ কোটি ২০ লক্ষ টাকা\"]}", "latency_s": 2.4989808000000266, "prompt_tokens": 846, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "UNI_0099", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2581466000001456, "prompt_tokens": 842, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0105", "content": "{\"hallucinated_spans\": [\"চাকসু ব্যবহার করে\"]}", "latency_s": 2.1695465999996486, "prompt_tokens": 791, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "UNI_0110", "content": "{\"hallucinated_spans\": [\"এবং এর প্রথম উপাচার্য হিসেবে যোগ দেন ড. মোহাঃ হাছানাত আলী\"]}", "latency_s": 3.348233100000016, "prompt_tokens": 886, "completion_tokens": 34, "finish_reason": "stop"}
+{"id": "UNI_0119", "content": "{\"hallucinated_spans\": [\"এবং এর প্রথম সভাপতি ছিলেন তৎকালীন উপাচার্য\"]}", "latency_s": 2.2869180000002416, "prompt_tokens": 785, "completion_tokens": 24, "finish_reason": "stop"}
+{"id": "UNI_0126", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.473807400000169, "prompt_tokens": 868, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0135", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.2132619000003615, "prompt_tokens": 999, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0137", "content": "{\"hallucinated_spans\": [\"একটি\"]}", "latency_s": 2.2890896999997494, "prompt_tokens": 835, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "UNI_0150", "content": "{\"hallucinated_spans\": [\"এবং\"]}", "latency_s": 2.2827824999999393, "prompt_tokens": 835, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "UNI_0151", "content": "{\"hallucinated_spans\": [\"৫ তলা বিশিষ্ট\", \"অত্যাধুনিক সাউন্ড সিস্টেম রয়েছে\"]}", "latency_s": 3.8175117000000682, "prompt_tokens": 1005, "completion_tokens": 30, "finish_reason": "stop"}
+{"id": "UNI_0160", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.9119643999997606, "prompt_tokens": 956, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0172", "content": "{\"hallucinated_spans\": [\"৫৫তম\"]}", "latency_s": 2.569448900000225, "prompt_tokens": 875, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "UNI_0179", "content": "{\"hallucinated_spans\": [\"১৯৯৫ সালে\"]}", "latency_s": 3.3340915000003406, "prompt_tokens": 1003, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0181", "content": "{\"hallucinated_spans\": [\"বিশ্ববিদ্যালয়ে\"]}", "latency_s": 2.3100414000000455, "prompt_tokens": 832, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0188", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.239121999999952, "prompt_tokens": 847, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0189", "content": "{\"hallucinated_spans\": [\"নভেম্বর\"]}", "latency_s": 2.6547614999999496, "prompt_tokens": 886, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0191", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1795477999999093, "prompt_tokens": 829, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0194", "content": "{\"hallucinated_spans\": [\"নতুন\"]}", "latency_s": 2.183466899999985, "prompt_tokens": 808, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "UNI_0199", "content": "{\"hallucinated_spans\": [\"ঢাকা বিশ্ববিদ্যালয়\"]}", "latency_s": 2.0147603000000345, "prompt_tokens": 791, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "UNI_0201", "content": "{\"hallucinated_spans\": [\"৫১টি\"]}", "latency_s": 2.4021797000000333, "prompt_tokens": 846, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0211", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1923665999997866, "prompt_tokens": 832, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0213", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1491751000003205, "prompt_tokens": 813, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0215", "content": "{\"hallucinated_spans\": [\"৫০০ জন\"]}", "latency_s": 2.32017309999992, "prompt_tokens": 829, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0218", "content": "{\"hallucinated_spans\": [\"এর ঘনবসতিপূর্ণ এলাকার চারপাশের\"]}", "latency_s": 2.644036600000163, "prompt_tokens": 854, "completion_tokens": 24, "finish_reason": "stop"}
+{"id": "UNI_0223", "content": "{\"hallucinated_spans\": [\"১০টি\"]}", "latency_s": 3.1309830999998667, "prompt_tokens": 990, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "UNI_0224", "content": "{\"hallucinated_spans\": [\"মোট\"]}", "latency_s": 2.222898499999701, "prompt_tokens": 818, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "UNI_0232", "content": "{\"hallucinated_spans\": [\"বিডিএস\"]}", "latency_s": 2.741212899999937, "prompt_tokens": 900, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0242", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.220611299999746, "prompt_tokens": 1003, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0254", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4840026999995644, "prompt_tokens": 878, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0272", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.2801119000000654, "prompt_tokens": 1014, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0303", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1947296000003007, "prompt_tokens": 830, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0322", "content": "{\"hallucinated_spans\": [\"সংক্ষেপে পরিচিত\"]}", "latency_s": 2.036446999999953, "prompt_tokens": 780, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0329", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.250572999999804, "prompt_tokens": 836, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0337", "content": "{\"hallucinated_spans\": [\"ইঞ্জিনিয়ারিং স্কুলের\"]}", "latency_s": 2.4111274000001686, "prompt_tokens": 813, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "UNI_0342", "content": "{\"hallucinated_spans\": [\"এবং এর উচ্চতা প্রায় পনেরো ফুট\"]}", "latency_s": 2.631579200000033, "prompt_tokens": 843, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "UNI_0343", "content": "{\"hallucinated_spans\": [\"যা তৎকালীন শিক্ষামন্ত্রী উদ্বোধন করেছিলেন\"]}", "latency_s": 3.4825212999999167, "prompt_tokens": 999, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "UNI_0347", "content": "{\"hallucinated_spans\": [\"রাজা গোজোং\"]}", "latency_s": 2.4524365999996007, "prompt_tokens": 833, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "UNI_0350", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.254445499999747, "prompt_tokens": 847, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0359", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1606071000001066, "prompt_tokens": 814, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0361", "content": "{\"hallucinated_spans\": [\"এম.এস.জোহা কৃষি কলেজ\"]}", "latency_s": 2.9579710000002706, "prompt_tokens": 882, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "UNI_0366", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5986085999998068, "prompt_tokens": 900, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0385", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2382219000000987, "prompt_tokens": 834, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0389", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.156532999999854, "prompt_tokens": 808, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0390", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5443356000000676, "prompt_tokens": 886, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0393", "content": "{\"hallucinated_spans\": []}", "latency_s": 1.8979638000000705, "prompt_tokens": 783, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0395", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.659961399999702, "prompt_tokens": 921, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0409", "content": "{\"hallucinated_spans\": [\"দুটির নাম হলো\"]}", "latency_s": 2.6590359000001627, "prompt_tokens": 868, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "UNI_0413", "content": "{\"hallucinated_spans\": [\"যার সবকটি এসি ক্লাসরুম সমৃদ্ধ\"]}", "latency_s": 2.7344907000001513, "prompt_tokens": 853, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "UNI_0417", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.24475990000019, "prompt_tokens": 834, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0429", "content": "{\"hallucinated_spans\": [\"জন\"]}", "latency_s": 2.2368235999997523, "prompt_tokens": 830, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "UNI_0438", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6128060000000914, "prompt_tokens": 907, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0441", "content": "{\"hallucinated_spans\": [\"ইতিহাস\"]}", "latency_s": 3.3819585999999617, "prompt_tokens": 1012, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "UNI_0460", "content": "{\"hallucinated_spans\": []}", "latency_s": 1.9060934999997698, "prompt_tokens": 777, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0461", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2459626999998363, "prompt_tokens": 840, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0462", "content": "{\"hallucinated_spans\": [\"রেডিও\"]}", "latency_s": 2.6752046999999948, "prompt_tokens": 903, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "UNI_0463", "content": "{\"hallucinated_spans\": [\"১৯৯৮ সালে\"]}", "latency_s": 2.7663306000004013, "prompt_tokens": 907, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "UNI_0468", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.228017699999782, "prompt_tokens": 836, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0471", "content": "{\"hallucinated_spans\": [\"খান জাহান আলী কৃষি কলেজ\"]}", "latency_s": 2.4848048999997445, "prompt_tokens": 863, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "UNI_0479", "content": "{\"hallucinated_spans\": [\"পাঞ্জাবের\"]}", "latency_s": 2.4168164000002434, "prompt_tokens": 854, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0480", "content": "{\"hallucinated_spans\": [\"২০২১ সালে\"]}", "latency_s": 2.7739065999999184, "prompt_tokens": 921, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0482", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.9478053000002546, "prompt_tokens": 962, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0484", "content": "{\"hallucinated_spans\": [\"তৎকালীন\"]}", "latency_s": 2.3751901000000544, "prompt_tokens": 840, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "UNI_0495", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.042275100000097, "prompt_tokens": 990, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "UNI_0499", "content": "{\"hallucinated_spans\": [\"এবং এর প্রথম ক্লাসে\", \"প্রায় অর্ধশত শিক্ষার্থী\", \"উপস্থিত ছিলেন\"]}", "latency_s": 2.851415000000088, "prompt_tokens": 812, "completion_tokens": 32, "finish_reason": "stop"}
+{"id": "SCI_0029", "content": "{\"hallucinated_spans\": [\"যা তার শিক্ষাজীবনের অন্যতম সেরা অর্জন ছিল\"]}", "latency_s": 3.275217899999916, "prompt_tokens": 936, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "SCI_0035", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.268669399999908, "prompt_tokens": 844, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0043", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.4843589000001884, "prompt_tokens": 876, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0049", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.263705800000025, "prompt_tokens": 838, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0051", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.66234089999989, "prompt_tokens": 922, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0066", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6621157999998104, "prompt_tokens": 924, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0070", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5577870000001894, "prompt_tokens": 891, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0078", "content": "{\"hallucinated_spans\": [\"৫৩ কেজি\"]}", "latency_s": 3.0335932000002686, "prompt_tokens": 952, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0082", "content": "{\"hallucinated_spans\": [\"ঢাকা বিভাগের\"]}", "latency_s": 2.633650100000068, "prompt_tokens": 882, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "SCI_0090", "content": "{\"hallucinated_spans\": [\"মানহা জুনাইরাহ খান\"]}", "latency_s": 2.4965189999998074, "prompt_tokens": 819, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "SCI_0101", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5007900999999038, "prompt_tokens": 875, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0102", "content": "{\"hallucinated_spans\": [\"যায় না\"]}", "latency_s": 2.7506177999998727, "prompt_tokens": 925, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "SCI_0105", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.19455089999974, "prompt_tokens": 827, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0116", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1679369999997107, "prompt_tokens": 819, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0117", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.468825299999935, "prompt_tokens": 878, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0122", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.13470580000012, "prompt_tokens": 815, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0123", "content": "{\"hallucinated_spans\": [\"এবং সেখানে একটি নতুন ইঞ্জিনিয়ারিং অনুষদ চালু করেছিলেন\"]}", "latency_s": 2.8310341999999764, "prompt_tokens": 861, "completion_tokens": 28, "finish_reason": "stop"}
+{"id": "SCI_0127", "content": "{\"hallucinated_spans\": [\"না\"]}", "latency_s": 2.6974741999997605, "prompt_tokens": 920, "completion_tokens": 17, "finish_reason": "stop"}
+{"id": "SCI_0132", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.60415520000015, "prompt_tokens": 911, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0141", "content": "{\"hallucinated_spans\": [\"যার মোট ব্যয় ধরা হয়েছিল পাঁচশ কোটি টাকা\"]}", "latency_s": 2.576734199999919, "prompt_tokens": 823, "completion_tokens": 25, "finish_reason": "stop"}
+{"id": "SCI_0146", "content": "{\"hallucinated_spans\": [\"৫৪.৯%\"]}", "latency_s": 2.756521899999825, "prompt_tokens": 883, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "SCI_0150", "content": "{\"hallucinated_spans\": [\"১৯৮৫ সালে\"]}", "latency_s": 2.843648999999914, "prompt_tokens": 928, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "SCI_0163", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.309697099999994, "prompt_tokens": 857, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0168", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.55340920000026, "prompt_tokens": 883, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0172", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2689807000001565, "prompt_tokens": 835, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0173", "content": "{\"hallucinated_spans\": [\"শাহপরান\"]}", "latency_s": 2.3989317999999002, "prompt_tokens": 843, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0174", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.91033809999999, "prompt_tokens": 952, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0180", "content": "{\"hallucinated_spans\": [\"আলিপুর ডিটেনশন ক্যাম্প\"]}", "latency_s": 2.522328699999889, "prompt_tokens": 847, "completion_tokens": 22, "finish_reason": "stop"}
+{"id": "SCI_0190", "content": "{\"hallucinated_spans\": [\"১০০ কিলোমিটার\"]}", "latency_s": 2.786205699999755, "prompt_tokens": 921, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0192", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.302983100000347, "prompt_tokens": 856, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0199", "content": "{\"hallucinated_spans\": [\"৫০ বিলিয়ন\"]}", "latency_s": 2.379274599999917, "prompt_tokens": 838, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0215", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.2293980999997984, "prompt_tokens": 1002, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0222", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5239667000000736, "prompt_tokens": 885, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0230", "content": "{\"hallucinated_spans\": [\"৮টি\"]}", "latency_s": 2.5755433999997877, "prompt_tokens": 876, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "SCI_0234", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.520376099999794, "prompt_tokens": 889, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0240", "content": "{\"hallucinated_spans\": [\"২০০৫ সালে\"]}", "latency_s": 2.4169574999996257, "prompt_tokens": 857, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0241", "content": "{\"hallucinated_spans\": [\"লাভ করেননি\"]}", "latency_s": 2.75067319999971, "prompt_tokens": 924, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "SCI_0248", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2507135000000744, "prompt_tokens": 843, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0256", "content": "{\"hallucinated_spans\": [\"আইবিএম পিসি\"]}", "latency_s": 3.0746173000002273, "prompt_tokens": 939, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "SCI_0257", "content": "{\"hallucinated_spans\": [\"৮.৭%\"]}", "latency_s": 2.7131861999996545, "prompt_tokens": 885, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "SCI_0267", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.246116499999971, "prompt_tokens": 837, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0287", "content": "{\"hallucinated_spans\": [\"অন্তর্ভুক্ত ছিল না\"]}", "latency_s": 2.4238264999999046, "prompt_tokens": 828, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "SCI_0295", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2562597000001006, "prompt_tokens": 848, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0299", "content": "{\"hallucinated_spans\": [\"১৯৯৬ সালে\"]}", "latency_s": 2.436085699999694, "prompt_tokens": 835, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "SCI_0306", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.6818053000001782, "prompt_tokens": 923, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0316", "content": "{\"hallucinated_spans\": [\"প্রচলন করেননি\"]}", "latency_s": 2.4900708000000122, "prompt_tokens": 864, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "SCI_0319", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.311319299999923, "prompt_tokens": 864, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0321", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2591255000002093, "prompt_tokens": 838, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0323", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5602822000000742, "prompt_tokens": 892, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0324", "content": "{\"hallucinated_spans\": [\"একটি নগরাঞ্চল\"]}", "latency_s": 3.0349694000001364, "prompt_tokens": 940, "completion_tokens": 20, "finish_reason": "stop"}
+{"id": "SCI_0332", "content": "{\"hallucinated_spans\": [\"২০১৯ সালে\"]}", "latency_s": 2.6150477000001047, "prompt_tokens": 870, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0341", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.47854980000011, "prompt_tokens": 870, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0348", "content": "{\"hallucinated_spans\": [\"আইটি পার্ক করা হয়েছে\"]}", "latency_s": 2.782641700000113, "prompt_tokens": 884, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "SCI_0354", "content": "{\"hallucinated_spans\": []}", "latency_s": 3.0427711999996063, "prompt_tokens": 988, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0356", "content": "{\"hallucinated_spans\": [\"৫ জন\"]}", "latency_s": 2.327390099999775, "prompt_tokens": 838, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "SCI_0363", "content": "{\"hallucinated_spans\": [\"৫০ বছরের\"]}", "latency_s": 2.6424486000000798, "prompt_tokens": 892, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "SCI_0378", "content": "{\"hallucinated_spans\": [\"নির্মাণ করেননি\"]}", "latency_s": 2.7164960999998584, "prompt_tokens": 911, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0389", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.2349503999998888, "prompt_tokens": 834, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0391", "content": "{\"hallucinated_spans\": [\"ইউসেটের\"]}", "latency_s": 2.406440599999769, "prompt_tokens": 851, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0395", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.5405682999999044, "prompt_tokens": 888, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0401", "content": "{\"hallucinated_spans\": [\"১৯৮৯\"]}", "latency_s": 2.266353800000161, "prompt_tokens": 813, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0405", "content": "{\"hallucinated_spans\": [\"না।\"]}", "latency_s": 2.7367409999997108, "prompt_tokens": 926, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "SCI_0412", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.301027399999839, "prompt_tokens": 849, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0413", "content": "{\"hallucinated_spans\": [\"হ্রাস পায়\"]}", "latency_s": 2.677193399999851, "prompt_tokens": 888, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0427", "content": "{\"hallucinated_spans\": [\"বিজয় সফটওয়্যারটি\"]}", "latency_s": 2.709825599999931, "prompt_tokens": 878, "completion_tokens": 21, "finish_reason": "stop"}
+{"id": "SCI_0428", "content": "{\"hallucinated_spans\": [\"হয়ে থাকে\"]}", "latency_s": 2.788698000000295, "prompt_tokens": 920, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0436", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.653085700000247, "prompt_tokens": 928, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0438", "content": "{\"hallucinated_spans\": [\"কখনো\", \"কাজ করেননি\"]}", "latency_s": 3.5416399999999157, "prompt_tokens": 1002, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "SCI_0462", "content": "{\"hallucinated_spans\": []}", "latency_s": 2.1533038000002307, "prompt_tokens": 813, "completion_tokens": 16, "finish_reason": "stop"}
+{"id": "SCI_0463", "content": "{\"hallucinated_spans\": [\"আন্তর্জাতিক মানের\"]}", "latency_s": 2.2246964000000844, "prompt_tokens": 813, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "SCI_0464", "content": "{\"hallucinated_spans\": [\"এই দুটি যন্ত্র\"]}", "latency_s": 2.7873506999999336, "prompt_tokens": 925, "completion_tokens": 19, "finish_reason": "stop"}
+{"id": "SCI_0475", "content": "{\"hallucinated_spans\": [\"যা মহাশূন্যে সফলভাবে এক বছর পূর্ণ করেছে\"]}", "latency_s": 3.0538784999998825, "prompt_tokens": 902, "completion_tokens": 26, "finish_reason": "stop"}
+{"id": "SCI_0487", "content": "{\"hallucinated_spans\": [\"স্পট\"]}", "latency_s": 3.1155295000003207, "prompt_tokens": 986, "completion_tokens": 18, "finish_reason": "stop"}
+{"id": "SCI_0488", "content": "{\"hallucinated_spans\": [\"সাবেরা সাদাত সুরভী\"]}", "latency_s": 2.5094884999998612, "prompt_tokens": 819, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "SCI_0489", "content": "{\"hallucinated_spans\": [\"স্নাতকোত্তর ডিগ্রি অর্জন করেন\"]}", "latency_s": 2.9699643999997534, "prompt_tokens": 925, "completion_tokens": 23, "finish_reason": "stop"}
+{"id": "SCI_0498", "content": "{\"hallucinated_spans\": [\"২০০১ সালে\"]}", "latency_s": 2.3648778000001585, "prompt_tokens": 844, "completion_tokens": 19, "finish_reason": "stop"}

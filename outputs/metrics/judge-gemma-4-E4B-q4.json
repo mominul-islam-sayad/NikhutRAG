@@ -1,0 +1,372 @@
+{
+  "run": "judge-gemma-4-E4B-q4",
+  "judge": "gemma-4-E4B-q4",
+  "server": "http://127.0.0.1:8080",
+  "split": "test",
+  "n": 588,
+  "fewshot": 2,
+  "system_prompt": "You are a strict fact-checker for a Bangla question-answering system that answers from a retrieved context. The context is the only source of truth: do not use outside knowledge. Your job is to find every part of the answer that is not supported by the context or that contradicts it: wrong names, numbers, dates, facts added that the context does not state, or content that misstates what the context says.",
+  "instruction": "Copy each unsupported part exactly as it appears in the answer, character for character, and keep each part as short as possible (usually one to four words). Do not quote parts of the answer that the context supports. If the whole answer is supported by the context, return an empty list. Respond with JSON only, in the form {\"hallucinated_spans\": [\"...\", \"...\"]}.",
+  "test": {
+    "name": "judge:gemma-4-E4B-q4",
+    "n_examples": 588,
+    "word_level": {
+      "precision": 0.5812163202463433,
+      "recall": 0.8014861995753716,
+      "f1": 0.6738063364569389,
+      "support": 942,
+      "tp": 755,
+      "fp": 544,
+      "fn": 187
+    },
+    "example_level": {
+      "precision": 0.7245657568238213,
+      "recall": 0.9931972789115646,
+      "f1": 0.8378766140602583,
+      "accuracy": 0.8078231292517006,
+      "auroc": 0.8078231292517007,
+      "n": 588
+    },
+    "span_level": {
+      "exact": 0.4387755102040816,
+      "partial": 0.95578231292517,
+      "precision": 0.2925170068027211,
+      "recall": 0.4387755102040816,
+      "f1": 0.3510204081632653,
+      "n_gold": 294,
+      "n_unusable": 0
+    },
+    "per_type": {
+      "contradiction": {
+        "n": 58,
+        "n_hallucinated": 58,
+        "example_recall": 1.0,
+        "word_f1": 0.7696078431372549
+      },
+      "date_error": {
+        "n": 41,
+        "n_hallucinated": 41,
+        "example_recall": 0.975609756097561,
+        "word_f1": 0.7724137931034483
+      },
+      "entity_replacement": {
+        "n": 46,
+        "n_hallucinated": 46,
+        "example_recall": 1.0,
+        "word_f1": 0.782608695652174
+      },
+      "fabricated_info": {
+        "n": 44,
+        "n_hallucinated": 44,
+        "example_recall": 1.0,
+        "word_f1": 0.88107202680067
+      },
+      "none": {
+        "n": 294,
+        "n_hallucinated": 0,
+        "example_recall": null,
+        "word_f1": 0.0
+      },
+      "number_error": {
+        "n": 59,
+        "n_hallucinated": 59,
+        "example_recall": 1.0,
+        "word_f1": 0.7663551401869159
+      },
+      "omission": {
+        "n": 46,
+        "n_hallucinated": 46,
+        "example_recall": 0.9782608695652174,
+        "word_f1": 0.6782006920415224
+      }
+    },
+    "per_domain": {
+      "Agriculture": {
+        "n": 76,
+        "example_f1": 0.891566265060241,
+        "accuracy": 0.881578947368421
+      },
+      "Bangladesh Affairs": {
+        "n": 74,
+        "example_f1": 0.8181818181818182,
+        "accuracy": 0.7837837837837838
+      },
+      "Education": {
+        "n": 78,
+        "example_f1": 0.8571428571428571,
+        "accuracy": 0.8333333333333334
+      },
+      "Government Services": {
+        "n": 64,
+        "example_f1": 0.7901234567901234,
+        "accuracy": 0.734375
+      },
+      "Healthcare": {
+        "n": 72,
+        "example_f1": 0.782608695652174,
+        "accuracy": 0.7222222222222222
+      },
+      "History": {
+        "n": 68,
+        "example_f1": 0.7816091954022989,
+        "accuracy": 0.7205882352941176
+      },
+      "Science & Technology": {
+        "n": 76,
+        "example_f1": 0.8636363636363636,
+        "accuracy": 0.8421052631578947
+      },
+      "Universities": {
+        "n": 80,
+        "example_f1": 0.9195402298850575,
+        "accuracy": 0.9125
+      }
+    }
+  },
+  "baselines": [
+    {
+      "name": "lexical-overlap[exact]",
+      "n_examples": 588,
+      "word_level": {
+        "precision": 0.2380736029077692,
+        "recall": 0.5562632696390658,
+        "f1": 0.33343938911867643,
+        "support": 942,
+        "tp": 524,
+        "fp": 1677,
+        "fn": 418
+      },
+      "example_level": {
+        "precision": 0.5233644859813084,
+        "recall": 0.9523809523809523,
+        "f1": 0.6755126658624849,
+        "accuracy": 0.5425170068027211,
+        "auroc": 0.6408498773659125,
+        "n": 588
+      },
+      "span_level": {
+        "exact": 0.20748299319727892,
+        "partial": 0.8197278911564626,
+        "precision": 0.04332386363636364,
+        "recall": 0.20748299319727892,
+        "f1": 0.07168037602820213,
+        "n_gold": 294,
+        "n_unusable": 0
+      },
+      "per_type": {
+        "contradiction": {
+          "n": 58,
+          "n_hallucinated": 58,
+          "example_recall": 0.9827586206896551,
+          "word_f1": 0.4166666666666667
+        },
+        "date_error": {
+          "n": 41,
+          "n_hallucinated": 41,
+          "example_recall": 1.0,
+          "word_f1": 0.45
+        },
+        "entity_replacement": {
+          "n": 46,
+          "n_hallucinated": 46,
+          "example_recall": 0.9565217391304348,
+          "word_f1": 0.22073578595317725
+        },
+        "fabricated_info": {
+          "n": 44,
+          "n_hallucinated": 44,
+          "example_recall": 1.0,
+          "word_f1": 0.7413554633471646
+        },
+        "none": {
+          "n": 294,
+          "n_hallucinated": 0,
+          "example_recall": null,
+          "word_f1": 0.0
+        },
+        "number_error": {
+          "n": 59,
+          "n_hallucinated": 59,
+          "example_recall": 1.0,
+          "word_f1": 0.37462235649546827
+        },
+        "omission": {
+          "n": 46,
+          "n_hallucinated": 46,
+          "example_recall": 0.7608695652173914,
+          "word_f1": 0.1721311475409836
+        }
+      },
+      "per_domain": {
+        "Agriculture": {
+          "n": 76,
+          "example_f1": 0.6796116504854369,
+          "accuracy": 0.5657894736842105
+        },
+        "Bangladesh Affairs": {
+          "n": 74,
+          "example_f1": 0.6981132075471698,
+          "accuracy": 0.5675675675675675
+        },
+        "Education": {
+          "n": 78,
+          "example_f1": 0.6782608695652174,
+          "accuracy": 0.5256410256410257
+        },
+        "Government Services": {
+          "n": 64,
+          "example_f1": 0.651685393258427,
+          "accuracy": 0.515625
+        },
+        "Healthcare": {
+          "n": 72,
+          "example_f1": 0.6601941747572816,
+          "accuracy": 0.5138888888888888
+        },
+        "History": {
+          "n": 68,
+          "example_f1": 0.673469387755102,
+          "accuracy": 0.5294117647058824
+        },
+        "Science & Technology": {
+          "n": 76,
+          "example_f1": 0.6915887850467289,
+          "accuracy": 0.5657894736842105
+        },
+        "Universities": {
+          "n": 80,
+          "example_f1": 0.6666666666666666,
+          "accuracy": 0.55
+        }
+      }
+    },
+    {
+      "name": "lexical-overlap[morph]",
+      "n_examples": 588,
+      "word_level": {
+        "precision": 0.2948960302457467,
+        "recall": 0.4968152866242038,
+        "f1": 0.3701067615658363,
+        "support": 942,
+        "tp": 468,
+        "fp": 1119,
+        "fn": 474
+      },
+      "example_level": {
+        "precision": 0.5489795918367347,
+        "recall": 0.9149659863945578,
+        "f1": 0.6862244897959183,
+        "accuracy": 0.5816326530612245,
+        "auroc": 0.65857397380721,
+        "n": 588
+      },
+      "span_level": {
+        "exact": 0.2108843537414966,
+        "partial": 0.7312925170068028,
+        "precision": 0.05656934306569343,
+        "recall": 0.2108843537414966,
+        "f1": 0.08920863309352518,
+        "n_gold": 294,
+        "n_unusable": 0
+      },
+      "per_type": {
+        "contradiction": {
+          "n": 58,
+          "n_hallucinated": 58,
+          "example_recall": 0.9655172413793104,
+          "word_f1": 0.3917525773195876
+        },
+        "date_error": {
+          "n": 41,
+          "n_hallucinated": 41,
+          "example_recall": 1.0,
+          "word_f1": 0.5283018867924528
+        },
+        "entity_replacement": {
+          "n": 46,
+          "n_hallucinated": 46,
+          "example_recall": 0.9130434782608695,
+          "word_f1": 0.19827586206896552
+        },
+        "fabricated_info": {
+          "n": 44,
+          "n_hallucinated": 44,
+          "example_recall": 1.0,
+          "word_f1": 0.7559523809523809
+        },
+        "none": {
+          "n": 294,
+          "n_hallucinated": 0,
+          "example_recall": null,
+          "word_f1": 0.0
+        },
+        "number_error": {
+          "n": 59,
+          "n_hallucinated": 59,
+          "example_recall": 1.0,
+          "word_f1": 0.4468864468864469
+        },
+        "omission": {
+          "n": 46,
+          "n_hallucinated": 46,
+          "example_recall": 0.5869565217391305,
+          "word_f1": 0.11320754716981132
+        }
+      },
+      "per_domain": {
+        "Agriculture": {
+          "n": 76,
+          "example_f1": 0.6736842105263158,
+          "accuracy": 0.5921052631578947
+        },
+        "Bangladesh Affairs": {
+          "n": 74,
+          "example_f1": 0.7058823529411765,
+          "accuracy": 0.5945945945945946
+        },
+        "Education": {
+          "n": 78,
+          "example_f1": 0.6972477064220184,
+          "accuracy": 0.5769230769230769
+        },
+        "Government Services": {
+          "n": 64,
+          "example_f1": 0.6746987951807228,
+          "accuracy": 0.578125
+        },
+        "Healthcare": {
+          "n": 72,
+          "example_f1": 0.6732673267326733,
+          "accuracy": 0.5416666666666666
+        },
+        "History": {
+          "n": 68,
+          "example_f1": 0.6526315789473685,
+          "accuracy": 0.5147058823529411
+        },
+        "Science & Technology": {
+          "n": 76,
+          "example_f1": 0.7184466019417476,
+          "accuracy": 0.618421052631579
+        },
+        "Universities": {
+          "n": 80,
+          "example_f1": 0.6875,
+          "accuracy": 0.625
+        }
+      }
+    }
+  ],
+  "latency": {
+    "median_s": 0.9546062999999663,
+    "p95_s": 1.337947100000065,
+    "mean_s": 1.0066963767006822,
+    "total_s": 591.9374695000012,
+    "mean_prompt_tokens": 879.9506802721088
+  },
+  "quality": {
+    "bad_json": 0,
+    "unmatched_spans": 7,
+    "errors": 0
+  }
+}
