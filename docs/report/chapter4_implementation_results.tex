@@ -17,9 +17,10 @@
 
 This chapter describes how the framework designed in Chapter~3 was built and
 evaluated. Section~\ref{sec:env} covers the hardware, software, dataset and
-training configuration. Section~\ref{sec:eval} defines the evaluation protocol
-and the systems the framework is compared against. Section~\ref{sec:results}
-reports the results and discusses what they show.
+training configuration. Section~\ref{sec:eval} describes how the software was
+tested and defines the evaluation protocol and the systems the framework is
+compared against. Section~\ref{sec:results} reports the results and discusses
+what they show, and Section~\ref{sec:ch4summary} summarises the chapter.
 
 \paragraph{Change of language from FYDP-I.} The FYDP-I design planned to train
 and evaluate on the English RAGTruth corpus~\cite{ragtruth}. In FYDP-II the
@@ -217,8 +218,41 @@ backend (hosted with Uvicorn) whose \texttt{/detect} endpoint returns the
 verdict, the spans, the probability of every word and the time taken.
 
 % ----------------------------------------------------------------------------
-\section{Evaluation}
+\section{Testing and Evaluation}
 \label{sec:eval}
+
+\subsection{Testing}
+
+Before any result was accepted, the software was tested at every stage, from
+loading the data to serving predictions. Table~\ref{tab:tests} lists the tests
+and their outcomes.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Software tests and their outcomes}
+\label{tab:tests}
+\begin{tabular}{p{3.3cm}p{6.2cm}p{4.0cm}}
+\hline
+\textbf{Test} & \textbf{What it checks} & \textbf{Outcome} \\
+\hline
+Data validation & Every hallucinated answer has a flagged word, no faithful answer has one, and flagged words match the recorded span & Passed on all 4,000 rows \\
+Word segmentation & Our segmentation rule reproduces the dataset's words exactly & Passed on all 4,000 rows \\
+Label alignment & After subword tokenisation, every answer word still carries exactly one label (BanglaBERT and mmBERT tokenizers) & 0 misaligned rows of 4,000 \\
+Split leakage & No context appears in more than one of the training, validation and test splits & 0 shared contexts \\
+Layer replacement & The re-implemented layer normalisation used on DirectML matches the original & Maximum difference $2\times10^{-6}$ \\
+Smoke tests & Short runs (10 to 300 rows) of training, evaluation, checkpoint saving and latency on CPU and GPU before every full run & Passed; found and fixed a GPU checkpoint-saving fault \\
+Reproducibility & The same GPU training run repeated with the same seed & Identical metrics to the last digit \\
+Inference consistency & A reloaded checkpoint splits new answers into the same words it was trained on & No mismatches \\
+API & FastAPI \texttt{/health} and \texttt{/detect} on 40 test examples, and on invalid requests & 40 of 40 answered; invalid requests rejected (HTTP 422) \\
+User interface & The Streamlit demo loads a model, runs a check and renders the highlighted spans & Passed without errors \\
+\hline
+\end{tabular}
+\end{table}
+
+The API test also checked that each response returned one probability and one
+label for every word of the answer. The invalid requests were an empty answer,
+a missing context and a decision threshold outside the range 0 to 1.
 
 \subsection{Metrics}
 
@@ -460,28 +494,11 @@ User interface & Streamlit dashboard, FastAPI backend & Met \\
 \end{tabular}
 \end{table}
 
-\subsection{Limitations}
+% Limitations are discussed in Chapter 6 (Section 6.2).
 
-\begin{itemize}
-  \item \textbf{Labels not yet verified by people.} The dataset's labels were
-  generated automatically. Human inter-annotation is in progress, and the
-  results should be re-checked against the verified labels.
-  \item \textbf{Balanced test set.} Exactly half of the test answers are
-  hallucinated. Real systems hallucinate less often, which would change
-  precision and the false alarm rate.
-  \item \textbf{Short answers.} 96\% of answers are a single sentence. Longer
-  answers with one wrong clause are harder and are not yet tested.
-  \item \textbf{Context length.} BanglaBERT reads at most 512 tokens. The
-  current contexts fit, but longer retrieved passages would be cut.
-  \item \textbf{Scope of checking.} The system checks an answer only against
-  the context it is given. It cannot detect errors when the context itself is
-  wrong, and it does not fact-check text that has no source.
-  \item \textbf{Comparison scope.} The LLM judges were local, 4-bit models run
-  once each without reasoning. Larger cloud models might score higher, at a
-  much greater cost. No comparison on English RAGTruth was made.
-\end{itemize}
-
-\subsection{Summary}
+% ----------------------------------------------------------------------------
+\section{Summary}
+\label{sec:ch4summary}
 
 A 110-million-parameter BanglaBERT token classifier detects hallucinated words
 in Bangla RAG answers with a word-level F1 of 0.835 and a span-level F1 of
@@ -489,4 +506,5 @@ in Bangla RAG answers with a word-level F1 of 0.835 and a span-level F1 of
 encoder and two local LLM judges, raises the fewest false alarms, and checks an
 answer in 57~ms on a CPU or 11.5~ms on a consumer GPU. LoRA reduces the trained
 parameters 124-fold and the saved model to 3.4~MB at a cost in span accuracy.
-The weakest cases are omissions and entity replacements.
+The weakest cases are omissions and entity replacements. The limitations of
+these results are discussed in Chapter~6.

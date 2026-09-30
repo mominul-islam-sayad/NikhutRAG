@@ -1,0 +1,99 @@
+% ============================================================================
+% Chapter 6: Conclusion  (FYDP-II)
+%
+% Compiles with pdfLaTeX. Citation keys: lettucedetect, luna, ragtruth (FYDP-I
+% references; replace with your keys).
+% ============================================================================
+
+\chapter{Conclusion}
+\label{ch:conclusion}
+
+\section{Summary}
+
+Retrieval-augmented generation reduces but does not remove hallucination:
+answers still contain statements that the retrieved context does not support.
+The common way to detect them is to ask a large language model to judge each
+answer, which is slow, costly and usually requires sending data to a cloud
+service. This project set out to show that a small language model running on
+ordinary hardware can do the job better and far more cheaply.
+
+We built a hallucination detector for Bangla RAG systems. It reads the
+retrieved context, the question and the answer together in a BanglaBERT encoder
+with 110 million parameters, labels every word of the answer as grounded or
+hallucinated, and merges flagged words into highlighted spans. It is delivered
+as a Streamlit dashboard and a FastAPI backend and runs entirely offline.
+
+On a test set of 588 answers the detector reached a word-level F1 of
+$0.835 \pm 0.007$ and a span-level F1 of $0.583 \pm 0.016$ over three training
+runs. It outperformed a lexical baseline (word F1 0.370), a larger multilingual
+encoder, mmBERT (0.809), and two LLM judges run locally, Gemma~4 E4B (0.674)
+and Gemma~4 12B (0.755). It wrongly flagged 4\% of faithful answers, against
+26\% to 38\% for the LLM judges, and checked an answer in 57~ms on a CPU or
+11.5~ms on a consumer GPU, about 220 times faster than the 12B judge. Training
+with LoRA reduced the trained parameters 124-fold and the saved model to 3.4~MB,
+at some cost in span accuracy.
+
+The project met the requirements set in FYDP-I for model size, latency,
+token-level output, span aggregation, parameter-efficient training and local
+deployment. It changed two decisions from FYDP-I, for stated reasons: the
+language changed from English to Bangla, which fills the gap identified in the
+FYDP-I gap analysis, and the headline metric changed from answer-level to
+word- and span-level F1, because a string-matching rule alone had already
+exceeded the answer-level target. The whole project cost about \$16.
+
+\section{Limitation}
+
+\begin{itemize}
+  \item \textbf{Labels not yet verified by people.} The dataset's labels were
+  produced by a generator. The team is carrying out human inter-annotation, and
+  the results should be re-checked against the verified labels.
+  \item \textbf{Balanced test set.} Exactly half of the test answers are
+  hallucinated. Real systems hallucinate less often, which would lower
+  precision and raise the share of warnings that are false alarms.
+  \item \textbf{Short answers.} 96\% of answers are a single sentence. Longer
+  answers in which only one clause is wrong are harder and were not tested.
+  \item \textbf{Weak hallucination types.} Omissions and entity replacements
+  are detected least well (word F1 0.60 and 0.64); about 30\% of such
+  answers are missed.
+  \item \textbf{Context length.} BanglaBERT reads at most 512 tokens. The
+  current contexts fit, but longer retrieved passages would be cut.
+  \item \textbf{Scope of checking.} The detector checks an answer only against
+  the context it is given. It cannot tell when the context itself is wrong, and
+  it cannot fact-check text that has no source.
+  \item \textbf{Comparison scope.} The LLM judges were local 4-bit models, each
+  run once without their reasoning mode. Larger cloud models might score
+  higher, at a much greater cost. The detector was not evaluated on English
+  RAGTruth, so it cannot be compared directly with Luna and
+  LettuceDetect~\cite{luna,lettucedetect}.
+  \item \textbf{Licence.} BanglaBERT's licence allows research but not
+  commercial use.
+\end{itemize}
+
+\section{Future Work}
+
+\begin{itemize}
+  \item \textbf{Human-verified evaluation.} Complete the team's inter-annotation
+  of the dataset, report the agreement between annotators, and retrain and
+  re-evaluate on the verified labels.
+  \item \textbf{Realistic test conditions.} Build test sets with a realistic
+  share of hallucinated answers, and with multi-sentence answers in which only
+  one clause is wrong.
+  \item \textbf{English comparison.} Train and evaluate the same pipeline on
+  RAGTruth~\cite{ragtruth} with an English encoder such as ModernBERT, to
+  compare directly with Luna and LettuceDetect.
+  \item \textbf{Hard hallucination types.} Improve omission and entity
+  replacement, for example with more training examples of these types, or with
+  a hybrid in which the small model checks every answer and an LLM judge, which
+  was strong on entity replacement, re-examines only the uncertain cases.
+  \item \textbf{Span boundaries.} Test a conditional random field (CRF) output
+  layer, which models neighbouring labels together and may draw span
+  boundaries more accurately, especially for LoRA.
+  \item \textbf{Longer contexts.} Handle retrieved passages beyond 512 tokens by
+  splitting the context into overlapping windows, or with a long-context
+  encoder pretrained on Bangla when one becomes available.
+  \item \textbf{Deployment.} Merge the LoRA adapter into the base model to
+  remove its small inference overhead, and integrate the API into a working
+  Bangla RAG chatbot to measure the detector in real use.
+  \item \textbf{Commercial use.} Train a version on a backbone with a
+  permissive licence so that the system can be used commercially.
+\end{itemize}

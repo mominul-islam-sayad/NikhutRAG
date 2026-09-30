@@ -1,0 +1,413 @@
+% ============================================================================
+% Chapter 5: Standards and Design Constraints  (FYDP-II)
+%
+% Replaces the whole FYDP-I Chapter 5 (its 5.1 complex-engineering text and
+% Table 5.2 are rewritten here as 5.4 and 5.3). Compiles with pdfLaTeX.
+% Uses \checkmark (amssymb); the line below gives a fallback if it is missing.
+% Citation keys: banglabert, mmbert, gemma4, llamacpp (new_references.tex).
+% ============================================================================
+
+\providecommand{\checkmark}{$\surd$}
+
+\chapter{Standards and Design Constraints}
+\label{ch:standards}
+
+This chapter describes the standards the system follows, the constraints that
+shaped its design, its cost, and how the project meets the criteria of a
+complex engineering problem. Figures come from the measurements in
+Chapter~\ref{ch:implementation} unless marked as estimates.
+
+% ----------------------------------------------------------------------------
+\section{Compliance with the Standards}
+\label{sec:standards}
+
+The system is software that runs on commodity hardware and exchanges data over
+standard web protocols. It was built on published, widely adopted standards
+rather than vendor-specific technology, so that it can be installed, operated
+and integrated without special equipment or proprietary services.
+
+\subsection{Software Standards}
+
+\begin{itemize}
+  \item \textbf{Unicode and UTF-8 (RFC 3629).} All Bangla text is stored,
+  processed and exchanged as Unicode in UTF-8 encoding. The word segmentation
+  rule is defined on the Unicode Bengali block (U+0980 to U+09FF) and on the
+  Bangla full stop (U+0964), which the Unicode standard shares with other
+  Indic scripts. This keeps the text readable by any standard tool.
+  \item \textbf{Data formats.} The dataset is a CSV file, word labels are stored
+  as JSON (RFC 8259), and results, logs and LLM-judge responses are written as
+  JSON and JSON Lines. Trained models are saved in the open
+  \texttt{safetensors} format, which, unlike Python pickle files, cannot execute
+  code when loaded.
+  \item \textbf{Requirements specification.} The functional and non-functional
+  requirements in Section~3.1.1 follow the structure of ISO/IEC/IEEE 29148 for
+  requirements engineering, and each requirement is checked against a
+  measurement in Table~\ref{tab:requirements}.
+  \item \textbf{Software quality.} The design addresses the quality
+  characteristics of the ISO/IEC 25010 product quality model: performance
+  efficiency (57~ms per check on a CPU), reliability (input validation and the
+  tests in Table~\ref{tab:tests}), maintainability (modular code with one
+  configuration file), portability (runs on CPU or any DirectX~12 GPU) and
+  security (no data leaves the machine). The project was not formally assessed
+  against the standard.
+  \item \textbf{Coding conventions and version control.} The Python code follows
+  PEP~8 conventions, dependencies are listed with version constraints, and all
+  code, results and documentation are kept under Git version control.
+  \item \textbf{Open-source licences.} Every component is used within its
+  licence: Apache~2.0 (Gemma~4 models, Transformers, PEFT, Streamlit), MIT
+  (mmBERT, llama.cpp, FastAPI), BSD (PyTorch, scikit-learn, pandas, Uvicorn),
+  and CC BY-NC-SA 4.0 for BanglaBERT, which restricts it to non-commercial use.
+\end{itemize}
+
+\subsection{Hardware Standards}
+
+\begin{itemize}
+  \item \textbf{x86-64 architecture.} The system runs on a standard x86-64
+  desktop (AMD Ryzen 5 7500F, AM5 platform, DDR5 memory) under Windows 11.
+  \item \textbf{PCI Express 4.0.} The AMD Radeon RX 6600 GPU connects over the
+  standard PCI Express 4.0 interface; no special hardware is needed.
+  \item \textbf{DirectX 12 and DirectML.} GPU training and inference use
+  Microsoft DirectML, which runs on any DirectX~12 capable GPU from AMD, Intel
+  or NVIDIA. This avoids depending on one vendor's platform, such as NVIDIA
+  CUDA, which the planned hardware in FYDP-I would have required.
+  \item \textbf{Vulkan.} The LLM judges were run through the Vulkan graphics and
+  compute API, an open standard of the Khronos Group supported by all major GPU
+  vendors.
+  \item \textbf{CPU-only operation.} The deployed model does not need a GPU at
+  all: it meets the latency requirement on the CPU alone, so it runs on any
+  ordinary computer with 16~GB of memory.
+\end{itemize}
+
+\subsection{Communication Standards}
+
+\begin{itemize}
+  \item \textbf{HTTP.} The backend is served by Uvicorn, an implementation of
+  the ASGI server interface, over HTTP/1.1 (RFC 9110 and RFC 9112).
+  \item \textbf{REST and JSON.} The FastAPI backend exposes a REST interface: a
+  client sends a \texttt{POST /detect} request whose JSON body holds the
+  context, question and answer, and receives a JSON response with the verdict,
+  the highlighted spans and a probability for every word. \texttt{GET /health}
+  reports whether a model is loaded. Invalid requests are rejected with the
+  standard HTTP status code 422.
+  \item \textbf{OpenAPI.} FastAPI publishes an OpenAPI~3 description of the
+  interface, so other systems, such as a RAG pipeline, can generate client
+  code for it and read its documentation in a browser.
+  \item \textbf{WebSocket.} The Streamlit dashboard communicates with the
+  browser over the WebSocket protocol (RFC 6455).
+  \item \textbf{Local communication.} By default both services listen only on
+  the local machine (127.0.0.1). The LLM judges were also called through a
+  local HTTP interface compatible with the widely used chat-completions
+  format, so no text was sent over the internet at any point.
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+\section{Design Constraints}
+\label{sec:constraints}
+
+This section describes the constraints that shaped the design and how the
+implemented system meets them.
+
+\subsection{Economic Constraint}
+
+The project had no budget for cloud computing or paid APIs, so every component
+had to run on hardware the team already owned and use free software. This was
+met in full. All training, evaluation and inference ran on one consumer desktop
+with an AMD RX 6600 GPU; the Google Colab subscription planned in FYDP-I was not
+needed. All libraries are open source, and the pretrained models are free to
+download.
+
+The running cost of the finished system is close to zero. Checking an answer
+takes 57~ms on an ordinary CPU and needs no GPU, no internet connection and no
+per-request fee. The alternative the project set out to replace, an LLM used as
+a judge, is far more expensive to run: on the same GPU, a local
+12-billion-parameter judge needed 25.7 minutes to check the 588 test answers, where
+BanglaBERT needed about 7 seconds, and a cloud LLM API would add a charge for
+every request.
+
+One economic limit concerns licensing. BanglaBERT is released under the Creative
+Commons BY-NC-SA 4.0 licence~\cite{banglabert}, which allows research and
+educational use but not commercial use. A commercial product would need
+permission from its authors, or a backbone with a permissive licence. The mmBERT
+comparison model is MIT-licensed~\cite{mmbert} and could be used commercially,
+but it was slightly less accurate and too slow on a CPU (210~ms per answer).
+
+\subsection{Environmental Constraint}
+
+The system had to keep energy use low, both to train and, more importantly, in
+everyday use, where it may check thousands of answers. A small model meets this
+directly: one check uses 11.5~ms of GPU time, against 2,560~ms for the 12B LLM
+judge, so the same work costs roughly 220 times less computation. On a CPU the
+model needs no GPU at all.
+
+Training was also modest. All experiments together, including the three-seed
+runs, the comparison models and the LLM judges, took about 8 hours of machine
+time on one desktop. At typical power draw for such a machine this is roughly
+1 to 2~kWh (an estimate, not a measurement). LoRA reduced GPU training time per
+epoch by a factor of 1.8. No new hardware was bought and no data-centre
+resources were used, which avoids the embodied carbon of dedicated equipment.
+
+\subsection{Ethical Constraint}
+
+\paragraph{Privacy.} RAG systems often answer questions about health,
+government services or personal matters. Because the detector runs entirely on
+the local machine, the question, the retrieved context and the answer never
+leave the device. No third-party service receives user data, unlike an
+approach based on a cloud LLM API.
+
+\paragraph{Transparency.} The system does not give an unexplained verdict. It
+highlights the exact words it considers unsupported and shows a probability
+for each word, so a user can check its reasoning against the context. The demo
+also shows the lexical baseline beside the model.
+
+\paragraph{Honest limits.} The detector is not perfect: it misses about 11\% of
+hallucinated answers and wrongly flags about 4\% of faithful ones. It must be
+presented as an aid to human judgement, not as a guarantee of correctness. The
+results in this report are given with their baselines, with the variation
+across three training runs, and with the system's weak types stated openly.
+
+\paragraph{Data.} The dataset was built from publicly available sources: Bangla
+Wikipedia (licensed CC BY-SA 4.0) and public Bangladeshi government portals. It
+contains no personal data about private individuals. The pretrained models are
+used within their licence terms, which for BanglaBERT means non-commercial
+research use. Human annotation of the dataset is done by the team members
+themselves.
+
+\subsection{Health and Safety Constraint}
+
+The system has no physical hazards; it is software running on standard office
+computers. Its safety concern is informational. 500 rows of the dataset come
+from the healthcare domain, including material from the Directorate General of
+Health Services. A hallucinated medical answer that the detector fails to flag
+could lead a user to act on wrong information, while a false alarm could make
+a user doubt correct advice.
+
+The design responds to this in three ways. The detector reports which words
+are unsupported, so a reader can verify them rather than trust a single score.
+The results are broken down by domain and hallucination type, so weak areas are
+known before deployment. And the system is intended to support, not replace,
+human review: in a health setting its output should be shown with a clear
+notice that flagged and unflagged answers alike must be checked against an
+authoritative source.
+
+\subsection{Social Constraint}
+
+Bangla is one of the most widely spoken languages in the world, yet it has few
+natural language processing tools, and existing hallucination detectors and
+datasets are almost all English. This project brings hallucination detection
+to Bangla RAG systems, so that Bangla-speaking users of chatbots and question
+answering services can be warned about unsupported answers.
+
+The system was also designed to be affordable to the institutions most likely
+to deploy it in Bangladesh, such as universities, small companies and
+government offices, which often lack GPUs and budgets for cloud AI services.
+It runs on an ordinary computer without a GPU. Highlighting the wrong words,
+rather than giving a bare verdict, makes the output understandable to users
+without technical training. A social risk remains: users may trust any answer
+the detector does not flag. This is why the system presents itself as a
+warning tool with known error rates.
+
+\subsection{Political Constraint}
+
+Two of the eight domains, Bangladesh Affairs and Government Services, include
+political and administrative content such as elections, public office holders
+and government procedures. Hallucinations on these subjects can spread
+misinformation about public institutions. The detector is politically neutral
+in one precise sense: it judges an answer only against the retrieved context
+and has no opinion of its own on any political question. The consequence is
+that it inherits the reliability of its source. If the retrieved context is
+biased or wrong, an answer that repeats it will be judged supported. Deployers
+must therefore choose trustworthy sources for retrieval.
+
+Running locally also supports data sovereignty. Government bodies can check
+answers without sending citizens' questions or internal documents to foreign
+cloud providers, and the system keeps working without dependence on any
+external service.
+
+\subsection{Sustainability}
+
+The system is designed to stay useful and maintainable after the project ends.
+\begin{itemize}
+  \item \textbf{Cheap to retrain.} A full fine-tuning run takes 25 to 55 minutes
+  on the RX 6600, and a LoRA run 13 to 29 minutes, so the model can be retrained
+  whenever the dataset grows or is corrected by human annotation.
+  \item \textbf{Cheap to extend.} Each LoRA adapter is 3.4~MB, so separate
+  adapters for new domains can be added without storing another full model.
+  \item \textbf{Open components.} All software is open source and all models
+  have public weights, so the system does not depend on a vendor that could
+  change its prices or withdraw its service.
+  \item \textbf{Robust to data changes.} The dataset is still being extended.
+  The pipeline measures sequence lengths and checks the data format on every
+  load rather than assuming fixed dimensions, so new versions can be used
+  without code changes.
+\end{itemize}
+
+Two risks to long-term maintenance remain. GPU training relies on DirectML,
+which Microsoft now maintains only lightly and which requires an older PyTorch
+release; a future move to a supported GPU platform may be needed. And
+BanglaBERT reads at most 512 tokens, which may become a limit if future RAG
+contexts are much longer.
+
+% ----------------------------------------------------------------------------
+\section{Cost Analysis}
+\label{sec:cost}
+
+Table~\ref{tab:cost} gives the actual cost of FYDP-II. It replaces the estimate
+in the FYDP-I report.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Project cost analysis (actual, FYDP-II)}
+\label{tab:cost}
+\begin{tabular}{p{0.4cm}p{3.2cm}p{5.6cm}p{2.2cm}}
+\hline
+\textbf{No.} & \textbf{Item} & \textbf{Description} & \textbf{Cost (USD)} \\
+\hline
+1 & Development hardware & Existing laptops and one desktop with an AMD RX 6600 GPU & 0 (existing) \\
+2 & Cloud GPU & Planned Google Colab Pro (about \$20) was not needed; all training ran locally & 0 \\
+3 & Software & Python, PyTorch, Transformers, PEFT, FastAPI, Streamlit, llama.cpp & 0 (open source) \\
+4 & Pretrained models & BanglaBERT (CC BY-NC-SA 4.0), mmBERT (MIT), Gemma~4 judges (Apache 2.0) & 0 \\
+5 & Dataset & Built by the team from public sources & 0 \\
+6 & LLM-judge comparison & Run locally instead of through a paid API & 0 \\
+7 & Electricity & About 8 hours of machine time, roughly 1--2 kWh (estimate) & under 1 \\
+8 & Documentation & Report printing, binding and presentation material & about 15 \\
+\hline
+ & \textbf{Total} & & \textbf{about 16} \\
+\hline
+\end{tabular}
+\end{table}
+
+The actual cost is below the FYDP-I estimate of about \$35, mainly because GPU
+training on local hardware made the cloud subscription unnecessary. The cost of
+using the system is also far below that of an LLM judge: it needs no API
+subscription, and it checks an answer about 220 times faster than a local 12B
+LLM on the same GPU.
+
+\paragraph{Cost of operation.} A deployment needs one of two files: the fully
+fine-tuned model (420~MB), or a LoRA adapter (3.4~MB) loaded on top of the
+public BanglaBERT base model. Any computer with 16~GB of memory can serve it
+through the FastAPI backend, with no licence fee, subscription or per-request
+charge. At batch size 1 it checks about 17 answers per second on the CPU used
+here and about 87 per second on the RX 6600 GPU. The only running cost is the
+electricity of a computer that is already switched on.
+
+% ----------------------------------------------------------------------------
+\section{Complex Engineering Problem}
+\label{sec:complex}
+
+The Washington Accord defines complex engineering problems by seven attributes
+(P1 to P7) and complex engineering activities by five (A1 to A5). This section
+shows how the project meets them.
+
+\subsection{Complex Problem Solving}
+
+\begin{itemize}
+  \item \textbf{P1: Depth of knowledge required.} The project needs knowledge of
+  transformer encoders, token classification, subword tokenisation of an
+  agglutinative language, parameter-efficient fine-tuning with LoRA, and
+  evaluation methods for sequence labelling. It also needed knowledge of GPU
+  computing to train on DirectML.
+  \item \textbf{P2: Range of conflicting requirements.} High accuracy conflicts
+  with low latency, small memory use and running on a CPU. Larger models such as
+  mmBERT or an LLM judge were either slower or less accurate; the design had to
+  find a model that meets all requirements at once.
+  \item \textbf{P3: Depth of analysis required.} The project had to establish
+  whether the model truly learns the task. That required a baseline that shows
+  how far word overlap alone gets, a split by context that prevents leakage,
+  three training seeds to measure variation, word- and span-level metrics, and
+  an analysis by hallucination type.
+  \item \textbf{P4: Familiarity of issues.} Hallucination detection for Bangla
+  has no established method, dataset or benchmark. Issues such as Bangla case
+  suffixes defeating word matching, or the danda attached to words, had to be
+  discovered and solved during the project.
+  \item \textbf{P5: Extent of applicable codes.} No standard or code of practice
+  covers evaluating hallucination detectors, let alone for Bangla. The project
+  had to define its own evaluation protocol: the metrics, the split, the
+  baselines and the latency measurement method.
+  \item \textbf{P6: Extent of stakeholder involvement.} The system serves
+  developers who integrate RAG into applications, organisations that must keep
+  data private, and end users who rely on answers in areas such as health and
+  government services. Their needs for accuracy, privacy and low cost conflict
+  and had to be balanced.
+  \item \textbf{P7: Interdependence.} The system only works if every part fits
+  the others: data validation, word segmentation, subword alignment, the
+  encoder and its classifier, span aggregation, the API and the user interface.
+  A mismatch at any step, such as the answer being split into different words
+  at inference than in training, silently breaks the result.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Mapping with complex problem solving}
+\label{tab:complex-problems}
+\begin{tabular}{llc}
+\hline
+\textbf{Attribute} & \textbf{Description} & \textbf{Addressed} \\
+\hline
+P1 & Depth of knowledge required & \checkmark \\
+P2 & Range of conflicting requirements & \checkmark \\
+P3 & Depth of analysis required & \checkmark \\
+P4 & Familiarity of issues & \checkmark \\
+P5 & Extent of applicable codes & \checkmark \\
+P6 & Extent of stakeholder involvement & \checkmark \\
+P7 & Interdependence & \checkmark \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Engineering Activities}
+
+\begin{itemize}
+  \item \textbf{A1: Range of resources.} The project combined people (a
+  four-member team sharing data, modelling, evaluation and interface work),
+  hardware (a CPU and an AMD GPU), data (a 4,000-row dataset built from
+  Wikipedia and government portals), pretrained models (BanglaBERT, mmBERT,
+  Gemma~4) and a wide software stack.
+  \item \textbf{A2: Level of interaction.} Technical decisions interacted
+  strongly. The choice of model set the sequence length, which set the
+  latency and memory use, which set the hardware and batch size; the choice of
+  licence limited commercial use; the GPU platform forced changes to the model
+  code. Each had to be resolved against the others.
+  \item \textbf{A3: Innovation.} To our knowledge this is the first token-level
+  hallucination detector for Bangla RAG answers. The project also measured the
+  cost of LLM judges against a small model on the same data and hardware, and
+  adapted model training to run on an AMD consumer GPU through DirectML.
+  \item \textbf{A4: Consequences for society and the environment.} Undetected
+  hallucinations in health or government answers can mislead people, and false
+  alarms can erode trust. Running locally protects privacy, and a small model
+  uses about 220 times less computation per check than an LLM judge.
+  \item \textbf{A5: Familiarity.} The work went beyond the team's previous
+  experience: a new language setting, a new hardware platform and a new
+  evaluation protocol. Each was approached from first principles and verified
+  by measurement.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Mapping with complex engineering activities}
+\label{tab:complex-activities}
+\begin{tabular}{llc}
+\hline
+\textbf{Attribute} & \textbf{Description} & \textbf{Addressed} \\
+\hline
+A1 & Range of resources & \checkmark \\
+A2 & Level of interaction & \checkmark \\
+A3 & Innovation & \checkmark \\
+A4 & Consequences for society and the environment & \checkmark \\
+A5 & Familiarity & \checkmark \\
+\hline
+\end{tabular}
+\end{table}
+
+% ----------------------------------------------------------------------------
+\section{Summary}
+\label{sec:ch5summary}
+
+The system is built on open standards: Unicode text, standard data and model
+formats, standard GPU and web interfaces, and a REST API described by OpenAPI.
+It meets its design constraints: it costs nothing to run, uses little energy,
+keeps data on the local machine, and serves Bangla users on ordinary hardware.
+Its main limits are the non-commercial licence of BanglaBERT and the need for
+human oversight in sensitive domains. The whole project cost about \$16. It
+meets all seven attributes of a complex engineering problem and all five of
+complex engineering activities.

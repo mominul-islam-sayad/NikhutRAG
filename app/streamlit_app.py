@@ -106,7 +106,7 @@ with left:
 with right:
     context = st.text_area("Retrieved context (the ground truth)", EXAMPLE["context"], height=224)
 
-if st.button("Detect hallucinations", type="primary", use_container_width=True):
+if st.button("Detect hallucinations", type="primary", width="stretch"):
     if not answer.strip():
         st.warning("Enter an answer to check.")
         st.stop()
@@ -153,5 +153,5 @@ if st.button("Detect hallucinations", type="primary", use_container_width=True):
                 "p(hallucinated)": [round(p, 4) for p in res["word_probs"]],
                 "flagged": res["word_labels"],
             },
-            use_container_width=True,
+            width="stretch",
         )

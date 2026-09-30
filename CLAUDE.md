@@ -471,7 +471,9 @@ for the 4,000-row runs.
 ├── requirements.txt          # torch installed separately, CPU-only
 ├── .gitattributes
 ├── data/
-├── docs/Fydp1_final_paper.pdf
+├── docs/
+│   ├── Fydp1_final_paper.pdf
+│   └── report/          # FYDP-II LaTeX: chapters 4, 5, 6 + new references (pdfLaTeX, no Bangla script)
 ├── src/
 │   ├── config.py        # backbone, schema, hyperparams — the only file to edit per run
 │   ├── data.py          # load, validate, group split, tokenize + label alignment
