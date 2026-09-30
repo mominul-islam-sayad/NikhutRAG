@@ -305,8 +305,9 @@ What the tuning run established:
   distinguishable from seed noise**. The span F1 gap (**−0.070**, stds ~0.017) is real:
   LoRA finds hallucinations about as well but draws their boundaries worse.
 - **LoRA saves real time on the GPU:** 168 ± 21 s per epoch vs 304 ± 22 s for full,
-  **1.8× faster**. On the CPU it saved only 9%. The saved adapter is **5 MB vs 422 MB**
-  (84× smaller), which is the deployment argument for LoRA.
+  **1.8× faster**. On the CPU it saved only 9%. The saved adapter file is **3.4 MB vs 420 MB**
+  (123× smaller), which is the deployment argument for LoRA. An earlier figure of
+  "5 MB" was the whole checkpoint folder, tokenizer included.
 - **Seed variance is small** (word F1 std 0.007 full). A difference between systems
   below ~0.02 word F1 should not be claimed from one seed.
 

@@ -1,0 +1,492 @@
+% ============================================================================
+% Chapter 4: Implementation and Results  (FYDP-II)
+%
+% Paste after Chapter 3. Compiles with pdfLaTeX; no packages beyond a standard
+% report preamble are needed, and no Bangla script is used (pdfLaTeX cannot
+% typeset it without extra setup).
+%
+% Citation keys used here. Replace the first group with the keys your .bib or
+% thebibliography already uses for these FYDP-I references:
+%   lettucedetect -> FYDP-I ref [1]    luna -> [2]    ragtruth -> [16]
+% The second group is new; entries are in new_references.tex:
+%   banglabert, electra, lora, mmbert, gemma4, llamacpp
+% ============================================================================
+
+\chapter{Implementation and Results}
+\label{ch:implementation}
+
+This chapter describes how the framework designed in Chapter~3 was built and
+evaluated. Section~\ref{sec:env} covers the hardware, software, dataset and
+training configuration. Section~\ref{sec:eval} defines the evaluation protocol
+and the systems the framework is compared against. Section~\ref{sec:results}
+reports the results and discusses what they show.
+
+\paragraph{Change of language from FYDP-I.} The FYDP-I design planned to train
+and evaluate on the English RAGTruth corpus~\cite{ragtruth}. In FYDP-II the
+primary language became Bangla. No token-level hallucination detector or
+hallucination dataset exists for Bangla, which is the gap recorded in row~4 of
+Table~2.1, so this is where a small, local detector adds the most value. Luna
+and LettuceDetect~\cite{luna,lettucedetect} are trained and reported on English
+RAGTruth only, so their published scores cannot be compared directly with ours.
+Evaluating the framework on RAGTruth is left as future work.
+
+% ----------------------------------------------------------------------------
+\section{Environment Setup}
+\label{sec:env}
+
+\subsection{Hardware}
+
+All training, evaluation and latency measurement ran on one consumer desktop
+computer (Table~\ref{tab:hardware}). No cloud GPU was used, although
+Section~3.1.4 had planned Google Colab for fine-tuning.
+
+\begin{table}[htbp]
+\centering
+\caption{Hardware used for all experiments}
+\label{tab:hardware}
+\begin{tabular}{ll}
+\hline
+\textbf{Component} & \textbf{Specification} \\
+\hline
+CPU & AMD Ryzen 5 7500F, 6 cores \\
+Memory & 16 GB RAM \\
+GPU & AMD Radeon RX 6600, 8 GB VRAM \\
+Operating system & Windows 11 Pro \\
+Cloud compute & None \\
+\hline
+\end{tabular}
+\end{table}
+
+The RX 6600 is not supported by AMD's ROCm platform on Windows, so GPU training
+used Microsoft DirectML through the \texttt{torch-directml} package. DirectML
+needed two adjustments. First, it cannot compute the gradient of a layer
+normalisation without a bias term, which the mmBERT comparison model uses
+throughout; we re-implemented these layers with elementary tensor operations,
+which give the same output to within $2\times10^{-6}$. Second, a batch of 16
+sequences did not fit in 8~GB of GPU memory, so BanglaBERT was trained with a
+batch of 8 and two-step gradient accumulation, which keeps the effective batch
+size at 16. On this GPU, training was about four times faster than on the CPU.
+
+\subsection{Software}
+
+Table~\ref{tab:software} lists the software stack. Two Python environments were
+kept: a CPU environment used for the demo, the API and CPU latency, and a GPU
+environment with the older PyTorch release that \texttt{torch-directml}
+requires. The LLM judges used for comparison (Section~\ref{sec:systems}) were
+served with llama.cpp~\cite{llamacpp} through its Vulkan backend on the same GPU.
+
+\begin{table}[htbp]
+\centering
+\caption{Software stack}
+\label{tab:software}
+\begin{tabular}{lll}
+\hline
+\textbf{Purpose} & \textbf{Tool} & \textbf{Version} \\
+\hline
+Language & Python & 3.12.8 \\
+Deep learning (CPU) & PyTorch & 2.14 \\
+Deep learning (GPU) & PyTorch + torch-directml & 2.4.1 + 0.2.5 \\
+Models and tokenizers & Hugging Face Transformers & 4.57.6 \\
+LoRA fine-tuning & Hugging Face PEFT & 0.21.0 \\
+Metrics & scikit-learn & 1.9.1 \\
+Data handling & pandas & 3.0.6 \\
+Backend API & FastAPI + Uvicorn & 0.141.1 + 0.53.0 \\
+Web demo & Streamlit & 1.64.0 \\
+LLM judges & llama.cpp (Vulkan) & build b11223 \\
+\hline
+\end{tabular}
+\end{table}
+
+The code is organised into separate modules for data loading and validation,
+the model, training, evaluation, the lexical baseline, latency measurement and
+the LLM judges. A single configuration file selects the backbone model, so
+every model in this chapter was trained by the same script.
+
+\subsection{Dataset}
+
+The framework was trained and evaluated on a Bangla RAG hallucination dataset
+built by the team. Each row holds a retrieved context, a question, an answer,
+a label for the whole answer (faithful or hallucinated) and a label for every
+answer word. Table~\ref{tab:dataset} summarises it.
+
+\begin{table}[htbp]
+\centering
+\caption{Bangla RAG hallucination dataset}
+\label{tab:dataset}
+\begin{tabular}{ll}
+\hline
+\textbf{Property} & \textbf{Value} \\
+\hline
+Rows & 4,000 (2,000 faithful, 2,000 hallucinated) \\
+Distinct contexts & 943, each used for 2, 4 or 6 rows \\
+Domains & 8, with 500 rows each \\
+Context length & 71 words (median), 219 (maximum) \\
+Answer length & 15 words (median), 51 (maximum) \\
+Labels & one label per answer word (0 = grounded, 1 = hallucinated) \\
+Sources & Bangla Wikipedia (3,658 rows), government portals (342 rows) \\
+\hline
+\end{tabular}
+\end{table}
+
+The eight domains are Bangladesh Affairs, History, Healthcare, Agriculture,
+Government Services, Education, Universities, and Science \& Technology. The
+government sources are the Directorate General of Health Services (DGHS), the
+national information portal, the Ministry of Education and BANBEIS. The
+hallucinated answers are spread evenly over six types: fabricated information
+(334 rows), entity replacement (334), omission (333), contradiction (333),
+number error (333) and date error (333).
+
+The labels were produced by the dataset generator, not by people. The team is
+carrying out human inter-annotation of the dataset; all results in this chapter
+use the generated labels.
+
+\paragraph{Preprocessing.} Three steps prepared the data.
+\begin{enumerate}
+  \item \textbf{Validation.} Every load checks that each hallucinated answer has
+  at least one flagged word, that no faithful answer has one, and that the
+  flagged words match the recorded hallucinated span. All 4,000 rows passed.
+  \item \textbf{Word segmentation.} The dataset splits punctuation, such as the
+  Bangla full stop (danda), into separate words but keeps numbers such as
+  10,000 whole. We implemented the same rule, verified that it reproduces the
+  dataset's words for all 4,000 rows, and use it again at inference, so the
+  deployed model sees words exactly as it did during training.
+  \item \textbf{Split by context.} Each context appears 2 to 6 times with
+  different questions. A random split of rows would put the same context in
+  both training and test data and inflate the test score. We therefore split
+  by context, 70/15/15, keeping every domain in every part: 2,824 training rows
+  (659 contexts), 588 validation rows (142 contexts) and 588 test rows (142
+  contexts). No context appears in more than one part, and each part is exactly
+  50\% hallucinated.
+\end{enumerate}
+
+\subsection{Model and Training Configuration}
+
+\paragraph{Input.} Each example is encoded as
+\texttt{[CLS] question [SEP] context [SEP] answer [SEP]}. The maximum length of
+288 subword tokens was measured from the data (it covers 99\% of examples)
+rather than fixed in advance. When an input is too long, tokens are removed from
+the context, never from the answer, so no answer label is lost. Only the first
+subword of each answer word carries a training label; question, context and
+padding tokens are ignored by the loss.
+
+\paragraph{Model.} The encoder is BanglaBERT~\cite{banglabert}, an ELECTRA-base
+discriminator~\cite{electra} pretrained on 27.5~GB of Bangla text, with 12
+layers, 12 attention heads and a hidden size of 768. On top of it sits a token
+classification head: dropout of 0.1 followed by one linear layer from 768 to 2
+outputs (1,538 parameters). The full model has 110,028,290 parameters, well
+under the 500 million set in Section~3.1.1. BanglaBERT was chosen over
+multilingual encoders because its tokenizer splits Bangla into far fewer pieces:
+1.14 subword tokens per answer word, against 3.51 for mmBERT. Shorter sequences
+make the model faster at both training and inference.
+
+\paragraph{Training.} Table~\ref{tab:hyper} lists the settings. Two variants
+were trained: full fine-tuning, which updates all weights, and LoRA~\cite{lora},
+which freezes the encoder and trains small low-rank matrices added to the
+query, key and value projections of all 12 attention layers, together with the
+classification head. LoRA trains 886,274 parameters, 0.8\% of the model. Each
+variant was trained three times with different random seeds.
+
+\begin{table}[htbp]
+\centering
+\caption{Training settings}
+\label{tab:hyper}
+\begin{tabular}{ll}
+\hline
+\textbf{Setting} & \textbf{Value} \\
+\hline
+Loss & Cross-entropy over answer words \\
+Optimiser & AdamW, weight decay 0.01 \\
+Learning rate & $3\times10^{-5}$ (full), $3\times10^{-4}$ (LoRA) \\
+Schedule & 10\% linear warm-up, then linear decay \\
+Gradient clipping & 1.0 \\
+Effective batch size & 16 (8 $\times$ 2 accumulation steps) \\
+Epochs & up to 10, early stopping after 2 epochs without gain \\
+Model selection & best validation word-level F1 \\
+LoRA & rank 16, $\alpha$ = 32, dropout 0.1, on query/key/value \\
+Seeds & 42, 43, 44 \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Inference and output.} The model gives each answer word a
+probability of being hallucinated. Words above 0.5 are flagged, consecutive
+flagged words are merged into highlighted spans, and the answer is marked as
+hallucinated when any word is flagged. Its overall score is the highest word
+probability. The same checkpoint serves the Streamlit demo and a FastAPI
+backend (hosted with Uvicorn) whose \texttt{/detect} endpoint returns the
+verdict, the spans, the probability of every word and the time taken.
+
+% ----------------------------------------------------------------------------
+\section{Evaluation}
+\label{sec:eval}
+
+\subsection{Metrics}
+
+The FYDP-I plan used an F1-score over whole answers, with a target above 75\%
+(Section~3.1.1). Two findings led us to change the headline metrics. On the
+first 2,652-row version of the dataset, a string-matching rule with no model
+already reached an answer-level F1 of 0.94, above that target. And an
+answer-level score does not test what the system actually shows the user, which
+is the exact words that are wrong. The headline metrics are therefore measured
+at word and span level:
+
+\begin{itemize}
+  \item \textbf{Word-level precision, recall and F1} for the hallucinated class,
+  computed over every answer word in the test set.
+  \item \textbf{Span-level F1.} A span is a run of consecutive flagged words. A
+  predicted span counts as correct only if its start and end both match a gold
+  span. Spans predicted on faithful answers count as false positives.
+  \item \textbf{Span exact match:} the share of hallucinated answers in which
+  every gold span is predicted exactly. \textbf{Span partial match:} the share
+  in which some predicted span overlaps a gold span.
+\end{itemize}
+
+Answer-level precision, recall, F1, accuracy and AUROC are also reported,
+always next to the baseline, together with the \textbf{false alarm rate}: the
+share of faithful answers wrongly flagged. All metrics are also broken down by
+hallucination type.
+
+\paragraph{Latency.} Latency is the time to check one example at batch size 1,
+measured separately on the CPU and the GPU of the machine in
+Table~\ref{tab:hardware}, with nothing else running. Each measurement uses 20
+warm-up calls, then 100 timed calls cycling through the same 30 test examples
+(145 subword tokens on average for BanglaBERT), and reports the median and the
+95th percentile.
+
+\subsection{Systems Compared}
+\label{sec:systems}
+
+\begin{enumerate}
+  \item \textbf{Lexical baseline.} Flags every answer word that does not occur
+  in the context, allowing for Bangla case suffixes by prefix matching. It needs
+  no training and shows how much of the task simple word overlap can solve.
+  \item \textbf{BanglaBERT, full fine-tuning} (the proposed system).
+  \item \textbf{BanglaBERT with LoRA} (the proposed system, trained with
+  parameter-efficient fine-tuning).
+  \item \textbf{mmBERT with LoRA.} mmBERT~\cite{mmbert} is the multilingual
+  version of ModernBERT, the architecture FYDP-I planned to use. The original
+  English ModernBERT cannot handle Bangla text well, so the multilingual model
+  was used instead. It has 307 million parameters and needed a maximum length
+  of 832 tokens for the same data.
+  \item \textbf{LLM-as-a-judge.} Two instruction-tuned Gemma~4
+  models~\cite{gemma4}, E4B (4-bit, 4.3~GB) and 12B (4-bit
+  quantisation-aware, 6.4~GB), run locally with llama.cpp on the same GPU. Each
+  judge received the context, question and answer, English instructions and
+  two worked examples taken from the training split. It returned the
+  unsupported phrases as JSON, which were mapped back onto answer words.
+  Decoding was deterministic (temperature 0) with the model's reasoning mode
+  switched off.
+\end{enumerate}
+
+All systems were scored on the same 588 test answers by the same evaluation
+code. BanglaBERT results are the mean $\pm$ standard deviation over three
+seeds; the other systems are single runs.
+
+% ----------------------------------------------------------------------------
+\section{Results and Discussion}
+\label{sec:results}
+
+\subsection{Main Results}
+
+Table~\ref{tab:main} gives the results on the test split.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Results on the test split (588 answers, 50\% hallucinated)}
+\label{tab:main}
+\begin{tabular}{lcccccc}
+\hline
+\textbf{System} & \textbf{Word P} & \textbf{Word R} & \textbf{Word F1} & \textbf{Span F1} & \textbf{Answer F1} & \textbf{False alarms} \\
+\hline
+Lexical baseline & 0.295 & 0.497 & 0.370 & 0.089 & 0.686 & -- \\
+Gemma 4 E4B judge & 0.581 & 0.801 & 0.674 & 0.351 & 0.838 & 38\% \\
+Gemma 4 12B judge & 0.753 & 0.757 & 0.755 & 0.479 & 0.849 & 26\% \\
+mmBERT + LoRA & 0.817 & 0.800 & 0.809 & 0.527 & 0.894 & 10\% \\
+BanglaBERT + LoRA & 0.862 & 0.786 & 0.822 & 0.513 & 0.925 & 6\% \\
+\textbf{BanglaBERT (full)} & \textbf{0.883} & 0.793 & \textbf{0.835} & \textbf{0.583} & 0.924 & \textbf{4\%} \\
+\hline
+\end{tabular}
+
+\smallskip
+\footnotesize BanglaBERT rows are means over three seeds; standard deviations
+for full fine-tuning are 0.007 (word F1) and 0.016 (span F1), and for LoRA
+0.016 and 0.017. False alarms = faithful answers wrongly flagged.
+\end{table}
+
+Full fine-tuning of BanglaBERT gives the best result on every headline metric:
+a word-level F1 of $0.835 \pm 0.007$ and a span-level F1 of $0.583 \pm 0.016$.
+That is 0.465 above the lexical baseline in word F1, and more than six times
+its span F1. The baseline's weakness is itself informative: in about a quarter
+of the hallucinated answers, every wrong word also appears somewhere in the
+context, so word overlap cannot detect them and the model has to use meaning.
+At answer level the model reaches an F1 of 0.924 (precision 0.957, recall
+0.893) and an AUROC of 0.977.
+
+\subsection{Comparison with LLM-as-a-Judge}
+
+Both LLM judges are less accurate than BanglaBERT. The larger judge, Gemma~4
+12B, reaches a word F1 of 0.755 and a span F1 of 0.479, against 0.835 and 0.583.
+The judges also raise far more false alarms: they flag 26\% (12B) and 38\% (E4B)
+of faithful answers, against 4\% for BanglaBERT. In a deployed system a warning
+that is wrong one time in four would soon be ignored.
+
+The cost difference is larger still (Table~\ref{tab:efficiency}). On the same
+GPU, BanglaBERT checks an answer in 11.5~ms and the 12B judge in 2,560~ms, about
+220 times longer. Checking the whole test set took the 12B judge 25.7 minutes
+and BanglaBERT about 7 seconds. BanglaBERT's saved model is 0.42~GB against
+6.4~GB for the 12B judge. This confirms, with measurements on the same data and
+hardware, the cost argument that motivated the project (Section~1.2).
+
+The judges were stronger than BanglaBERT on one type: entity replacement
+(word F1 0.876 for the 12B judge against 0.643), which suggests they use world
+and linguistic knowledge that a 110-million-parameter encoder lacks. We report
+this as a limitation of the proposed model and a direction for future work.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Model size and speed}
+\label{tab:efficiency}
+\begin{tabular}{lrrrrr}
+\hline
+\textbf{System} & \textbf{Parameters} & \textbf{Trained} & \textbf{Saved size} & \textbf{CPU latency} & \textbf{GPU latency} \\
+\hline
+BanglaBERT (full) & 110.0M & 110.0M & 420 MB & 57.1 ms & 11.5 ms \\
+BanglaBERT + LoRA & 110.9M & 0.89M & 3.4 MB$^{*}$ & 66.3 ms & 12.4 ms \\
+mmBERT + LoRA & 308.6M & 1.08M & 4.1 MB$^{*}$ & 210.2 ms & 52.7 ms \\
+Gemma 4 E4B judge & -- & -- & 4.3 GB & -- & 950 ms \\
+Gemma 4 12B judge & $\sim$12B & -- & 6.4 GB & -- & 2,560 ms \\
+\hline
+\end{tabular}
+
+\smallskip
+\footnotesize Latency is the median time for one answer at batch size 1.
+$^{*}$LoRA adapter only; it is loaded on top of the shared base model.
+\end{table}
+
+\subsection{BanglaBERT versus mmBERT}
+
+mmBERT has 2.8 times as many parameters as BanglaBERT but was less accurate
+(word F1 0.809 against 0.835) and much slower. Its multilingual tokenizer splits
+Bangla into about three times as many pieces (3.51 against 1.14 subword tokens
+per answer word), so its inputs are longer: a median of 383 tokens against 135.
+It takes 210~ms per answer on the CPU, which breaks the 200~ms requirement,
+while BanglaBERT takes 57~ms. For Bangla, a model pretrained on Bangla text is
+the better choice than a larger multilingual one.
+
+\subsection{Full Fine-Tuning versus LoRA}
+
+LoRA trains 124 times fewer parameters than full fine-tuning (886,274 against
+110 million). Its word F1 (0.822) is within the seed-to-seed variation of full
+fine-tuning, so the two cannot be told apart on that metric. Its span F1 is
+clearly lower (0.513 against 0.583): LoRA finds hallucinated words about as
+well, but marks their boundaries less accurately. In return, LoRA trained
+1.8 times faster per epoch on the GPU (168 against 304 seconds), and its saved
+adapter is 3.4~MB instead of 420~MB, so one base model can serve many
+domain-specific adapters. On the CPU the time saving was only 9\%, because the
+backward pass still runs through the frozen encoder. LoRA is therefore a
+trade-off rather than a free gain at this model size: it suits deployments
+that need many small, cheaply retrained variants, while full fine-tuning gives
+the most accurate spans.
+
+\subsection{Results by Hallucination Type}
+
+Table~\ref{tab:types} breaks word F1 down by type.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Word-level F1 by hallucination type (test split)}
+\label{tab:types}
+\begin{tabular}{lrcccc}
+\hline
+\textbf{Type} & \textbf{Answers} & \textbf{Baseline} & \textbf{Gemma 12B} & \textbf{BanglaBERT} & \textbf{+ LoRA} \\
+\hline
+Fabricated information & 44 & 0.756 & 0.962 & \textbf{0.976} & 0.980 \\
+Number error & 59 & 0.447 & 0.842 & \textbf{0.882} & 0.837 \\
+Contradiction & 58 & 0.392 & 0.786 & \textbf{0.844} & 0.829 \\
+Date error & 41 & 0.528 & \textbf{0.839} & 0.827 & 0.793 \\
+Entity replacement & 46 & 0.198 & \textbf{0.876} & 0.643 & 0.666 \\
+Omission & 46 & 0.113 & 0.366 & \textbf{0.598} & 0.598 \\
+\hline
+\end{tabular}
+\end{table}
+
+Fabricated information is almost always caught, because added facts have no
+support anywhere in the context. Numbers, contradictions and dates are detected
+well (word F1 0.83 to 0.88). The two weakest types are omission and entity
+replacement. An omission leaves out part of the correct information, so the
+words that remain are all supported by the context, and the model has to
+notice that something is missing. An entity replacement swaps in a name that
+often appears elsewhere in the same context. These are also the types the
+lexical baseline almost never detects (word F1 0.11 and 0.20), so they are where
+the model adds most over word overlap and where there is most room to improve.
+
+\subsection{Training Observations}
+
+Validation word F1 levelled off after about three epochs; the best epochs for
+the three full fine-tuning runs were 3, 9 and 4, and training for up to 10
+epochs gave no gain over the earlier 4-epoch run. Tuning the decision threshold
+on the validation split did not help either: the chosen thresholds varied from
+0.30 to 0.65 between seeds, and test word F1 was the same as with the default
+of 0.5, which the deployed system therefore keeps. The standard deviation
+across seeds was small (0.007 in word F1), so differences between systems
+smaller than about 0.02 should not be read as real.
+
+\subsection{Requirements Check}
+
+Table~\ref{tab:requirements} compares the results with the requirements set in
+Section~3.1.1.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Requirements from FYDP-I and their outcome}
+\label{tab:requirements}
+\begin{tabular}{p{4.2cm}p{4.2cm}p{4.6cm}}
+\hline
+\textbf{Requirement} & \textbf{Target} & \textbf{Outcome} \\
+\hline
+Input ingestion & Context, question, answer & Met (demo and API) \\
+Token-level classification & Probability per answer token & Met \\
+Span aggregation & Consecutive tokens merged into spans & Met \\
+Low latency & 100--200 ms per inference & Met: 57.1 ms CPU, 11.5 ms GPU \\
+Lightweight deployment & At most 500M parameters, local & Met: 110M parameters, runs offline \\
+Parameter-efficient training & LoRA used and measured & Met: 886K trainable parameters \\
+High accuracy & F1 above 75\% on RAGTruth & Revised: word F1 0.835 on the Bangla dataset; RAGTruth not evaluated \\
+User interface & Streamlit dashboard, FastAPI backend & Met \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Limitations}
+
+\begin{itemize}
+  \item \textbf{Labels not yet verified by people.} The dataset's labels were
+  generated automatically. Human inter-annotation is in progress, and the
+  results should be re-checked against the verified labels.
+  \item \textbf{Balanced test set.} Exactly half of the test answers are
+  hallucinated. Real systems hallucinate less often, which would change
+  precision and the false alarm rate.
+  \item \textbf{Short answers.} 96\% of answers are a single sentence. Longer
+  answers with one wrong clause are harder and are not yet tested.
+  \item \textbf{Context length.} BanglaBERT reads at most 512 tokens. The
+  current contexts fit, but longer retrieved passages would be cut.
+  \item \textbf{Scope of checking.} The system checks an answer only against
+  the context it is given. It cannot detect errors when the context itself is
+  wrong, and it does not fact-check text that has no source.
+  \item \textbf{Comparison scope.} The LLM judges were local, 4-bit models run
+  once each without reasoning. Larger cloud models might score higher, at a
+  much greater cost. No comparison on English RAGTruth was made.
+\end{itemize}
+
+\subsection{Summary}
+
+A 110-million-parameter BanglaBERT token classifier detects hallucinated words
+in Bangla RAG answers with a word-level F1 of 0.835 and a span-level F1 of
+0.583. It is more accurate than a lexical baseline, a larger multilingual
+encoder and two local LLM judges, raises the fewest false alarms, and checks an
+answer in 57~ms on a CPU or 11.5~ms on a consumer GPU. LoRA reduces the trained
+parameters 124-fold and the saved model to 3.4~MB at a cost in span accuracy.
+The weakest cases are omissions and entity replacements.
